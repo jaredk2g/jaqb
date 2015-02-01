@@ -1,4 +1,4 @@
-jaqb
+JAQB
 ===========
 
 [![Build Status](https://travis-ci.org/jaredtking/jaqb.png?branch=master)](https://travis-ci.org/jaredtking/jaqb)
