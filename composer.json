@@ -1,0 +1,29 @@
+{
+	"name": "jaredtking/jaqb",
+	"description": "Just Another Query Builder built on PDO",
+	"type": "library",
+	"keywords": ["jaqb","query","builder","database","pdo"],
+	"homepage": "https://github.com/jaredtking/jaqb",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "jaredtking",
+			"email": "j@jaredtking.com",
+			"homepage": "http://jaredtking.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/jaredtking/jaqb/issues",
+		"source": "https://github.com/jaredtking/jaqb"
+	},
+    "autoload": {
+        "psr-4": {"JAQB\\": "src/"}
+    },
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"require-dev": {
+		"satooshi/php-coveralls": "dev-master",
+		"mockery/mockery": "~0.9"
+	}
+}

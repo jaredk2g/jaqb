@@ -1,0 +1,11 @@
+Thumbs.db 
+Desktop.ini
+.DS_Store
+/composer.phar
+/vendor
+/HEADER
+/headers.sh
+/composer.lock
+/build
+/convert.php
+/temp
