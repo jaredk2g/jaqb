@@ -96,35 +96,19 @@ class SelectQuery extends Query
     }
 
     /**
-     * inner join
+     * Adds a join to the query
+     *
+     * @param string $table table name
+     * @param string $on    ON condition
+     * @param string $using USING columns
+     * @param string $type  optional join type if not JOIN
+     *
+     * @return self
      */
-    public function join($join, $on = null)
+    public function join($tables, $on = null, $using = null, $type = 'JOIN')
     {
-        // TODO
-        return $this;
-    }
+        $this->from->addJoin($tables, $on, $using, $type);
 
-    public function leftJoin($join, $on = null)
-    {
-        // TODO
-        return $this;
-    }
-
-    public function rightJoin($join, $on = null)
-    {
-        // TODO
-        return $this;
-    }
-
-    public function crossJoin($join, $on = null)
-    {
-        // TODO
-        return $this;
-    }
-
-    public function naturalJoin($join, $on = null)
-    {
-        // TODO
         return $this;
     }
 

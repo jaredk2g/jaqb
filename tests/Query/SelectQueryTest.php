@@ -30,6 +30,15 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['Users'], $query->getFrom()->getTables());
     }
 
+    public function testJoin()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->join('t2'));
+        $this->assertInstanceOf('\\JAQB\\Statement\\FromStatement', $query->getFrom());
+        $this->assertEquals([['JOIN', ['t2'], null, []]], $query->getFrom()->getJoins());
+    }
+
     public function testWhere()
     {
         $query = new SelectQuery();
@@ -94,11 +103,11 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new SelectQuery();
 
-        $query->from('Users')->where('uid', 10)->having('first_name', 'something')
+        $query->from('Users')->join('FbProfiles fb', 'uid=fb.uid')->where('uid', 10)->having('first_name', 'something')
               ->groupBy('last_name')->orderBy('first_name', 'ASC')
               ->limit(100, 10);
 
-        $this->assertEquals('SELECT * FROM `Users` WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100', $query->build());
+        $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid=fb.uid WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100', $query->build());
 
         // test values
         $this->assertEquals([10, 'something'], $query->getValues());

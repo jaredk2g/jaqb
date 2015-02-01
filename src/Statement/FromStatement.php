@@ -23,6 +23,11 @@ class FromStatement extends Statement
     protected $tables = [];
 
     /**
+     * @var array
+     */
+    protected $joins = [];
+
+    /**
      * @param boolean $hasFrom when true, statement is prefixed with `FROM`
      */
     public function __construct($hasFrom = true)
@@ -64,6 +69,44 @@ class FromStatement extends Statement
     }
 
     /**
+     * Adds a join condition to this statement
+     * Supported input styles:
+     * - addJoin('Table,Table2')
+     * - addJoin(['Table','Table2'])
+     *
+     * @param string|array $tables table names
+     * @param string       $on     ON condition
+     * @param string       $using  USING columns
+     * @param string       $type   join type, i.e. OUTER JOIN, CROSS JOIN
+     *
+     * @return self
+     */
+    public function addJoin($tables, $on = null, $using = null, $type = 'JOIN')
+    {
+        if (!is_array($tables)) {
+            $tables = array_map(function ($t) {
+                return trim($t);
+            }, explode(',', $tables));
+        }
+
+        if (!is_array($using) && $using) {
+            $using = array_map(function ($column) {
+                return trim($column);
+            }, explode(',', $using));
+        } else {
+            $using = [];
+        }
+
+        $this->joins[] = [
+            $type,
+            $tables,
+            $on,
+            $using, ];
+
+        return $this;
+    }
+
+    /**
      * Gets the table(s) associated with this statement
      *
      * @return array
@@ -74,24 +117,65 @@ class FromStatement extends Statement
     }
 
     /**
+     * Gets the join(s) associated with this statement
+     *
+     * @return array
+     */
+    public function getJoins()
+    {
+        return $this->joins;
+    }
+
+    /**
      * Generates the raw SQL string for the statement
      *
      * @return string
      */
     public function build()
     {
+        // tables
         $tables = $this->tables;
         foreach ($tables as &$table) {
             $table = $this->escapeIdentifier($table);
         }
 
-        // remove empty values
-        $tables = array_filter($tables);
-
         if (count($tables) == 0) {
             return '';
         }
 
-        return (($this->hasFrom) ? 'FROM ' : '').implode(',', $tables);
+        // joins
+        $joins = $this->joins;
+        foreach ($joins as &$join) {
+            // table(s)
+            foreach ($join[1] as &$table) {
+                $table = $this->escapeIdentifier($table);
+            }
+            $join[1] = implode(',', array_filter($join[1]));
+
+            // using clause
+            foreach ($join[3] as &$column) {
+                $column = $this->escapeIdentifier($column);
+            }
+            $join[3] = implode(',', array_filter($join[3]));
+
+            if ($join[3]) {
+                $join[3] = 'USING ('.$join[3].')';
+            } else {
+                unset($join[3]);
+            }
+
+            // on clause
+            if ($join[2]) {
+                $join[2] = 'ON '.$join[2];
+            } else {
+                unset($join[2]);
+            }
+
+            $join = implode(' ', $join);
+        }
+        $joins = implode(' ', array_filter($joins));
+
+        return (($this->hasFrom) ? 'FROM ' : '').implode(',', array_filter($tables))
+            .(($joins) ? " $joins" : '');
     }
 }
