@@ -7,7 +7,7 @@ jaqb
 [![Total Downloads](https://poser.pugx.org/jaredtking/jaqb/downloads.png)](https://packagist.org/packages/jaredtking/jaqb)
 [![HHVM Status](http://hhvm.h4cc.de/badge/jaredtking/jaqb.svg)](http://hhvm.h4cc.de/package/jaredtking/jaqb)
 
-JAQB: Just Another Query Builder (pronounced "jacob")
+JAQB: Just Another Query Builder for PHP (pronounced "jacob")
 
 ## Requirements
 
