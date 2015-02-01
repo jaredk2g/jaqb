@@ -74,7 +74,7 @@ $qb->delete('Users')
 ### SQL Query
 
 ```php
-$qb->raw('SHOW COLUMNS FROM test')
+$qb->raw('SHOW COLUMNS FROM `Events`')
    ->execute();
 ```
 
