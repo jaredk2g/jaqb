@@ -32,11 +32,12 @@ $qb = new JAQB\QueryBuilder($pdo);
 
 ```php
 $qb->select('*')
-   ->from('Users')
-   ->where('uid', 10)
-   ->having('first_name', 'something')
-   ->groupBy('last_name')
-   ->orderBy('first_name', 'ASC')
+   ->from('Movies')
+   ->where('year', 2015, '<')
+   ->where('year', 1990, '>=')
+   ->groupBy('category')
+   ->having('rating', 4.5, '>')
+   ->orderBy('rating', 'DESC')
    ->limit(100, 10)
    ->all();
 ```
@@ -44,8 +45,8 @@ $qb->select('*')
 ### INSERT Query
 
 ```php
-$qb->insert(['field1' => 'what', 'field2' => 'test'])
-   ->into('Users')
+$qb->insert(['name' => 'Catcher in the Rye', 'author' => 'JD Salinger'])
+   ->into('Books')
    ->execute();
 ```
 
@@ -54,7 +55,7 @@ $qb->insert(['field1' => 'what', 'field2' => 'test'])
 ```php
 $qb->table('Users')
    ->where('uid', 10)
-   ->values(['test' => 'hello', 'test2' => 'field'])
+   ->values(['first_name' => 'JAQB', 'website' => 'example.com'])
    ->orderBy('uid', 'ASC')
    ->limit(100)
    ->execute();
@@ -63,11 +64,10 @@ $qb->table('Users')
 ### DELETE Query
 
 ```php
-$qb->update('Users')
-   ->where('uid', 10)
-   ->values(['test' => 'hello', 'test2' => 'field'])
-   ->orderBy('uid', 'ASC')
+$qb->delete('Users')
+   ->where('last_login', strtotime('-1 year'), '<')
    ->limit(100)
+   ->orderBy('last_login', 'ASC')
    ->execute();
 ```
 
