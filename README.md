@@ -2,12 +2,17 @@ jaqb
 ===========
 
 [![Build Status](https://travis-ci.org/jaredtking/jaqb.png?branch=master)](https://travis-ci.org/jaredtking/jaqb)
-[![Coverage Status](https://coveralls.io/repos/jaredtking/jaqb/badge.png)](https://coveralls.io/r/jaredtking/jaqb)
+[![Coverage Status](https://coveralls.io/repos/jaredtking/jaqb/badge.svg?branch=master)](https://coveralls.io/r/jaredtking/jaqb?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/jaredtking/jaqb/v/stable.png)](https://packagist.org/packages/jaredtking/jaqb)
 [![Total Downloads](https://poser.pugx.org/jaredtking/jaqb/downloads.png)](https://packagist.org/packages/jaredtking/jaqb)
 [![HHVM Status](http://hhvm.h4cc.de/badge/jaredtking/jaqb.svg)](http://hhvm.h4cc.de/package/jaredtking/jaqb)
 
 JAQB: Just Another Query Builder (pronounced "jacob")
+
+## Requirements
+
+- PHP 5.4+ or HHVM 3.3+
+- [PDO](http://php.net/pdo)
 
 ## Tests
 
@@ -17,9 +22,76 @@ Use phpunit to run the included tests:
 phpunit
 ```
 
-## Requirements
+## Usage
 
-- PHP 5.4+ or HHVM 3.3+
+```php
+$qb = new JAQB\QueryBuilder($pdo);
+```
+
+### SELECT Query
+
+```php
+$qb->select('*')
+   ->from('Users')
+   ->where('uid', 10)
+   ->having('first_name', 'something')
+   ->groupBy('last_name')
+   ->orderBy('first_name', 'ASC')
+   ->limit(100, 10)
+   ->all();
+```
+
+### INSERT Query
+
+```php
+$qb->insert(['field1' => 'what', 'field2' => 'test'])
+   ->into('Users')
+   ->execute();
+```
+
+### UPDATE Query
+
+```php
+$qb->table('Users')
+   ->where('uid', 10)
+   ->values(['test' => 'hello', 'test2' => 'field'])
+   ->orderBy('uid', 'ASC')
+   ->limit(100)
+   ->execute();
+```
+
+### DELETE Query
+
+```php
+$qb->update('Users')
+   ->where('uid', 10)
+   ->values(['test' => 'hello', 'test2' => 'field'])
+   ->orderBy('uid', 'ASC')
+   ->limit(100)
+   ->execute();
+```
+
+### SQL Query
+
+```php
+$qb->raw('SHOW COLUMNS FROM test')
+   ->execute();
+```
+
+### Executing a Query
+The following methods can be used to execute a query and retrieve results:
+- `execute()` - returns a `PDOStatement`
+- `all()` - returns all of the rows
+- `one()` - returns the first row
+- `column($index = 0)` - returns a specific column from each row
+- `scalar($index = 0)` - returns a specific column from the first row
+
+Also:
+- `rowCount()` - returns the number of rows affected by the last executed statement
+
+### Building a Query
+
+If you want to build a query without executing it just use `build()` instead. `getValues()` will retrieve any [ordered question mark parameters](http://php.net/manual/en/pdo.prepare.php).
 
 ## Contributing
 
