@@ -22,6 +22,14 @@ Use phpunit to run the included tests:
 phpunit
 ```
 
+## Installation
+
+The easiest way to install JAQB is with [composer](http://getcomposer.org):
+
+```
+composer require jaredtking/jaqb
+```
+
 ## Usage
 
 ```php
