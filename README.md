@@ -61,7 +61,7 @@ $qb->insert(['name' => 'Catcher in the Rye', 'author' => 'JD Salinger'])
 ### UPDATE Query
 
 ```php
-$qb->table('Users')
+$qb->update('Users')
    ->where('uid', 10)
    ->values(['first_name' => 'JAQB', 'website' => 'example.com'])
    ->orderBy('uid', 'ASC')
