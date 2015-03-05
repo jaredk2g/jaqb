@@ -87,8 +87,8 @@ abstract class Statement
                     if (preg_match('/^[A-Za-z0-9_$]*$/', $period)) {
                         $period = $escapeChar.$period.$escapeChar;
                     // do not use an identifier that contains something other than:
-                    //      alpha-numeric, _, $, *, (, )
-                    } elseif (!preg_match('/^[A-Za-z0-9_$\*\(\)]*$/', $period)) {
+                    //      alpha-numeric, _, $, *, /, (, )
+                    } elseif (!preg_match('/^[A-Za-z0-9_$\*\/\(\)]*$/', $period)) {
                         $period = '';
                     }
                 }
