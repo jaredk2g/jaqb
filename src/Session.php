@@ -35,7 +35,7 @@ class Session implements SessionHandlerInterface
     }
 
     /**
-     * Creates a new session object
+     * Creates a new session handler
      *
      * @param Container $app
      */
