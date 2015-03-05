@@ -24,6 +24,7 @@
 	},
 	"require-dev": {
 		"satooshi/php-coveralls": "dev-master",
-		"mockery/mockery": "~0.9"
+		"mockery/mockery": "~0.9",
+		"pimple/pimple": ">=v2.1.0"
 	}
 }
