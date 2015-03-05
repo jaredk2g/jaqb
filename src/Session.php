@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package infuse\libs
+ * @package JAQB
  * @author Jared King <j@jaredtking.com>
  * @link http://jaredtking.com
  * @copyright 2015 Jared King
