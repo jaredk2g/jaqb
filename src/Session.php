@@ -11,8 +11,9 @@
 namespace JAQB;
 
 use Pimple\Container;
+use SessionHandlerInterface;
 
-class Session implements \SessionHandlerInterface
+class Session implements SessionHandlerInterface
 {
     const TABLENAME = 'Sessions';
 
