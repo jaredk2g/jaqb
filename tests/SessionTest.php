@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
@@ -30,8 +31,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testInstall()
     {
         $c = new Container();
+        $stmt = Mockery::mock('PDOStatement');
         $execute = Mockery::mock();
-        $execute->shouldReceive('execute')->andReturn(true);
+        $execute->shouldReceive('execute')->andReturn($stmt);
         $db = Mockery::mock();
         $db->shouldReceive('raw')->withArgs(['CREATE TABLE IF NOT EXISTS `Sessions` (`id` varchar(32) NOT NULL, PRIMARY KEY (`id`), `session_data` longtext NULL, `access` int(10) NULL);'])->andReturn($execute)->once();
         $c['db'] = $db;
@@ -72,9 +74,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $c = new Container();
 
+        $stmt = Mockery::mock('PDOStatement');
+
         // mock delete query
         $execute = Mockery::mock();
-        $execute->shouldReceive('execute')->andReturn(true);
+        $execute->shouldReceive('execute')->andReturn($stmt);
         $where = Mockery::mock();
         $where->shouldReceive('where')->withArgs(['id', '_id_'])->andReturn($execute);
         $db = Mockery::mock();
@@ -82,7 +86,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         // mock insert query
         $execute = Mockery::mock();
-        $execute->shouldReceive('execute')->andReturn(true);
+        $execute->shouldReceive('execute')->andReturn($stmt);
         $where = Mockery::mock();
         $where->shouldReceive('into')->withArgs(['Sessions'])->andReturn($execute);
         $db->shouldReceive('insert')->withArgs([['id' => '_id_', 'access' => time(), 'session_data' => 'data']])->andReturn($where);
@@ -96,8 +100,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testDestroy()
     {
         $c = new Container();
+        $stmt = Mockery::mock('PDOStatement');
         $execute = Mockery::mock();
-        $execute->shouldReceive('execute')->andReturn(true);
+        $execute->shouldReceive('execute')->andReturn($stmt);
         $where = Mockery::mock();
         $where->shouldReceive('where')->withArgs(['id', '_id_'])->andReturn($execute);
         $c['db'] = Mockery::mock();
@@ -110,8 +115,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testGC()
     {
         $c = new Container();
+        $stmt = Mockery::mock('PDOStatement');
         $execute = Mockery::mock();
-        $execute->shouldReceive('execute')->andReturn(true);
+        $execute->shouldReceive('execute')->andReturn($stmt);
         $where = Mockery::mock();
         $where->shouldReceive('where')->withArgs(['access', time() - 100, '<'])->andReturn($execute);
         $c['db'] = Mockery::mock();

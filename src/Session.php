@@ -1,15 +1,17 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
 
 namespace JAQB;
 
+use PDOStatement;
 use Pimple\Container;
 use SessionHandlerInterface;
 
@@ -23,7 +25,7 @@ class Session implements SessionHandlerInterface
     private $app;
 
     /**
-     * Starts the session using this handler
+     * Starts the session using this handler.
      *
      * @param Session $app
      *
@@ -35,7 +37,7 @@ class Session implements SessionHandlerInterface
     }
 
     /**
-     * Creates a new session handler
+     * Creates a new session handler.
      *
      * @param Container $app
      */
@@ -45,7 +47,7 @@ class Session implements SessionHandlerInterface
     }
 
     /**
-     * Installs schema for handling sessions in a database
+     * Installs schema for handling sessions in a database.
      *
      * @return boolean success
      */
@@ -53,11 +55,13 @@ class Session implements SessionHandlerInterface
     {
         $sql = 'CREATE TABLE IF NOT EXISTS `'.self::TABLENAME.'` (`id` varchar(32) NOT NULL, PRIMARY KEY (`id`), `session_data` longtext NULL, `access` int(10) NULL);';
 
-        return $this->app['db']->raw($sql)->execute();
+        return $this->app['db']
+            ->raw($sql)
+            ->execute() instanceof PDOStatement;
     }
 
     /**
-     * Reads a session
+     * Reads a session.
      *
      * @param int $id session ID
      *
@@ -65,12 +69,15 @@ class Session implements SessionHandlerInterface
      */
     public function read($id)
     {
-        return $this->app['db']->select('session_data')
-            ->from(self::TABLENAME)->where('id', $id)->scalar();
+        return $this->app['db']
+            ->select('session_data')
+            ->from(self::TABLENAME)
+            ->where('id', $id)
+            ->scalar();
     }
 
     /**
-     * Writes a session
+     * Writes a session.
      *
      * @param int    $id   session ID
      * @param string $data session data
@@ -79,18 +86,22 @@ class Session implements SessionHandlerInterface
      */
     public function write($id, $data)
     {
-        $this->app['db']->delete(self::TABLENAME)
-            ->where('id', $id)->execute();
+        $this->app['db']
+            ->delete(self::TABLENAME)
+            ->where('id', $id)
+            ->execute();
 
-        return $this->app['db']->insert([
+        return $this->app['db']
+            ->insert([
                 'id' => $id,
                 'access' => time(),
                 'session_data' => $data, ])
-            ->into(self::TABLENAME)->execute();
+            ->into(self::TABLENAME)
+            ->execute() instanceof PDOStatement;
     }
 
     /**
-     * Destroys a session
+     * Destroys a session.
      *
      * @param int $id session ID
      *
@@ -98,8 +109,10 @@ class Session implements SessionHandlerInterface
      */
     public function destroy($id)
     {
-        return $this->app['db']->delete(self::TABLENAME)
-            ->where('id', $id)->execute();
+        return $this->app['db']
+            ->delete(self::TABLENAME)
+            ->where('id', $id)
+            ->execute() instanceof PDOStatement;
     }
 
     /**
@@ -114,13 +127,15 @@ class Session implements SessionHandlerInterface
         // delete sessions older than max TTL
         $ttl = time() - $max;
 
-        return $this->app['db']->delete(self::TABLENAME)
-            ->where('access', $ttl, '<')->execute();
+        return $this->app['db']
+            ->delete(self::TABLENAME)
+            ->where('access', $ttl, '<')
+            ->execute() instanceof PDOStatement;
     }
 
     /**
      * These functions are all noops for various reasons...
-     * open() and close() have no practical meaning in terms of database connections
+     * open() and close() have no practical meaning in terms of database connections.
      */
     public function open($path, $name)
     {
