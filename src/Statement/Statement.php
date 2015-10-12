@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Statement;
 
 abstract class Statement
@@ -18,14 +18,14 @@ abstract class Statement
     protected $values = [];
 
     /**
-     * Generates the raw SQL string for the statement
+     * Generates the raw SQL string for the statement.
      *
      * @return string
      */
     abstract public function build();
 
     /**
-     * Gets the values associated with this statement
+     * Gets the values associated with this statement.
      *
      * @return array
      */
@@ -63,7 +63,7 @@ abstract class Statement
 
     /**
      * Escapes potentially reserved keywords in identifiers by wrapping them
-     * with the escape character as necessary
+     * with the escape character as necessary.
      *
      * @param string $word
      * @param string $escapeChar
@@ -87,8 +87,8 @@ abstract class Statement
                     if (preg_match('/^[A-Za-z0-9_$]*$/', $period)) {
                         $period = $escapeChar.$period.$escapeChar;
                     // do not use an identifier that contains something other than:
-                    //      alpha-numeric, _, $, *, /, (, )
-                    } elseif (!preg_match('/^[A-Za-z0-9_$\*\/\(\)]*$/', $period)) {
+                    //      alpha-numeric, _, $, *, /, +, -, (, )
+                    } elseif (!preg_match('/^[A-Za-z0-9_$\*\/\+\-\(\)]*$/', $period)) {
                         $period = '';
                     }
                 }
@@ -101,7 +101,7 @@ abstract class Statement
     }
 
     /**
-     * Parameterizes a function using indexed placeholders
+     * Parameterizes a function using indexed placeholders.
      *
      * @param string $value
      *
