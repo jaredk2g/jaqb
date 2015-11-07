@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Query;
 
 use JAQB\Statement\FromStatement;
@@ -51,7 +51,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Sets the table for the query
+     * Sets the table for the query.
      *
      * @param string $table table name
      *
@@ -65,11 +65,11 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Sets the where conditions for the query
+     * Sets the where conditions for the query.
      *
      * @param array|string $field
-     * @param string       $value    condition value (optional)
-     * @param string       $operator operator (optional)
+     * @param string|bool  $condition condition value (optional)
+     * @param string       $operator  operator (optional)
      *
      * @return self
      */
@@ -85,7 +85,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Sets the values for the query
+     * Sets the values for the query.
      *
      * @param array $values
      *
@@ -99,7 +99,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Sets the limit for the query
+     * Sets the limit for the query.
      *
      * @param int $limit
      *
@@ -115,7 +115,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Sets the order for the query
+     * Sets the order for the query.
      *
      * @param string|array $fields
      * @param string       $direction
@@ -130,7 +130,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Gets the table name for the query
+     * Gets the table name for the query.
      *
      * @return FromStatement
      */
@@ -140,7 +140,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Gets the values for the query
+     * Gets the values for the query.
      *
      * @return array
      */
@@ -150,7 +150,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Gets the where statement for the query
+     * Gets the where statement for the query.
      *
      * @return WhereStatement
      */
@@ -160,7 +160,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Gets the order by statement for the query
+     * Gets the order by statement for the query.
      *
      * @return OrderByStatement
      */
@@ -170,7 +170,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Gets the limit for the query
+     * Gets the limit for the query.
      *
      * @return string limit
      */
@@ -180,7 +180,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Generates the raw SQL string for the query
+     * Generates the raw SQL string for the query.
      *
      * @return string
      */

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Statement;
 
 class OrderStatement extends Statement
@@ -16,7 +16,7 @@ class OrderStatement extends Statement
     protected $fields = [];
 
     /**
-     * @param boolean $groupBy when true, statement becomes a group by statement
+     * @param bool $groupBy when true, statement becomes a group by statement
      */
     public function __construct($groupBy = false)
     {
@@ -24,9 +24,9 @@ class OrderStatement extends Statement
     }
 
     /**
-     * Tells whether this statement is a GROUP BY statement
+     * Tells whether this statement is a GROUP BY statement.
      *
-     * @return boolean true: is group by, false: is order by
+     * @return bool true: is group by, false: is order by
      */
     public function isGroupBy()
     {
@@ -39,7 +39,7 @@ class OrderStatement extends Statement
      * - addFields('field ASC,field2')
      * - addFields('field', 'ASC')
      * - addFields(['field','field2'], 'DESC')
-     * - addFields([['field','ASC'], ['field2','ASC']])
+     * - addFields([['field','ASC'], ['field2','ASC']]).
      *
      * @param string|array $fields
      * @param string       $direction direction for fields where direction is unspecified (optional)
@@ -59,7 +59,7 @@ class OrderStatement extends Statement
                 $field = explode(' ', trim($field));
             }
 
-            if (count($field) == 1 && $direction) {
+            if (count($field) == 1 && $direction !== false) {
                 $field[] = $direction;
             }
         }
@@ -70,7 +70,7 @@ class OrderStatement extends Statement
     }
 
     /**
-     * Gets the fields associated with this statement
+     * Gets the fields associated with this statement.
      *
      * @return array fields i.e. [['field1','ASC'], ['field2']]
      */
@@ -80,7 +80,7 @@ class OrderStatement extends Statement
     }
 
     /**
-     * Generates the raw SQL string for the statement
+     * Generates the raw SQL string for the statement.
      *
      * @return string
      */

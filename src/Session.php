@@ -8,7 +8,6 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB;
 
 use PDOStatement;
@@ -20,16 +19,16 @@ class Session implements SessionHandlerInterface
     const TABLENAME = 'Sessions';
 
     /**
-     * @var Container
+     * @var \Pimple\Container
      */
     private $app;
 
     /**
      * Starts the session using this handler.
      *
-     * @param Session $app
+     * @param Session $handler
      *
-     * @return boolean
+     * @return bool
      */
     public static function registerHandler(Session $handler)
     {
@@ -39,7 +38,7 @@ class Session implements SessionHandlerInterface
     /**
      * Creates a new session handler.
      *
-     * @param Container $app
+     * @param \Pimple\Container $app
      */
     public function __construct(Container $app)
     {
@@ -49,7 +48,7 @@ class Session implements SessionHandlerInterface
     /**
      * Installs schema for handling sessions in a database.
      *
-     * @return boolean success
+     * @return bool success
      */
     public function install()
     {
@@ -82,7 +81,7 @@ class Session implements SessionHandlerInterface
      * @param int    $id   session ID
      * @param string $data session data
      *
-     * @return boolean success
+     * @return bool success
      */
     public function write($id, $data)
     {
@@ -105,7 +104,7 @@ class Session implements SessionHandlerInterface
      *
      * @param int $id session ID
      *
-     * @return boolean success
+     * @return bool success
      */
     public function destroy($id)
     {
@@ -120,7 +119,7 @@ class Session implements SessionHandlerInterface
      *
      * @param int $max maximum number of seconds a session can live
      *
-     * @return boolean success
+     * @return bool success
      */
     public function gc($max)
     {

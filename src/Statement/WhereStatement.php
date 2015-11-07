@@ -1,19 +1,19 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Statement;
 
 class WhereStatement extends Statement
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $having;
 
@@ -23,7 +23,7 @@ class WhereStatement extends Statement
     protected $conditions = [];
 
     /**
-     * @param boolean $having when true, statement becomes a having statement
+     * @param bool $having when true, statement becomes a having statement
      */
     public function __construct($having = false)
     {
@@ -31,9 +31,9 @@ class WhereStatement extends Statement
     }
 
     /**
-     * Tells whether this statement is a HAVING statement
+     * Tells whether this statement is a HAVING statement.
      *
-     * @return boolean true: is HAVING, false: is WHERE
+     * @return bool true: is HAVING, false: is WHERE
      */
     public function isHaving()
     {
@@ -47,10 +47,10 @@ class WhereStatement extends Statement
      * 3. addCondition('name LIKE "%john%"')
      * 4. addCondition([['balance', 100, '>'], ['user_id', 5]])
      * 5. addCondition(['username' => 'john', 'user_id' => 5])
-     * 6. addCondition(['first_name LIKE "%john%"', 'last_name LIKE "%doe%"'])
+     * 6. addCondition(['first_name LIKE "%john%"', 'last_name LIKE "%doe%"']).
      *
      * @param array|string $field
-     * @param string       $value    condition value (optional)
+     * @param string|bool  $value    condition value (optional)
      * @param string       $operator operator (optional)
      *
      * @return self
@@ -84,7 +84,7 @@ class WhereStatement extends Statement
     }
 
     /**
-     * Gets the conditions for this statement
+     * Gets the conditions for this statement.
      *
      * @return array
      */
@@ -94,7 +94,7 @@ class WhereStatement extends Statement
     }
 
     /**
-     * Generates the raw SQL string for the statement
+     * Generates the raw SQL string for the statement.
      *
      * @return string
      */
@@ -104,7 +104,7 @@ class WhereStatement extends Statement
 
         $clauses = [];
         foreach ($this->conditions as $clause) {
-            $clauses[] = $this->buildClause($clause, $sql);
+            $clauses[] = $this->buildClause($clause);
         }
 
         // remove empty values

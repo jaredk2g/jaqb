@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Query;
 
 use JAQB\Statement\SelectStatement;
@@ -68,7 +68,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Sets the fields to be selected for the query
+     * Sets the fields to be selected for the query.
      *
      * @param array|string $fields fields
      *
@@ -82,7 +82,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Sets the table for the query
+     * Sets the table for the query.
      *
      * @param string $table table name
      *
@@ -96,7 +96,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Adds a join to the query
+     * Adds a join to the query.
      *
      * @param string $table table name
      * @param string $on    ON condition
@@ -105,19 +105,19 @@ class SelectQuery extends Query
      *
      * @return self
      */
-    public function join($tables, $on = null, $using = null, $type = 'JOIN')
+    public function join($table, $on = null, $using = null, $type = 'JOIN')
     {
-        $this->from->addJoin($tables, $on, $using, $type);
+        $this->from->addJoin($table, $on, $using, $type);
 
         return $this;
     }
 
     /**
-     * Sets the where conditions for the query
+     * Sets the where conditions for the query.
      *
      * @param array|string $field
-     * @param string       $value    condition value (optional)
-     * @param string       $operator operator (optional)
+     * @param string       $condition condition value (optional)
+     * @param string       $operator  operator (optional)
      *
      * @return self
      */
@@ -133,7 +133,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Sets the limit for the query
+     * Sets the limit for the query.
      *
      * @param int $limit
      * @param int $offset
@@ -151,7 +151,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Sets the group by fields for the query
+     * Sets the group by fields for the query.
      *
      * @param string|array $fields
      * @param string       $direction
@@ -166,11 +166,11 @@ class SelectQuery extends Query
     }
 
     /**
-     * Sets the having conditions for the query
+     * Sets the having conditions for the query.
      *
      * @param array|string $field
-     * @param string       $value    condition value (optional)
-     * @param string       $operator operator (optional)
+     * @param string|bool  $condition condition value (optional)
+     * @param string       $operator  operator (optional)
      *
      * @return self
      */
@@ -186,7 +186,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Sets the order for the query
+     * Sets the order for the query.
      *
      * @param string|array $fields
      * @param string       $direction
@@ -201,7 +201,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the select statement for the query
+     * Gets the select statement for the query.
      *
      * @return SelectStatement
      */
@@ -211,7 +211,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the from statement for the query
+     * Gets the from statement for the query.
      *
      * @return FromStatement
      */
@@ -221,7 +221,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the where statement for the query
+     * Gets the where statement for the query.
      *
      * @return WhereStatement
      */
@@ -231,7 +231,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the limit and offset for the query
+     * Gets the limit and offset for the query.
      *
      * @return array [limit, offset]
      */
@@ -241,7 +241,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the group by statement for the query
+     * Gets the group by statement for the query.
      *
      * @return GroupByStatement
      */
@@ -251,7 +251,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the having statement for the query
+     * Gets the having statement for the query.
      *
      * @return HavingStatement
      */
@@ -261,7 +261,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the order by statement for the query
+     * Gets the order by statement for the query.
      *
      * @return OrderByStatement
      */
@@ -271,7 +271,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Generates the raw SQL string for the query
+     * Generates the raw SQL string for the query.
      *
      * @return string
      */

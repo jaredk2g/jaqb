@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB;
 
 class QueryBuilder
@@ -26,7 +26,7 @@ class QueryBuilder
     }
 
     /**
-     * Returns the PDO instance
+     * Returns the PDO instance.
      *
      * @return PDO
      */
@@ -36,7 +36,7 @@ class QueryBuilder
     }
 
     /**
-     * Creates a SELECT query
+     * Creates a SELECT query.
      *
      * @param string|array $fields select fields
      *
@@ -50,7 +50,7 @@ class QueryBuilder
     }
 
     /**
-     * Creates an INSERT query
+     * Creates an INSERT query.
      *
      * @param array $values insert values
      *
@@ -64,9 +64,9 @@ class QueryBuilder
     }
 
     /**
-     * Creates an UPDATE query
+     * Creates an UPDATE query.
      *
-     * @param string|array $table update table
+     * @param string $table update table
      *
      * @return UpdateQuery
      */
@@ -78,7 +78,7 @@ class QueryBuilder
     }
 
     /**
-     * Creates a DELETE query
+     * Creates a DELETE query.
      *
      * @param string $from delete table
      *
@@ -92,7 +92,7 @@ class QueryBuilder
     }
 
     /**
-     * Creates a raw SQL query
+     * Creates a raw SQL query.
      *
      * @param string $sql SQL statement
      *

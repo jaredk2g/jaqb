@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Query;
 
 use PDO;
@@ -35,21 +35,25 @@ abstract class Query
     public function __construct($pdo = null)
     {
         $this->pdo = $pdo;
-
-        if (method_exists($this, 'initialize')) {
-            $this->initialize();
-        }
+        $this->initialize();
     }
 
     /**
-     * Builds a SQL string for the query
+     * Builds a SQL string for the query.
      *
      * @return string SQL
      */
     abstract public function build();
 
     /**
-     * Gets the values associated with this query
+     * Initializes the query.
+     */
+    public function initialize()
+    {
+    }
+
+    /**
+     * Gets the values associated with this query.
      *
      * @return array
      */
@@ -59,9 +63,9 @@ abstract class Query
     }
 
     /**
-     * Executes a query
+     * Executes a query.
      *
-     * @return PDOStatement|false result
+     * @return PDOStatement|bool result
      */
     public function execute()
     {
@@ -77,11 +81,11 @@ abstract class Query
     }
 
     /**
-     * Executes a query and returns the first row
+     * Executes a query and returns the first row.
      *
      * @param int $style PDO fetch style
      *
-     * @return mixed|false result
+     * @return mixed|bool result
      */
     public function one($style = PDO::FETCH_ASSOC)
     {
@@ -95,11 +99,11 @@ abstract class Query
     }
 
     /**
-     * Executes a query and returns all of the rows
+     * Executes a query and returns all of the rows.
      *
      * @param int $style PDO fetch style
      *
-     * @return mixed|false result
+     * @return mixed|bool result
      */
     public function all($style = PDO::FETCH_ASSOC)
     {
@@ -113,11 +117,11 @@ abstract class Query
     }
 
     /**
-     * Executes a query and returns a column from all rows
+     * Executes a query and returns a column from all rows.
      *
      * @param int $index zero-indexed column to fetch
      *
-     * @return mixed|false result
+     * @return mixed|bool result
      */
     public function column($index = 0)
     {
@@ -131,11 +135,11 @@ abstract class Query
     }
 
     /**
-     * Executes a query and returns a value from the first row
+     * Executes a query and returns a value from the first row.
      *
      * @param int $index zero-indexed column to fetch
      *
-     * @return mixed|false result
+     * @return mixed|bool result
      */
     public function scalar($index = 0)
     {
@@ -149,7 +153,7 @@ abstract class Query
     }
 
     /**
-     * Returns the number of rows affected by the last executed statement
+     * Returns the number of rows affected by the last executed statement.
      *
      * @return int
      */

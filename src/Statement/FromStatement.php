@@ -1,19 +1,19 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Statement;
 
 class FromStatement extends Statement
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $hasFrom;
 
@@ -28,7 +28,7 @@ class FromStatement extends Statement
     protected $joins = [];
 
     /**
-     * @param boolean $hasFrom when true, statement is prefixed with `FROM`
+     * @param bool $hasFrom when true, statement is prefixed with `FROM`
      */
     public function __construct($hasFrom = true)
     {
@@ -36,9 +36,9 @@ class FromStatement extends Statement
     }
 
     /**
-     * Tells whether this statement is prefixed with FROM
+     * Tells whether this statement is prefixed with FROM.
      *
-     * @return boolean true: has FROM, false: no FROM
+     * @return bool true: has FROM, false: no FROM
      */
     public function hasFrom()
     {
@@ -49,9 +49,9 @@ class FromStatement extends Statement
      * Adds one or more tables to this statement.
      * Supported input styles:
      * - addTable('Table,Table2')
-     * - addTable(['Table','Table2'])
+     * - addTable(['Table','Table2']).
      *
-     * @param string|array $fields
+     * @param string|array $tables
      *
      * @return self
      */
@@ -72,7 +72,7 @@ class FromStatement extends Statement
      * Adds a join condition to this statement
      * Supported input styles:
      * - addJoin('Table,Table2')
-     * - addJoin(['Table','Table2'])
+     * - addJoin(['Table','Table2']).
      *
      * @param string|array $tables table names
      * @param string       $on     ON condition
@@ -89,7 +89,7 @@ class FromStatement extends Statement
             }, explode(',', $tables));
         }
 
-        if (!is_array($using) && $using) {
+        if ($using !== null) {
             $using = array_map(function ($column) {
                 return trim($column);
             }, explode(',', $using));
@@ -107,7 +107,7 @@ class FromStatement extends Statement
     }
 
     /**
-     * Gets the table(s) associated with this statement
+     * Gets the table(s) associated with this statement.
      *
      * @return array
      */
@@ -117,7 +117,7 @@ class FromStatement extends Statement
     }
 
     /**
-     * Gets the join(s) associated with this statement
+     * Gets the join(s) associated with this statement.
      *
      * @return array
      */
@@ -127,7 +127,7 @@ class FromStatement extends Statement
     }
 
     /**
-     * Generates the raw SQL string for the statement
+     * Generates the raw SQL string for the statement.
      *
      * @return string
      */
