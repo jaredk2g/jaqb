@@ -17,6 +17,8 @@ use JAQB\Statement\OrderStatement;
 
 class SelectQuery extends Query
 {
+    use SelectableTrait;
+
     /**
      * @var SelectStatement
      */

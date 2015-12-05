@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 use JAQB\Query\InsertQuery;
 
 class InsertQueryTest extends \PHPUnit_Framework_TestCase
@@ -42,5 +42,39 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
 
         // test values
         $this->assertEquals(['what', 'test'], $query->getValues());
+    }
+
+    ////////////////////////
+    // Operations
+    ////////////////////////
+
+    public function testExecute()
+    {
+        $stmt = Mockery::mock();
+        $stmt->shouldReceive('execute')->andReturn(true);
+        $stmt->shouldReceive('rowCount')->andReturn(10);
+
+        $pdo = Mockery::mock();
+        $pdo->shouldReceive('prepare')->withArgs(['INSERT INTO `Test`'])
+            ->andReturn($stmt);
+
+        $query = new InsertQuery($pdo);
+        $query->into('Test');
+
+        $this->assertEquals($stmt, $query->execute());
+        $this->assertEquals(10, $query->rowCount());
+    }
+
+    public function testExecuteFail()
+    {
+        $stmt = Mockery::mock();
+        $stmt->shouldReceive('execute')->andReturn(false);
+
+        $pdo = Mockery::mock();
+        $pdo->shouldReceive('prepare')->andReturn($stmt);
+
+        $query = new InsertQuery($pdo);
+
+        $this->assertFalse($query->execute());
     }
 }

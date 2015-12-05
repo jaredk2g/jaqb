@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 use JAQB\Query\DeleteQuery;
 
 class DeleteQueryTest extends \PHPUnit_Framework_TestCase
@@ -65,5 +65,39 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
 
         // test values
         $this->assertEquals([10], $query->getValues());
+    }
+
+    ////////////////////////
+    // Operations
+    ////////////////////////
+
+    public function testExecute()
+    {
+        $stmt = Mockery::mock();
+        $stmt->shouldReceive('execute')->andReturn(true);
+        $stmt->shouldReceive('rowCount')->andReturn(10);
+
+        $pdo = Mockery::mock();
+        $pdo->shouldReceive('prepare')->withArgs(['DELETE FROM `Test` WHERE `id`=?'])
+            ->andReturn($stmt);
+
+        $query = new DeleteQuery($pdo);
+        $query->from('Test')->where('id', 'test');
+
+        $this->assertEquals($stmt, $query->execute());
+        $this->assertEquals(10, $query->rowCount());
+    }
+
+    public function testExecuteFail()
+    {
+        $stmt = Mockery::mock();
+        $stmt->shouldReceive('execute')->andReturn(false);
+
+        $pdo = Mockery::mock();
+        $pdo->shouldReceive('prepare')->andReturn($stmt);
+
+        $query = new DeleteQuery($pdo);
+
+        $this->assertFalse($query->execute());
     }
 }
