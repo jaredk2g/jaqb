@@ -19,6 +19,11 @@ class SqlQuery extends Query
      */
     protected $sql;
 
+    public function initialize()
+    {
+        // NOOP
+    }
+
     /**
      * Sets the SQL for the query.
      *

@@ -39,18 +39,16 @@ abstract class Query
     }
 
     /**
+     * Initializes the query.
+     */
+    abstract public function initialize();
+
+    /**
      * Builds a SQL string for the query.
      *
      * @return string SQL
      */
     abstract public function build();
-
-    /**
-     * Initializes the query.
-     */
-    public function initialize()
-    {
-    }
 
     /**
      * Gets the values associated with this query.
