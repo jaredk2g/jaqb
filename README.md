@@ -14,14 +14,6 @@ JAQB: Just Another Query Builder for PHP (pronounced "jacob")
 - PHP 5.4+ or HHVM 3.3+
 - [PDO](http://php.net/pdo)
 
-## Tests
-
-Use phpunit to run the included tests:
-
-```
-phpunit
-```
-
 ## Installation
 
 The easiest way to install JAQB is with [composer](http://getcomposer.org):
@@ -100,6 +92,14 @@ Also:
 ### Building a Query
 
 If you want to build a query without executing it just use `build()` instead. `getValues()` will retrieve any [ordered question mark parameters](http://php.net/manual/en/pdo.prepare.php).
+
+## Tests
+
+Use phpunit to run the included tests:
+
+```
+phpunit
+```
 
 ## Contributing
 
