@@ -60,10 +60,12 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $query = new UpdateQuery();
 
         $this->assertEquals($query, $query->limit(10));
-        $this->assertEquals('10', $query->getLimit());
+        $limit = $query->getLimit();
+        $this->assertInstanceOf('\\JAQB\\Statement\\LimitStatement', $limit);
+        $this->assertEquals(10, $limit->getLimit());
 
         $this->assertEquals($query, $query->limit('hello'));
-        $this->assertEquals('10', $query->getLimit());
+        $this->assertEquals(10, $query->getLimit()->getLimit());
     }
 
     public function testBuild()

@@ -11,8 +11,9 @@
 namespace JAQB\Query;
 
 use JAQB\Statement\FromStatement;
-use JAQB\Statement\WhereStatement;
+use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
+use JAQB\Statement\WhereStatement;
 
 class DeleteQuery extends Query
 {
@@ -32,7 +33,7 @@ class DeleteQuery extends Query
     protected $orderBy;
 
     /**
-     * @var string
+     * @var LimitStatement
      */
     protected $limit;
 
@@ -41,6 +42,7 @@ class DeleteQuery extends Query
         $this->from = new FromStatement();
         $this->where = new WhereStatement();
         $this->orderBy = new OrderStatement();
+        $this->limit = new LimitStatement();
     }
 
     /**
@@ -81,14 +83,13 @@ class DeleteQuery extends Query
      * Sets the limit for the query.
      *
      * @param int $limit
+     * @param int $offset
      *
      * @return self
      */
-    public function limit($limit)
+    public function limit($limit, $offset = 0)
     {
-        if (is_numeric($limit)) {
-            $this->limit = (string) $limit;
-        }
+        $this->limit->setLimit($limit, $offset);
 
         return $this;
     }
@@ -129,9 +130,9 @@ class DeleteQuery extends Query
     }
 
     /**
-     * Gets the limit for the query.
+     * Gets the limit statement for the query.
      *
-     * @return string limit
+     * @return LimitStatement
      */
     public function getLimit()
     {
@@ -157,26 +158,29 @@ class DeleteQuery extends Query
     {
         $sql = [
             'DELETE',
-            $this->from->build(), ]; // from
+            // FROM
+            $this->from->build(),
+        ];
 
         $this->values = [];
 
-        // where
+        // WHERE
         $where = $this->where->build();
         if (!empty($where)) {
             $sql[] = $where;
             $this->values = array_merge($this->values, $this->where->getValues());
         }
 
-        // order by
+        // ORDER BY
         $orderBy = $this->orderBy->build();
         if (!empty($orderBy)) {
             $sql[] = $orderBy;
         }
 
-        // limit
-        if ($this->limit) {
-            $sql[] = 'LIMIT '.$this->limit;
+        // LIMIT
+        $limit = $this->limit->build();
+        if (!empty($limit)) {
+            $sql[] = $limit;
         }
 
         return implode(' ', $sql);

@@ -56,13 +56,18 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery();
 
         $this->assertEquals($query, $query->limit(10));
-        $this->assertEquals(['10', '0'], $query->getLimit());
+        $limit = $query->getLimit();
+        $this->assertInstanceOf('\\JAQB\\Statement\\LimitStatement', $limit);
+        $this->assertEquals(10, $limit->getLimit());
+        $this->assertEquals(0, $limit->getStart());
 
         $this->assertEquals($query, $query->limit(100, 200));
-        $this->assertEquals(['100', '200'], $query->getLimit());
+        $this->assertEquals(100, $query->getLimit()->getLimit());
+        $this->assertEquals(200, $query->getLimit()->getStart());
 
         $this->assertEquals($query, $query->limit('hello'));
-        $this->assertEquals(['100', '200'], $query->getLimit());
+        $this->assertEquals(100, $query->getLimit()->getLimit());
+        $this->assertEquals(200, $query->getLimit()->getStart());
     }
 
     public function testGroupBy()

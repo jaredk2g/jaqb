@@ -14,6 +14,7 @@ use JAQB\Statement\SelectStatement;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\WhereStatement;
 use JAQB\Statement\OrderStatement;
+use JAQB\Statement\LimitStatement;
 
 class SelectQuery extends Query
 {
@@ -50,14 +51,9 @@ class SelectQuery extends Query
     protected $groupBy;
 
     /**
-     * @var string
+     * @var LimitStatement
      */
     protected $limit;
-
-    /**
-     * @var string
-     */
-    protected $offset = '0';
 
     public function initialize()
     {
@@ -67,6 +63,7 @@ class SelectQuery extends Query
         $this->having = new WhereStatement(true);
         $this->orderBy = new OrderStatement();
         $this->groupBy = new OrderStatement(true);
+        $this->limit = new LimitStatement();
     }
 
     /**
@@ -144,10 +141,7 @@ class SelectQuery extends Query
      */
     public function limit($limit, $offset = 0)
     {
-        if (is_numeric($limit) && is_numeric($offset)) {
-            $this->limit = (string) $limit;
-            $this->offset = (string) $offset;
-        }
+        $this->limit->setLimit($limit, $offset);
 
         return $this;
     }
@@ -233,13 +227,13 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the limit and offset for the query.
+     * Gets the limit statement for the query.
      *
-     * @return array [limit, offset]
+     * @return LimitStatement
      */
     public function getLimit()
     {
-        return [$this->limit, $this->offset];
+        return $this->limit;
     }
 
     /**
@@ -280,40 +274,44 @@ class SelectQuery extends Query
     public function build()
     {
         $sql = [
-            $this->select->build(), // select
-            $this->from->build(), ]; // from
+            // SELECT
+            $this->select->build(),
+            // FROM
+            $this->from->build(),
+        ];
 
         $this->values = [];
 
-        // where
+        // WHERE
         $where = $this->where->build();
         if (!empty($where)) {
             $sql[] = $where;
             $this->values = array_merge($this->values, $this->where->getValues());
         }
 
-        // group by
+        // GROUP BY
         $groupBy = $this->groupBy->build();
         if (!empty($groupBy)) {
             $sql[] = $groupBy;
         }
 
-        // having
+        // HAVING
         $having = $this->having->build();
         if (!empty($having)) {
             $sql[] = $having;
             $this->values = array_merge($this->values, $this->having->getValues());
         }
 
-        // order by
+        // ORDER BY
         $orderBy = $this->orderBy->build();
         if (!empty($orderBy)) {
             $sql[] = $orderBy;
         }
 
-        // limit
-        if ($this->limit) {
-            $sql[] = 'LIMIT '.$this->offset.','.$this->limit;
+        // LIMIT
+        $limit = $this->limit->build();
+        if (!empty($limit)) {
+            $sql[] = $limit;
         }
 
         return implode(' ', $sql);

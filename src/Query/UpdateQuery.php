@@ -11,9 +11,10 @@
 namespace JAQB\Query;
 
 use JAQB\Statement\FromStatement;
+use JAQB\Statement\LimitStatement;
+use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SetStatement;
 use JAQB\Statement\WhereStatement;
-use JAQB\Statement\OrderStatement;
 
 class UpdateQuery extends Query
 {
@@ -38,7 +39,7 @@ class UpdateQuery extends Query
     protected $orderBy;
 
     /**
-     * @var string
+     * @var LimitStatement
      */
     protected $limit;
 
@@ -48,6 +49,7 @@ class UpdateQuery extends Query
         $this->set = new SetStatement();
         $this->where = new WhereStatement();
         $this->orderBy = new OrderStatement();
+        $this->limit = new LimitStatement();
     }
 
     /**
@@ -102,14 +104,13 @@ class UpdateQuery extends Query
      * Sets the limit for the query.
      *
      * @param int $limit
+     * @param int $offset
      *
      * @return self
      */
-    public function limit($limit)
+    public function limit($limit, $offset = 0)
     {
-        if (is_numeric($limit)) {
-            $this->limit = (string) $limit;
-        }
+        $this->limit->setLimit($limit, $offset);
 
         return $this;
     }
@@ -170,9 +171,9 @@ class UpdateQuery extends Query
     }
 
     /**
-     * Gets the limit for the query.
+     * Gets the limit statement for the query.
      *
-     * @return string limit
+     * @return LimitStatement
      */
     public function getLimit()
     {
@@ -188,33 +189,36 @@ class UpdateQuery extends Query
     {
         $sql = [
             'UPDATE',
-            $this->table->build(), ]; // table
+            // TABLE
+            $this->table->build(),
+        ];
 
         $this->values = [];
 
-        // set values
+        // SET
         $set = $this->set->build();
         if (!empty($set)) {
             $sql[] = $set;
             $this->values = array_merge($this->values, array_values($this->set->getValues()));
         }
 
-        // where
+        // WHERE
         $where = $this->where->build();
         if (!empty($where)) {
             $sql[] = $where;
             $this->values = array_merge($this->values, $this->where->getValues());
         }
 
-        // order by
+        // ORDER BY
         $orderBy = $this->orderBy->build();
         if (!empty($orderBy)) {
             $sql[] = $orderBy;
         }
 
-        // limit
-        if ($this->limit) {
-            $sql[] = 'LIMIT '.$this->limit;
+        // LIMIT
+        $limit = $this->limit->build();
+        if (!empty($limit)) {
+            $sql[] = $limit;
         }
 
         return implode(' ', $sql);

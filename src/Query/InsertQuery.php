@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Query;
 
 use JAQB\Statement\FromStatement;
@@ -21,8 +21,8 @@ class InsertQuery extends Query
     protected $table;
 
     /**
-    * @var ValuesStatement
-    */
+     * @var ValuesStatement
+     */
     protected $insertValues;
 
     /**
@@ -37,7 +37,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Sets the table for the query
+     * Sets the table for the query.
      *
      * @param string $table table name
      *
@@ -51,7 +51,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Sets the values for the query
+     * Sets the values for the query.
      *
      * @param array $values
      *
@@ -65,7 +65,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Gets the table for the query
+     * Gets the table for the query.
      *
      * @return string
      */
@@ -75,7 +75,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Gets the insert values for the query
+     * Gets the insert values for the query.
      *
      * @return InsertStatement
      */
@@ -85,7 +85,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Generates the raw SQL string for the query
+     * Generates the raw SQL string for the query.
      *
      * @return string
      */
@@ -93,11 +93,13 @@ class InsertQuery extends Query
     {
         $sql = [
             'INSERT INTO',
-            $this->table->build(), ]; // into
+            // TABLE
+            $this->table->build(),
+        ];
 
         $this->values = [];
 
-        // insert values
+        // VALUES
         $values = $this->insertValues->build();
         if (!empty($values)) {
             $sql[] = $values;
