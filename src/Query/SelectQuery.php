@@ -274,46 +274,18 @@ class SelectQuery extends Query
     public function build()
     {
         $sql = [
-            // SELECT
             $this->select->build(),
-            // FROM
             $this->from->build(),
+            $this->where->build(),
+            $this->groupBy->build(),
+            $this->having->build(),
+            $this->orderBy->build(),
+            $this->limit->build(),
         ];
 
-        $this->values = [];
+        $this->values = array_merge($this->where->getValues(),
+            $this->having->getValues());
 
-        // WHERE
-        $where = $this->where->build();
-        if (!empty($where)) {
-            $sql[] = $where;
-            $this->values = array_merge($this->values, $this->where->getValues());
-        }
-
-        // GROUP BY
-        $groupBy = $this->groupBy->build();
-        if (!empty($groupBy)) {
-            $sql[] = $groupBy;
-        }
-
-        // HAVING
-        $having = $this->having->build();
-        if (!empty($having)) {
-            $sql[] = $having;
-            $this->values = array_merge($this->values, $this->having->getValues());
-        }
-
-        // ORDER BY
-        $orderBy = $this->orderBy->build();
-        if (!empty($orderBy)) {
-            $sql[] = $orderBy;
-        }
-
-        // LIMIT
-        $limit = $this->limit->build();
-        if (!empty($limit)) {
-            $sql[] = $limit;
-        }
-
-        return implode(' ', $sql);
+        return implode(' ', array_filter($sql));
     }
 }

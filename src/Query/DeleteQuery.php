@@ -158,31 +158,14 @@ class DeleteQuery extends Query
     {
         $sql = [
             'DELETE',
-            // FROM
             $this->from->build(),
+            $this->where->build(),
+            $this->orderBy->build(),
+            $this->limit->build(),
         ];
 
-        $this->values = [];
+        $this->values = $this->where->getValues();
 
-        // WHERE
-        $where = $this->where->build();
-        if (!empty($where)) {
-            $sql[] = $where;
-            $this->values = array_merge($this->values, $this->where->getValues());
-        }
-
-        // ORDER BY
-        $orderBy = $this->orderBy->build();
-        if (!empty($orderBy)) {
-            $sql[] = $orderBy;
-        }
-
-        // LIMIT
-        $limit = $this->limit->build();
-        if (!empty($limit)) {
-            $sql[] = $limit;
-        }
-
-        return implode(' ', $sql);
+        return implode(' ', array_filter($sql));
     }
 }

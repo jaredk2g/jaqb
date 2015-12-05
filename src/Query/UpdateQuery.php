@@ -189,38 +189,17 @@ class UpdateQuery extends Query
     {
         $sql = [
             'UPDATE',
-            // TABLE
             $this->table->build(),
+            $this->set->build(),
+            $this->where->build(),
+            $this->orderBy->build(),
+            $this->limit->build(),
         ];
 
-        $this->values = [];
+        $this->values = array_merge(
+            array_values($this->set->getValues()),
+            $this->where->getValues());
 
-        // SET
-        $set = $this->set->build();
-        if (!empty($set)) {
-            $sql[] = $set;
-            $this->values = array_merge($this->values, array_values($this->set->getValues()));
-        }
-
-        // WHERE
-        $where = $this->where->build();
-        if (!empty($where)) {
-            $sql[] = $where;
-            $this->values = array_merge($this->values, $this->where->getValues());
-        }
-
-        // ORDER BY
-        $orderBy = $this->orderBy->build();
-        if (!empty($orderBy)) {
-            $sql[] = $orderBy;
-        }
-
-        // LIMIT
-        $limit = $this->limit->build();
-        if (!empty($limit)) {
-            $sql[] = $limit;
-        }
-
-        return implode(' ', $sql);
+        return implode(' ', array_filter($sql));
     }
 }

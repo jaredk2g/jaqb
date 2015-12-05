@@ -93,19 +93,12 @@ class InsertQuery extends Query
     {
         $sql = [
             'INSERT INTO',
-            // TABLE
             $this->table->build(),
+            $this->insertValues->build(),
         ];
 
-        $this->values = [];
+        $this->values = array_values($this->insertValues->getValues());
 
-        // VALUES
-        $values = $this->insertValues->build();
-        if (!empty($values)) {
-            $sql[] = $values;
-            $this->values = array_merge($this->values, array_values($this->insertValues->getValues()));
-        }
-
-        return implode(' ', $sql);
+        return implode(' ', array_filter($sql));
     }
 }
