@@ -10,11 +10,14 @@
  */
 namespace JAQB\Query;
 
+use JAQB\Operations\Executable;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\ValuesStatement;
 
 class InsertQuery extends Query
 {
+    use Executable;
+
     /**
      * @var FromStatement
      */
@@ -30,7 +33,7 @@ class InsertQuery extends Query
      */
     protected $values = [];
 
-    public function initialize()
+    public function __construct()
     {
         $this->table = new FromStatement(false);
         $this->insertValues = new ValuesStatement();

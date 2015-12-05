@@ -44,9 +44,9 @@ class QueryBuilder
      */
     public function select($fields = '*')
     {
-        $query = new Query\SelectQuery($this->pdo);
+        $query = new Query\SelectQuery();
 
-        return $query->select($fields);
+        return $query->setPDO($this->pdo)->select($fields);
     }
 
     /**
@@ -58,9 +58,9 @@ class QueryBuilder
      */
     public function insert(array $values)
     {
-        $query = new Query\InsertQuery($this->pdo);
+        $query = new Query\InsertQuery();
 
-        return $query->values($values);
+        return $query->setPDO($this->pdo)->values($values);
     }
 
     /**
@@ -72,9 +72,9 @@ class QueryBuilder
      */
     public function update($table)
     {
-        $query = new Query\UpdateQuery($this->pdo);
+        $query = new Query\UpdateQuery();
 
-        return $query->table($table);
+        return $query->setPDO($this->pdo)->table($table);
     }
 
     /**
@@ -86,9 +86,9 @@ class QueryBuilder
      */
     public function delete($from)
     {
-        $query = new Query\DeleteQuery($this->pdo);
+        $query = new Query\DeleteQuery();
 
-        return $query->from($from);
+        return $query->setPDO($this->pdo)->from($from);
     }
 
     /**
@@ -100,8 +100,8 @@ class QueryBuilder
      */
     public function raw($sql)
     {
-        $query = new Query\SqlQuery($this->pdo);
+        $query = new Query\SqlQuery();
 
-        return $query->raw($sql);
+        return $query->setPDO($this->pdo)->raw($sql);
     }
 }

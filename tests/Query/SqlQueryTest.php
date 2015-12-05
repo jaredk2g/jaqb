@@ -40,7 +40,9 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SHOW COLUMNS FROM TEST'])
             ->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
+        $this->assertEquals($pdo, $query->getPDO());
         $query->raw('SHOW COLUMNS FROM TEST');
 
         $this->assertEquals($stmt, $query->execute());
@@ -55,7 +57,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->execute());
     }
@@ -72,7 +75,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SHOW COLUMNS FROM TEST'])
             ->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
         $query->raw('SHOW COLUMNS FROM TEST');
 
         $this->assertEquals(['field' => 'value'], $query->one());
@@ -87,7 +91,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->one());
     }
@@ -104,7 +109,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SHOW COLUMNS FROM TEST'])
             ->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
         $query->raw('SHOW COLUMNS FROM TEST');
 
         $this->assertEquals([['field' => 'value'], ['field' => 'value2']], $query->all());
@@ -119,7 +125,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->all());
     }
@@ -136,7 +143,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SHOW COLUMNS FROM TEST'])
             ->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
         $query->raw('SHOW COLUMNS FROM TEST');
 
         $this->assertEquals(['value', 'value2'], $query->column());
@@ -151,7 +159,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->column());
     }
@@ -168,7 +177,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SHOW COLUMNS FROM TEST'])
             ->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
         $query->raw('SHOW COLUMNS FROM TEST');
 
         $this->assertEquals('scalar', $query->scalar());
@@ -183,7 +193,8 @@ class SqlQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SqlQuery($pdo);
+        $query = new SqlQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->scalar());
     }

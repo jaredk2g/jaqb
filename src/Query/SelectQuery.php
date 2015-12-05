@@ -10,6 +10,8 @@
  */
 namespace JAQB\Query;
 
+use JAQB\Operations\Executable;
+use JAQB\Operations\Fetchable;
 use JAQB\Statement\SelectStatement;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\WhereStatement;
@@ -18,7 +20,7 @@ use JAQB\Statement\LimitStatement;
 
 class SelectQuery extends Query
 {
-    use SelectableTrait;
+    use Executable, Fetchable;
 
     /**
      * @var SelectStatement
@@ -55,7 +57,7 @@ class SelectQuery extends Query
      */
     protected $limit;
 
-    public function initialize()
+    public function __construct()
     {
         $this->select = new SelectStatement();
         $this->from = new FromStatement();

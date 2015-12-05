@@ -132,7 +132,9 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
             ->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
+        $this->assertEquals($pdo, $query->getPDO());
         $query->from('Test')->where('id', 'test');
 
         $this->assertEquals($stmt, $query->execute());
@@ -147,7 +149,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->execute());
     }
@@ -164,7 +167,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
             ->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
         $query->from('Test')->where('id', 'test');
 
         $this->assertEquals(['field' => 'value'], $query->one());
@@ -179,7 +183,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->one());
     }
@@ -196,7 +201,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
             ->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
         $query->from('Test')->where('id', 'test');
 
         $this->assertEquals([['field' => 'value'], ['field' => 'value2']], $query->all());
@@ -211,7 +217,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->all());
     }
@@ -228,7 +235,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
             ->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
         $query->from('Test')->where('id', 'test');
 
         $this->assertEquals(['value', 'value2'], $query->column());
@@ -243,7 +251,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->column());
     }
@@ -260,7 +269,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
             ->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
         $query->from('Test')->where('id', 'test');
 
         $this->assertEquals('scalar', $query->scalar());
@@ -275,7 +285,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new SelectQuery($pdo);
+        $query = new SelectQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->scalar());
     }

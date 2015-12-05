@@ -10,6 +10,7 @@
  */
 namespace JAQB\Query;
 
+use JAQB\Operations\Executable;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
@@ -18,6 +19,8 @@ use JAQB\Statement\WhereStatement;
 
 class UpdateQuery extends Query
 {
+    use Executable;
+
     /**
      * @var FromStatement
      */
@@ -43,7 +46,7 @@ class UpdateQuery extends Query
      */
     protected $limit;
 
-    public function initialize()
+    public function __construct()
     {
         $this->table = new FromStatement(false);
         $this->set = new SetStatement();

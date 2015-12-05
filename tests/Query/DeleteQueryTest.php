@@ -83,7 +83,9 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['DELETE FROM `Test` WHERE `id`=?'])
             ->andReturn($stmt);
 
-        $query = new DeleteQuery($pdo);
+        $query = new DeleteQuery();
+        $query->setPDO($pdo);
+        $this->assertEquals($pdo, $query->getPDO());
         $query->from('Test')->where('id', 'test');
 
         $this->assertEquals($stmt, $query->execute());
@@ -98,7 +100,8 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new DeleteQuery($pdo);
+        $query = new DeleteQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->execute());
     }

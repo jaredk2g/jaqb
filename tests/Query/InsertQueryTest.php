@@ -58,7 +58,9 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['INSERT INTO `Test`'])
             ->andReturn($stmt);
 
-        $query = new InsertQuery($pdo);
+        $query = new InsertQuery();
+        $query->setPDO($pdo);
+        $this->assertEquals($pdo, $query->getPDO());
         $query->into('Test');
 
         $this->assertEquals($stmt, $query->execute());
@@ -73,7 +75,8 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new InsertQuery($pdo);
+        $query = new InsertQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->execute());
     }

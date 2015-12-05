@@ -95,7 +95,9 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $pdo->shouldReceive('prepare')->withArgs(['UPDATE `Test` WHERE `id`=?'])
             ->andReturn($stmt);
 
-        $query = new UpdateQuery($pdo);
+        $query = new UpdateQuery();
+        $query->setPDO($pdo);
+        $this->assertEquals($pdo, $query->getPDO());
         $query->table('Test')->where('id', 'test');
 
         $this->assertEquals($stmt, $query->execute());
@@ -110,7 +112,8 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $pdo = Mockery::mock();
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
-        $query = new UpdateQuery($pdo);
+        $query = new UpdateQuery();
+        $query->setPDO($pdo);
 
         $this->assertFalse($query->execute());
     }

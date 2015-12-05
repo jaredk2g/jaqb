@@ -10,19 +10,17 @@
  */
 namespace JAQB\Query;
 
+use JAQB\Operations\Executable;
+use JAQB\Operations\Fetchable;
+
 class SqlQuery extends Query
 {
-    use SelectableTrait;
+    use Executable, Fetchable;
 
     /**
      * @var string
      */
     protected $sql;
-
-    public function initialize()
-    {
-        // NOOP
-    }
 
     /**
      * Sets the SQL for the query.

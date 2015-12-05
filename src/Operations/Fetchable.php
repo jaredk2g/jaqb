@@ -8,11 +8,11 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
-namespace JAQB\Query;
+namespace JAQB\Operations;
 
 use PDO;
 
-trait SelectableTrait
+trait Fetchable
 {
     /**
      * Executes a query and returns the first row.
