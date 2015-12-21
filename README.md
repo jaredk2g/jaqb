@@ -3,9 +3,9 @@ JAQB
 
 [![Build Status](https://travis-ci.org/jaredtking/jaqb.png?branch=master)](https://travis-ci.org/jaredtking/jaqb)
 [![Coverage Status](https://coveralls.io/repos/jaredtking/jaqb/badge.svg?branch=master)](https://coveralls.io/r/jaredtking/jaqb?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/jaredtking/jaqb/v/stable.png)](https://packagist.org/packages/jaredtking/jaqb)
-[![Total Downloads](https://poser.pugx.org/jaredtking/jaqb/downloads.png)](https://packagist.org/packages/jaredtking/jaqb)
-[![HHVM Status](http://hhvm.h4cc.de/badge/jaredtking/jaqb.svg)](http://hhvm.h4cc.de/package/jaredtking/jaqb)
+[![Latest Stable Version](https://poser.pugx.org/jaqb/jaqb/v/stable.png)](https://packagist.org/packages/jaqb/jaqb)
+[![Total Downloads](https://poser.pugx.org/jaqb/jaqb/downloads.png)](https://packagist.org/packages/jaqb/jaqb)
+[![HHVM Status](http://hhvm.h4cc.de/badge/jaqb/jaqb.svg)](http://hhvm.h4cc.de/package/jaqb/jaqb)
 
 JAQB: Just Another Query Builder for PHP (pronounced "jacob")
 
@@ -19,7 +19,7 @@ JAQB: Just Another Query Builder for PHP (pronounced "jacob")
 The easiest way to install JAQB is with [composer](http://getcomposer.org):
 
 ```
-composer require jaredtking/jaqb
+composer require jaqb/jaqb
 ```
 
 ## Usage

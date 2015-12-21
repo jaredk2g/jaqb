@@ -1,5 +1,5 @@
 {
-	"name": "jaredtking/jaqb",
+	"name": "jaqb/jaqb",
 	"description": "Just Another Query Builder built on PDO",
 	"type": "library",
 	"keywords": ["jaqb","query","builder","database","pdo"],
