@@ -1,17 +1,18 @@
 JAQB
 ===========
 
-[![Build Status](https://travis-ci.org/jaredtking/jaqb.png?branch=master)](https://travis-ci.org/jaredtking/jaqb)
-[![Coverage Status](https://coveralls.io/repos/jaredtking/jaqb/badge.svg?branch=master)](https://coveralls.io/r/jaredtking/jaqb?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/jaqb/jaqb/v/stable.png)](https://packagist.org/packages/jaqb/jaqb)
-[![Total Downloads](https://poser.pugx.org/jaqb/jaqb/downloads.png)](https://packagist.org/packages/jaqb/jaqb)
-[![HHVM Status](http://hhvm.h4cc.de/badge/jaqb/jaqb.svg)](http://hhvm.h4cc.de/package/jaqb/jaqb)
+[![Build Status](https://travis-ci.org/jaredtking/jaqb.svg?branch=master&style=flat)](https://travis-ci.org/jaredtking/jaqb)
+[![Coverage Status](https://coveralls.io/repos/jaredtking/jaqb/badge.svg?style=flat)](https://coveralls.io/r/jaredtking/jaqb)
+[![Latest Stable Version](https://poser.pugx.org/jaqb/jaqb/v/stable.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
+[![Total Downloads](https://poser.pugx.org/jaqb/jaqb/downloads.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
+[![HHVM Status](http://hhvm.h4cc.de/badge/jaqb/jaqb.svg?style=flat)](http://hhvm.h4cc.de/package/jaqb/jaqb)
+
 
 JAQB: Just Another Query Builder for PHP (pronounced "jacob")
 
 ## Requirements
 
-- PHP 5.4+ or HHVM 3.3+
+- PHP 5.4+, PHP 7, or HHVM 3.3+
 - [PDO](http://php.net/pdo)
 
 ## Installation
