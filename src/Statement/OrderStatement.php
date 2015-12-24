@@ -54,17 +54,20 @@ class OrderStatement extends Statement
             }, explode(',', $fields));
         }
 
-        foreach ($fields as &$field) {
+        foreach ($fields as $field) {
             if (!is_array($field)) {
                 $field = explode(' ', trim($field));
             }
 
-            if (count($field) == 1 && $direction !== false) {
+            if (count($field) === 1 && $direction !== false) {
                 $field[] = $direction;
             }
-        }
 
-        $this->fields = array_merge($this->fields, $fields);
+            // validate the direction
+            if (count($field) === 1 || in_array(strtolower($field[1]), ['asc', 'desc'])) {
+                $this->fields[] = $field;
+            }
+        }
 
         return $this;
     }

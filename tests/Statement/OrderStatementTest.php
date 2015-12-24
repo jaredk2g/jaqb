@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 use JAQB\Statement\OrderStatement;
 
 class OrderStatementTest extends \PHPUnit_Framework_TestCase
@@ -38,11 +38,12 @@ class OrderStatementTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([['test']], $stmt->getFields());
 
         $stmt = new OrderStatement();
-        $this->assertEquals($stmt, $stmt->addFields('test ASC, test2'));
+        $this->assertEquals($stmt, $stmt->addFields('test ASC, test2, test3 NOTADIRECTION'));
         $this->assertEquals([['test', 'ASC'], ['test2']], $stmt->getFields());
 
         $stmt = new OrderStatement();
         $this->assertEquals($stmt, $stmt->addFields('test', 'ASC'));
+        $this->assertEquals($stmt, $stmt->addFields('test', 'NOTADIRECTION'));
         $this->assertEquals([['test', 'ASC']], $stmt->getFields());
     }
 
