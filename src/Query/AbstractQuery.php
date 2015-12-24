@@ -10,7 +10,7 @@
  */
 namespace JAQB\Query;
 
-abstract class Query
+abstract class AbstractQuery
 {
     /**
      * @var array

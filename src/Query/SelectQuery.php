@@ -18,7 +18,7 @@ use JAQB\Statement\WhereStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\LimitStatement;
 
-class SelectQuery extends Query
+class SelectQuery extends AbstractQuery
 {
     use Executable, Fetchable;
 

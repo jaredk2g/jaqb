@@ -14,7 +14,7 @@ use JAQB\Operations\Executable;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\ValuesStatement;
 
-class InsertQuery extends Query
+class InsertQuery extends AbstractQuery
 {
     use Executable;
 

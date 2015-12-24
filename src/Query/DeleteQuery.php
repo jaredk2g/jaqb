@@ -16,7 +16,7 @@ use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\WhereStatement;
 
-class DeleteQuery extends Query
+class DeleteQuery extends AbstractQuery
 {
     use Executable;
 

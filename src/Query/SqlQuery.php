@@ -13,7 +13,7 @@ namespace JAQB\Query;
 use JAQB\Operations\Executable;
 use JAQB\Operations\Fetchable;
 
-class SqlQuery extends Query
+class SqlQuery extends AbstractQuery
 {
     use Executable, Fetchable;
 

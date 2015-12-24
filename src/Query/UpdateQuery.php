@@ -17,7 +17,7 @@ use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SetStatement;
 use JAQB\Statement\WhereStatement;
 
-class UpdateQuery extends Query
+class UpdateQuery extends AbstractQuery
 {
     use Executable;
 
