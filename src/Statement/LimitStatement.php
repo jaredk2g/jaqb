@@ -25,7 +25,7 @@ class LimitStatement extends Statement
     /**
      * @var int
      */
-    protected $max = 1;
+    protected $max;
 
     /**
      * @param $max maximum # the limit can be set to, 0=infinity
@@ -36,7 +36,7 @@ class LimitStatement extends Statement
     }
 
     /**
-     * Sets the limit.
+     * Sets the limit and start offset.
      *
      * @param int $limit
      * @param int $offset
@@ -66,7 +66,7 @@ class LimitStatement extends Statement
     /**
      * Gets the limit.
      *
-     * @return array limit
+     * @return int
      */
     public function getLimit()
     {
