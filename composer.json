@@ -2,7 +2,7 @@
 	"name": "jaqb/jaqb",
 	"description": "Just Another Query Builder built on PDO",
 	"type": "library",
-	"keywords": ["jaqb","query","builder","database","pdo"],
+	"keywords": ["jaqb","query builder","database","pdo"],
 	"homepage": "https://github.com/jaredtking/jaqb",
 	"license": "MIT",
 	"authors": [
@@ -25,6 +25,6 @@
 	"require-dev": {
 		"satooshi/php-coveralls": "1.0.0",
 		"mockery/mockery": "~0.9",
-		"pimple/pimple": ">=v2.1.0"
+		"infuse/infuse": "~1.3"
 	}
 }

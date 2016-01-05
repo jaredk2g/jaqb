@@ -1,4 +1,8 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
+  <php>
+    <const name="INFUSE_BASE_DIR">.</const>
+  </php>
+
   <testsuites>
     <testsuite name="JAQB">
       <directory>tests</directory>
@@ -11,7 +15,8 @@
 
   <logging>
     <log type="coverage-clover" target="build/logs/clover.xml"/>
-    <log type="coverage-html" target="build/coverage" title="PHP_CodeCoverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70"/>
+    <log type="coverage-html" target="build/coverage" lowUpperBound="35" highLowerBound="70"/>
+    <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70" showOnlySummary="true"/>
   </logging>
 
   <filter>
