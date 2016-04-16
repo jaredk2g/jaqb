@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 use JAQB\Statement\WhereStatement;
 
 class WhereStatementTest extends \PHPUnit_Framework_TestCase
@@ -87,6 +87,15 @@ class WhereStatementTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('WHERE `field`=? AND `field2`like?', $stmt->build());
         $this->assertEquals(['value', 'value2'], $stmt->getValues());
+    }
+
+    public function testAddConditionNull()
+    {
+        $stmt = new WhereStatement();
+        $this->assertEquals($stmt, $stmt->addCondition(['field' => null, ['field2', null]]));
+
+        $this->assertEquals('WHERE `field` IS NULL AND `field2` IS NULL', $stmt->build());
+        $this->assertEquals([], $stmt->getValues());
     }
 
     public function testAddNestedCondition()

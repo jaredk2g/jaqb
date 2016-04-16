@@ -41,13 +41,21 @@ class WhereStatement extends Statement
     }
 
     /**
+     * Adds a condition to the statement.
+     *
      * Accepts the following forms:
-     * 1. addCondition('username', 'john')
-     * 2. addCondition('balance', 100, '>')
-     * 3. addCondition('name LIKE "%john%"')
-     * 4. addCondition([['balance', 100, '>'], ['user_id', 5]])
-     * 5. addCondition(['username' => 'john', 'user_id' => 5])
-     * 6. addCondition(['first_name LIKE "%john%"', 'last_name LIKE "%doe%"']).
+     * 1. Equality comparison:
+     *      addCondition('username', 'john')
+     * 2. Comparison with custom operator:
+     *      addCondition('balance', 100, '>')
+     * 3. SQL fragment:
+     *      addCondition('name LIKE "%john%"')
+     * 4. List of conditions to add:
+     *      addCondition([['balance', 100, '>'], ['user_id', 5]])
+     * 5. Map of equality comparisons:
+     *      addCondition(['username' => 'john', 'user_id' => 5])
+     * 6. List of SQL fragments:
+     *      addCondition(['first_name LIKE "%john%"', 'last_name LIKE "%doe%"'])
      *
      * @param array|string $field
      * @param string|bool  $value    condition value (optional)
@@ -91,6 +99,16 @@ class WhereStatement extends Statement
     public function getConditions()
     {
         return $this->conditions;
+    }
+
+    protected function buildClause(array $clause)
+    {
+        // handle NULL values
+        if (count($clause) === 3 && $clause[1] === '=' && $clause[2] === null) {
+            return $this->escapeIdentifier($clause[0]).' IS NULL';
+        }
+
+        return parent::buildClause($clause);
     }
 
     /**
