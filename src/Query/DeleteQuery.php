@@ -171,4 +171,12 @@ class DeleteQuery extends AbstractQuery
 
         return implode(' ', array_filter($sql));
     }
+
+    public function __clone()
+    {
+        $this->from = clone $this->from;
+        $this->where = clone $this->where;
+        $this->orderBy = clone $this->orderBy;
+        $this->limit = clone $this->limit;
+    }
 }

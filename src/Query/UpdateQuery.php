@@ -205,4 +205,13 @@ class UpdateQuery extends AbstractQuery
 
         return implode(' ', array_filter($sql));
     }
+
+    public function __clone()
+    {
+        $this->table = clone $this->table;
+        $this->set = clone $this->set;
+        $this->where = clone $this->where;
+        $this->orderBy = clone $this->orderBy;
+        $this->limit = clone $this->limit;
+    }
 }

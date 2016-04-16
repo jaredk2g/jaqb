@@ -44,6 +44,16 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['what', 'test'], $query->getValues());
     }
 
+    public function testClone()
+    {
+        $query = new InsertQuery();
+        $query2 = clone $query;
+        $query2->into('Blah');
+        $query2->values(['test']);
+        $this->assertNotSame($query->getInto(), $query2->getInto());
+        $this->assertNotSame($query->getInsertValues(), $query2->getInsertValues());
+    }
+
     ////////////////////////
     // Operations
     ////////////////////////

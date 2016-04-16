@@ -290,4 +290,15 @@ class SelectQuery extends AbstractQuery
 
         return implode(' ', array_filter($sql));
     }
+
+    public function __clone()
+    {
+        $this->select = clone $this->select;
+        $this->from = clone $this->from;
+        $this->where = clone $this->where;
+        $this->groupBy = clone $this->groupBy;
+        $this->having = clone $this->having;
+        $this->orderBy = clone $this->orderBy;
+        $this->limit = clone $this->limit;
+    }
 }

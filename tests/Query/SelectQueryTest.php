@@ -118,6 +118,19 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([10, 'something'], $query->getValues());
     }
 
+    public function testClone()
+    {
+        $query = new SelectQuery();
+        $query2 = clone $query;
+        $this->assertNotSame($query->getSelect(), $query2->getSelect());
+        $this->assertNotSame($query->getFrom(), $query2->getFrom());
+        $this->assertNotSame($query->getWhere(), $query2->getWhere());
+        $this->assertNotSame($query->getGroupBy(), $query2->getGroupBy());
+        $this->assertNotSame($query->getHaving(), $query2->getHaving());
+        $this->assertNotSame($query->getOrderBy(), $query2->getOrderBy());
+        $this->assertNotSame($query->getLimit(), $query2->getLimit());
+    }
+
     ////////////////////////
     // Operations
     ////////////////////////

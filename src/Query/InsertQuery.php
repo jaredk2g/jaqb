@@ -104,4 +104,10 @@ class InsertQuery extends AbstractQuery
 
         return implode(' ', array_filter($sql));
     }
+
+    public function __clone()
+    {
+        $this->table = clone $this->table;
+        $this->insertValues = clone $this->insertValues;
+    }
 }

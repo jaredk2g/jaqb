@@ -81,6 +81,17 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['hello', 'field', 10], $query->getValues());
     }
 
+    public function testClone()
+    {
+        $query = new UpdateQuery();
+        $query2 = clone $query;
+        $this->assertNotSame($query->getTable(), $query2->getTable());
+        $this->assertNotSame($query->getSet(), $query2->getSet());
+        $this->assertNotSame($query->getWhere(), $query2->getWhere());
+        $this->assertNotSame($query->getOrderBy(), $query2->getOrderBy());
+        $this->assertNotSame($query->getLimit(), $query2->getLimit());
+    }
+
     ////////////////////////
     // Operations
     ////////////////////////
