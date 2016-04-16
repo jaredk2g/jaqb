@@ -3,7 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
+### Fixed
+ - Where statement writes `null` values in conditions as `IS NULL`
+ - Deep cloning now works
 
 ## 1.2.1 - 2016-01-05
 ### Added
