@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Support for IN statement as a WHERE condition when passing in an array value.
+- Select queries can now be unioned together (using SQL UNION).
 
 ### Fixed
  - Where statement writes `null` values in conditions as `IS NULL`

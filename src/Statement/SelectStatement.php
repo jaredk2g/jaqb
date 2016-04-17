@@ -1,24 +1,27 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Statement;
 
 class SelectStatement extends Statement
 {
+    /**
+     * @var array
+     */
     protected $fields = [];
 
     /**
      * Adds fields to this statement.
      * Supported input styles:
      * - addFields('field1,field2')
-     * - addFields(['field','field2'])
+     * - addFields(['field','field2']).
      *
      * @param string|array $fields
      *
@@ -39,7 +42,7 @@ class SelectStatement extends Statement
 
     /**
      * Gets the fields associated with this statement.
-     * If no fields are present then defaults to '*'
+     * If no fields are present then defaults to '*'.
      *
      * @return array fields
      */
@@ -48,11 +51,6 @@ class SelectStatement extends Statement
         return (count($this->fields) > 0) ? $this->fields : ['*'];
     }
 
-    /**
-     * Generates the raw SQL string for the statement
-     *
-     * @return string
-     */
     public function build()
     {
         $fields = $this->getFields();

@@ -161,11 +161,6 @@ class WhereStatement extends Statement
         return implode('', $cond);
     }
 
-    /**
-     * Generates the raw SQL string for the statement.
-     *
-     * @return string
-     */
     public function build()
     {
         // build clause from conditions

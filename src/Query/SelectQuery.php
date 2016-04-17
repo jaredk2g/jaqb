@@ -17,6 +17,7 @@ use JAQB\Statement\FromStatement;
 use JAQB\Statement\WhereStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\LimitStatement;
+use JAQB\Statement\UnionStatement;
 
 class SelectQuery extends AbstractQuery
 {
@@ -57,6 +58,11 @@ class SelectQuery extends AbstractQuery
      */
     protected $limit;
 
+    /**
+     * @var UnionStatement
+     */
+    protected $union;
+
     public function __construct()
     {
         $this->select = new SelectStatement();
@@ -66,6 +72,7 @@ class SelectQuery extends AbstractQuery
         $this->orderBy = new OrderStatement();
         $this->groupBy = new OrderStatement(true);
         $this->limit = new LimitStatement();
+        $this->union = new UnionStatement();
     }
 
     /**
@@ -199,6 +206,21 @@ class SelectQuery extends AbstractQuery
     }
 
     /**
+     * Unions another select query with this query.
+     *
+     * @param SelectQuery $query
+     * @param string      $type  optional union type
+     *
+     * @return self
+     */
+    public function union(SelectQuery $query, $type = false)
+    {
+        $this->union->addQuery($query, $type);
+
+        return $this;
+    }
+
+    /**
      * Gets the select statement for the query.
      *
      * @return SelectStatement
@@ -269,6 +291,16 @@ class SelectQuery extends AbstractQuery
     }
 
     /**
+     * Gets the union statement for the query.
+     *
+     * @return UnionStatement
+     */
+    public function getUnion()
+    {
+        return $this->union;
+    }
+
+    /**
      * Generates the raw SQL string for the query.
      *
      * @return string
@@ -283,10 +315,13 @@ class SelectQuery extends AbstractQuery
             $this->having->build(),
             $this->orderBy->build(),
             $this->limit->build(),
+            $this->union->build(),
         ];
 
-        $this->values = array_merge($this->where->getValues(),
-            $this->having->getValues());
+        $this->values = array_merge(
+            $this->where->getValues(),
+            $this->having->getValues(),
+            $this->union->getValues());
 
         return implode(' ', array_filter($sql));
     }
@@ -300,5 +335,6 @@ class SelectQuery extends AbstractQuery
         $this->having = clone $this->having;
         $this->orderBy = clone $this->orderBy;
         $this->limit = clone $this->limit;
+        $this->union = clone $this->union;
     }
 }

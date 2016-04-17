@@ -12,7 +12,14 @@ namespace JAQB\Statement;
 
 class OrderStatement extends Statement
 {
+    /**
+     * @var bool
+     */
     protected $groupBy;
+
+    /**
+     * @var array
+     */
     protected $fields = [];
 
     /**
@@ -82,11 +89,6 @@ class OrderStatement extends Statement
         return $this->fields;
     }
 
-    /**
-     * Generates the raw SQL string for the statement.
-     *
-     * @return string
-     */
     public function build()
     {
         $fields = $this->fields;

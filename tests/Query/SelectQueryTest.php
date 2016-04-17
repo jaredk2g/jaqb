@@ -104,9 +104,28 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([['uid', 'ASC']], $orderBy->getFields());
     }
 
+    public function testUnion()
+    {
+        $query = new SelectQuery();
+
+        $query2 = new SelectQuery();
+        $this->assertEquals($query, $query->union($query2));
+
+        $query3 = new SelectQuery();
+        $this->assertEquals($query, $query->union($query3, 'ALL'));
+
+        $union = $query->getUnion();
+        $this->assertInstanceOf('JAQB\Statement\UnionStatement', $union);
+        $this->assertEquals([[$query2, false], [$query3, 'ALL']], $union->getQueries());
+    }
+
     public function testBuild()
     {
         $query = new SelectQuery();
+
+        $query2 = new SelectQuery();
+        $query2->from('Users2')
+               ->where('username', 'john');
 
         $query->from('Users')
               ->join('FbProfiles fb', 'uid=fb.uid')
@@ -114,12 +133,13 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
               ->having('first_name', 'something')
               ->groupBy('last_name')
               ->orderBy('first_name', 'ASC')
-              ->limit(100, 10);
+              ->limit(100, 10)
+              ->union($query2);
 
-        $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid=fb.uid WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100', $query->build());
+        $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid=fb.uid WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100 UNION SELECT * FROM `Users2` WHERE `username`=?', $query->build());
 
         // test values
-        $this->assertEquals([10, 'something'], $query->getValues());
+        $this->assertEquals([10, 'something', 'john'], $query->getValues());
     }
 
     public function testClone()
@@ -133,6 +153,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame($query->getHaving(), $query2->getHaving());
         $this->assertNotSame($query->getOrderBy(), $query2->getOrderBy());
         $this->assertNotSame($query->getLimit(), $query2->getLimit());
+        $this->assertNotSame($query->getUnion(), $query2->getUnion());
     }
 
     ////////////////////////

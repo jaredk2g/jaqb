@@ -126,11 +126,6 @@ class FromStatement extends Statement
         return $this->joins;
     }
 
-    /**
-     * Generates the raw SQL string for the statement.
-     *
-     * @return string
-     */
     public function build()
     {
         // tables

@@ -1,24 +1,19 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 namespace JAQB\Statement;
 
 class ValuesStatement extends Statement
 {
     /**
-     * @var array
-     */
-    protected $values = [];
-
-    /**
-     * Adds values to the statement
+     * Adds values to the statement.
      *
      * @return self
      */
@@ -29,21 +24,6 @@ class ValuesStatement extends Statement
         return $this;
     }
 
-    /**
-     * Gets the values for the query
-     *
-     * @return array
-     */
-    public function getValues()
-    {
-        return $this->values;
-    }
-
-    /**
-     * Generates the raw SQL string for the statement
-     *
-     * @return string
-     */
     public function build()
     {
         $keys = array_keys($this->values);
