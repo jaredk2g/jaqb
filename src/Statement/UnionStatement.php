@@ -49,7 +49,7 @@ class UnionStatement extends Statement
         // reset the parameterized values
         $this->values = [];
 
-        // build each query and concatenate
+        // build each select query and concatenate
         $queries = [];
         foreach ($this->queries as $row) {
             list($query, $type) = $row;
@@ -61,7 +61,9 @@ class UnionStatement extends Statement
 
             $queries[] = $prefix.$query->build();
 
-            $this->values = array_merge($this->values, $query->getValues());
+            $this->values = array_merge(
+                $this->values,
+                $query->getValues());
         }
 
         return implode(' ', $queries);

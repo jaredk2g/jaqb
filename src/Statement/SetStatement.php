@@ -13,31 +13,50 @@ namespace JAQB\Statement;
 class SetStatement extends Statement
 {
     /**
+     * @var array
+     */
+    protected $setValues = [];
+
+    /**
      * Adds values to the statement.
      *
      * @return self
      */
     public function addValues(array $values)
     {
-        $this->values = array_replace($this->values, $values);
+        $this->setValues = array_replace($this->setValues, $values);
 
         return $this;
     }
 
+    /**
+     * Gets the values being set.
+     *
+     * @return array
+     */
+    public function getSetValues()
+    {
+        return $this->setValues;
+    }
+
     public function build()
     {
-        $values = [];
-        foreach ($this->values as $key => $value) {
+        // reset the parameterized values
+        $this->values = [];
+
+        $fields = [];
+        foreach ($this->setValues as $key => $value) {
             if ($id = $this->escapeIdentifier($key)) {
-                $values[] = $id.'=?';
+                $fields[] = $id.'=?';
+                $this->values[] = $value;
             }
         }
 
-        if (count($values) == 0) {
+        if (count($fields) == 0) {
             return '';
         }
 
         // generates SET `col1`=?,`col2`=?,`col3`=?
-        return 'SET '.implode(',', $values);
+        return 'SET '.implode(',', $fields);
     }
 }
