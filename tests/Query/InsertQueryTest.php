@@ -29,7 +29,7 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->values(['test1' => 1, 'test2' => 2]));
         $this->assertEquals($query, $query->values(['test3' => 3]));
         $this->assertInstanceOf('JAQB\Statement\ValuesStatement', $query->getInsertValues());
-        $this->assertEquals(['test1' => 1, 'test2' => 2, 'test3' => 3], $query->getInsertValues()->getValues());
+        $this->assertEquals(['test1' => 1, 'test2' => 2, 'test3' => 3], $query->getInsertValues()->getInsertValues());
     }
 
     public function testBuild()

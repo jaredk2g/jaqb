@@ -17,7 +17,7 @@ class ValuesStatementTest extends PHPUnit_Framework_TestCase
         $stmt = new ValuesStatement();
         $this->assertEquals($stmt, $stmt->addValues(['test' => 1, 'test2' => 2]));
         $this->assertEquals($stmt, $stmt->addValues(['test3' => 3]));
-        $this->assertEquals(['test' => 1, 'test2' => 2, 'test3' => 3], $stmt->getValues());
+        $this->assertEquals(['test' => 1, 'test2' => 2, 'test3' => 3], $stmt->getInsertValues());
     }
 
     public function testBuild()
@@ -27,8 +27,10 @@ class ValuesStatementTest extends PHPUnit_Framework_TestCase
 
         $stmt->addValues(['test' => 1, 'should"_not===_work' => 'fail']);
         $this->assertEquals('(`test`) VALUES (?)', $stmt->build());
+        $this->assertEquals([1], $stmt->getValues());
 
         $stmt->addValues(['test2' => 2]);
         $this->assertEquals('(`test`,`test2`) VALUES (?,?)', $stmt->build());
+        $this->assertEquals([1, 2], $stmt->getValues());
     }
 }

@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - SetStatement `getValues()` now returns parameterized values and `getSetValues()` returns the key-value map of values being set.
+- ValuesStatement `getValues()` now returns parameterized values and `getInsertValues()` returns the key-value map of values being inserted.
 
 ### Fixed
  - Where statement writes `null` values in conditions as `IS NULL`

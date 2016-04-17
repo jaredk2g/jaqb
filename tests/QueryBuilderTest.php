@@ -38,7 +38,7 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
 
         $query = $qb->insert(['test' => 'hello']);
         $this->assertInstanceOf('JAQB\Query\InsertQuery', $query);
-        $this->assertEquals(['test' => 'hello'], $query->getInsertValues()->getValues());
+        $this->assertEquals(['test' => 'hello'], $query->getInsertValues()->getInsertValues());
     }
 
     public function testUpdate()

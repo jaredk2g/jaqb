@@ -13,33 +13,51 @@ namespace JAQB\Statement;
 class ValuesStatement extends Statement
 {
     /**
+     * @var array
+     */
+    protected $insertValues = [];
+
+    /**
      * Adds values to the statement.
      *
      * @return self
      */
     public function addValues(array $values)
     {
-        $this->values = array_replace($this->values, $values);
+        $this->insertValues = array_replace($this->insertValues, $values);
 
         return $this;
     }
 
+    /**
+     * Gets the values being inserted.
+     *
+     * @return array
+     */
+    public function getInsertValues()
+    {
+        return $this->insertValues;
+    }
+
     public function build()
     {
-        $keys = array_keys($this->values);
-        foreach ($keys as &$key) {
-            $key = $this->escapeIdentifier($key);
+        // reset the parameterized values
+        $this->values = [];
+
+        $fields = [];
+        foreach ($this->insertValues as $key => $value) {
+            if ($id = $this->escapeIdentifier($key)) {
+                $fields[] = $id;
+                $this->values[] = $value;
+            }
         }
 
-        // remove empty values
-        $keys = array_filter($keys);
-
-        if (count($keys) == 0) {
+        if (count($fields) == 0) {
             return '';
         }
 
         // generates (`col1`,`col2`,`col3`) VALUES (?,?,?)
-        return '('.implode(',', $keys).') VALUES ('.
-            implode(',', array_fill(0, count($keys), '?')).')';
+        return '('.implode(',', $fields).') VALUES ('.
+            implode(',', array_fill(0, count($fields), '?')).')';
     }
 }
