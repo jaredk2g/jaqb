@@ -136,10 +136,13 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
               ->limit(100, 10)
               ->union($query2);
 
-        $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid=fb.uid WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100 UNION SELECT * FROM `Users2` WHERE `username`=?', $query->build());
+        // test for idempotence
+        for ($i = 0; $i < 3; ++$i) {
+            $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid=fb.uid WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100 UNION SELECT * FROM `Users2` WHERE `username`=?', $query->build());
 
-        // test values
-        $this->assertEquals([10, 'something', 'john'], $query->getValues());
+            // test values
+            $this->assertEquals([10, 'something', 'john'], $query->getValues());
+        }
     }
 
     public function testClone()

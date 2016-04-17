@@ -78,10 +78,13 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
               ->orderBy('uid', 'ASC')
               ->limit(100);
 
-        $this->assertEquals('UPDATE `Users` SET `test`=?,`test2`=? WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
+        // test for idempotence
+        for ($i = 0; $i < 3; ++$i) {
+            $this->assertEquals('UPDATE `Users` SET `test`=?,`test2`=? WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
 
-        // test values
-        $this->assertEquals(['hello', 'field', 10], $query->getValues());
+            // test values
+            $this->assertEquals(['hello', 'field', 10], $query->getValues());
+        }
     }
 
     public function testClone()

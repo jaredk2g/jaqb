@@ -163,6 +163,9 @@ class WhereStatement extends Statement
 
     public function build()
     {
+        // reset the parameterized values
+        $this->values = [];
+
         // build clause from conditions
         $clauses = [];
         foreach ($this->conditions as $condition) {

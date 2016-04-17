@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
  - Where statement writes `null` values in conditions as `IS NULL`
  - Deep cloning now works
+ - Rebuilding queries no longer adds duplicate parameterized values.
 
 ## 1.2.1 - 2016-01-05
 ### Added

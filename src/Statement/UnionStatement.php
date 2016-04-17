@@ -46,9 +46,11 @@ class UnionStatement extends Statement
 
     public function build()
     {
+        // reset the parameterized values
+        $this->values = [];
+
         // build each query and concatenate
         $queries = [];
-        $this->values = [];
         foreach ($this->queries as $row) {
             list($query, $type) = $row;
 

@@ -30,8 +30,12 @@ class SqlQueryTest extends PHPUnit_Framework_TestCase
         $query = new SqlQuery();
         $query->raw('SHOW COLUMNS FROM ?')
               ->parameters(['test']);
-        $this->assertEquals('SHOW COLUMNS FROM ?', $query->build());
-        $this->assertEquals(['test'], $query->getValues());
+
+        // test for idempotence
+        for ($i = 0; $i < 3; ++$i) {
+            $this->assertEquals('SHOW COLUMNS FROM ?', $query->build());
+            $this->assertEquals(['test'], $query->getValues());
+        }
     }
 
     ////////////////////////

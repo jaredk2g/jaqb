@@ -66,10 +66,13 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
               ->limit(100)
               ->orderBy('uid', 'ASC');
 
-        $this->assertEquals('DELETE FROM `Users` WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
+        // test for idempotence
+        for ($i = 0; $i < 3; ++$i) {
+            $this->assertEquals('DELETE FROM `Users` WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
 
-        // test values
-        $this->assertEquals([10], $query->getValues());
+            // test values
+            $this->assertEquals([10], $query->getValues());
+        }
     }
 
     public function testClone()
