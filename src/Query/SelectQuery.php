@@ -121,7 +121,7 @@ class SelectQuery extends AbstractQuery
     }
 
     /**
-     * Sets the where conditions for the query.
+     * Adds a where condition to the query.
      *
      * @param array|string $field
      * @param string       $condition condition value (optional)
@@ -136,6 +136,22 @@ class SelectQuery extends AbstractQuery
         } else {
             $this->where->addCondition($field);
         }
+
+        return $this;
+    }
+
+    /**
+     * Adds a where between condition to the query.
+     *
+     * @param string $field
+     * @param mixed  $a     first between value
+     * @param mixed  $b     second between value
+     *
+     * @return self
+     */
+    public function between($field, $a, $b)
+    {
+        $this->where->addBetweenCondition($field, $a, $b);
 
         return $this;
     }

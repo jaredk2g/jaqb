@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Support for IN statement as a WHERE condition when passing in an array value.
 - Select queries can now be unioned together (using SQL UNION).
+- Support for BETWEEN on WHERE statements.
 
 ### Changed
 - SetStatement `getValues()` now returns parameterized values and `getSetValues()` returns the key-value map of values being set.

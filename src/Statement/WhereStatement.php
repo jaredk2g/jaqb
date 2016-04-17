@@ -105,6 +105,22 @@ class WhereStatement extends Statement
     }
 
     /**
+     * Adds a between condition to the query.
+     *
+     * @param string $field
+     * @param mixed  $a     first between value
+     * @param mixed  $b     second between value
+     *
+     * @return self
+     */
+    public function addBetweenCondition($field, $a, $b)
+    {
+        $this->conditions[] = [$field, 'BETWEEN', $a, $b];
+
+        return $this;
+    }
+
+    /**
      * Gets the conditions for this statement.
      *
      * @return array
@@ -121,8 +137,9 @@ class WhereStatement extends Statement
      *
      * A condition is represented by an array, and can be
      * have one of the following forms:
-     * i) ['SQL fragment']
-     * ii) ['identifier', '=', 'value']
+     * i)   ['SQL fragment']
+     * ii)  ['identifier', '=', 'value']
+     * iii) ['identifier', 'BETWEEN', 'value', 'value']
      *
      * @param array $cond
      *
@@ -139,6 +156,11 @@ class WhereStatement extends Statement
         $cond[0] = $this->escapeIdentifier($cond[0]);
         if (empty($cond[0])) {
             return '';
+        }
+
+        // handle between conditions
+        if ($cond[1] === 'BETWEEN') {
+            return $cond[0].' BETWEEN '.$this->parameterize($cond[2]).' AND '.$this->parameterize($cond[3]);
         }
 
         // handle NULL values

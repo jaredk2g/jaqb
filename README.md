@@ -34,8 +34,8 @@ $qb = new JAQB\QueryBuilder($pdo);
 ```php
 $qb->select('*')
    ->from('Movies')
-   ->where('year', 2015, '<')
-   ->where('year', 1990, '>=')
+   ->where('director', 'Quentin Tarantino')
+   ->between('year', 1990, 2015)
    ->groupBy('category')
    ->having('rating', 4.5, '>')
    ->orderBy('rating', 'DESC')
