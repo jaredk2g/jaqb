@@ -10,7 +10,7 @@
  */
 use JAQB\Query\SqlQuery;
 
-class SqlQueryTest extends \PHPUnit_Framework_TestCase
+class SqlQueryTest extends PHPUnit_Framework_TestCase
 {
     public function testRaw()
     {

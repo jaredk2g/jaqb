@@ -10,7 +10,7 @@
  */
 use JAQB\Query\InsertQuery;
 
-class InsertQueryTest extends \PHPUnit_Framework_TestCase
+class InsertQueryTest extends PHPUnit_Framework_TestCase
 {
     public function testTable()
     {

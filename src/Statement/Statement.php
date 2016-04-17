@@ -34,33 +34,6 @@ abstract class Statement
         return $this->values;
     }
 
-    protected function buildClause(array $clause)
-    {
-        // handle pure SQL clauses
-        if (count($clause) == 1) {
-            return $clause[0];
-        }
-
-        foreach ($clause as $k => &$value) {
-            // handles nested conditions
-            if (is_array($value)) {
-                $this->buildClause($value);
-            // escape the identifier
-            } elseif ($k == 0) {
-                $value = $this->escapeIdentifier($value);
-
-                if (empty($value)) {
-                    return '';
-                }
-            // parameterize the value
-            } elseif ($k == 2) {
-                $value = $this->parameterize($value);
-            }
-        }
-
-        return implode('', $clause);
-    }
-
     /**
      * Escapes potentially reserved keywords in identifiers by wrapping them
      * with the escape character as necessary.

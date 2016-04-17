@@ -10,7 +10,7 @@
  */
 use JAQB\Query\SelectQuery;
 
-class SelectQueryTest extends \PHPUnit_Framework_TestCase
+class SelectQueryTest extends PHPUnit_Framework_TestCase
 {
     public function testSelect()
     {

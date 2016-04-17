@@ -1,16 +1,16 @@
 <?php
 
 /**
- * @package JAQB
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @copyright 2015 Jared King
  * @license MIT
  */
-
 use JAQB\Statement\SetStatement;
 
-class SetStatementTest extends \PHPUnit_Framework_TestCase
+class SetStatementTest extends PHPUnit_Framework_TestCase
 {
     public function testValues()
     {

@@ -10,7 +10,7 @@
  */
 use JAQB\Statement\LimitStatement;
 
-class LimitStatementTest extends \PHPUnit_Framework_TestCase
+class LimitStatementTest extends PHPUnit_Framework_TestCase
 {
     public function testSetLimit()
     {

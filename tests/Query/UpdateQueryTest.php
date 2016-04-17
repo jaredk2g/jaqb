@@ -10,7 +10,7 @@
  */
 use JAQB\Query\UpdateQuery;
 
-class UpdateQueryTest extends \PHPUnit_Framework_TestCase
+class UpdateQueryTest extends PHPUnit_Framework_TestCase
 {
     public function testTable()
     {

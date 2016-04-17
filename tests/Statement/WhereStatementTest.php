@@ -10,7 +10,7 @@
  */
 use JAQB\Statement\WhereStatement;
 
-class WhereStatementTest extends \PHPUnit_Framework_TestCase
+class WhereStatementTest extends PHPUnit_Framework_TestCase
 {
     public function testHaving()
     {
@@ -98,9 +98,13 @@ class WhereStatementTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $stmt->getValues());
     }
 
-    public function testAddNestedCondition()
+    public function testAddConditionIn()
     {
-        $this->markTestIncomplete();
+        $stmt = new WhereStatement();
+        $this->assertEquals($stmt, $stmt->addCondition('field', [1, 2, 3]));
+
+        $this->assertEquals('WHERE `field`IN(?,?,?)', $stmt->build());
+        $this->assertEquals([1, 2, 3], $stmt->getValues());
     }
 
     public function testBuild()

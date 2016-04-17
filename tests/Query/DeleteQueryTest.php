@@ -10,7 +10,7 @@
  */
 use JAQB\Query\DeleteQuery;
 
-class DeleteQueryTest extends \PHPUnit_Framework_TestCase
+class DeleteQueryTest extends PHPUnit_Framework_TestCase
 {
     public function testFrom()
     {

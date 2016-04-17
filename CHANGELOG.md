@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Support for IN statement as a WHERE condition when passing in an array value.
+
 ### Fixed
  - Where statement writes `null` values in conditions as `IS NULL`
  - Deep cloning now works

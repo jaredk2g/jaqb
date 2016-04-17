@@ -10,7 +10,7 @@
  */
 use JAQB\Statement\OrderStatement;
 
-class OrderStatementTest extends \PHPUnit_Framework_TestCase
+class OrderStatementTest extends PHPUnit_Framework_TestCase
 {
     public function testGroupBy()
     {
