@@ -121,6 +121,22 @@ class WhereStatement extends Statement
     }
 
     /**
+     * Adds a not between condition to the query.
+     *
+     * @param string $field
+     * @param mixed  $a     first between value
+     * @param mixed  $b     second between value
+     *
+     * @return self
+     */
+    public function addNotBetweenCondition($field, $a, $b)
+    {
+        $this->conditions[] = [$field, 'NOT BETWEEN', $a, $b];
+
+        return $this;
+    }
+
+    /**
      * Gets the conditions for this statement.
      *
      * @return array
@@ -161,6 +177,8 @@ class WhereStatement extends Statement
         // handle between conditions
         if ($cond[1] === 'BETWEEN') {
             return $cond[0].' BETWEEN '.$this->parameterize($cond[2]).' AND '.$this->parameterize($cond[3]);
+        } elseif ($cond[1] === 'NOT BETWEEN') {
+            return $cond[0].' NOT BETWEEN '.$this->parameterize($cond[2]).' AND '.$this->parameterize($cond[3]);
         }
 
         // handle NULL values

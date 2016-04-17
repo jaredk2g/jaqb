@@ -127,6 +127,17 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2], $stmt->getValues());
     }
 
+    public function testAddNotBetweenCondition()
+    {
+        $stmt = new WhereStatement();
+        $this->assertEquals($stmt, $stmt->addNotBetweenCondition('field', 1, 2));
+
+        $this->assertEquals([['field', 'NOT BETWEEN', 1, 2]], $stmt->getConditions());
+
+        $this->assertEquals('WHERE `field` NOT BETWEEN ? AND ?', $stmt->build());
+        $this->assertEquals([1, 2], $stmt->getValues());
+    }
+
     public function testBuild()
     {
         $stmt = new WhereStatement();

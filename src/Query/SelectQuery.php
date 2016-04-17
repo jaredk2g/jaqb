@@ -157,6 +157,22 @@ class SelectQuery extends AbstractQuery
     }
 
     /**
+     * Adds a where not between condition to the query.
+     *
+     * @param string $field
+     * @param mixed  $a     first between value
+     * @param mixed  $b     second between value
+     *
+     * @return self
+     */
+    public function notBetween($field, $a, $b)
+    {
+        $this->where->addNotBetweenCondition($field, $a, $b);
+
+        return $this;
+    }
+
+    /**
      * Sets the limit for the query.
      *
      * @param int $limit
