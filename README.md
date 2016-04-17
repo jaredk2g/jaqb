@@ -31,7 +31,7 @@ composer require jaqb/jaqb
 $qb = new JAQB\QueryBuilder($pdo);
 ```
 
-### SELECT Query
+### Select Query
 
 ```php
 $qb->select('*')
@@ -46,7 +46,7 @@ $qb->select('*')
    ->all();
 ```
 
-### INSERT Query
+### Insert Query
 
 ```php
 $qb->insert(['name' => 'Catcher in the Rye', 'author' => 'JD Salinger'])
@@ -54,7 +54,7 @@ $qb->insert(['name' => 'Catcher in the Rye', 'author' => 'JD Salinger'])
    ->execute();
 ```
 
-### UPDATE Query
+### Update Query
 
 ```php
 $qb->update('Users')
@@ -65,7 +65,7 @@ $qb->update('Users')
    ->execute();
 ```
 
-### DELETE Query
+### Delete Query
 
 ```php
 $qb->delete('Users')
@@ -75,7 +75,7 @@ $qb->delete('Users')
    ->execute();
 ```
 
-### SQL Query
+### Pure SQL Query
 
 ```php
 $qb->raw('SHOW COLUMNS FROM `Events`')
