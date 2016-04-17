@@ -1,9 +1,11 @@
 JAQB
 ===========
 
+[![Latest Stable Version](https://poser.pugx.org/jaqb/jaqb/v/stable.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/jaredtking/jaqb.svg?branch=master&style=flat)](https://travis-ci.org/jaredtking/jaqb)
 [![Coverage Status](https://coveralls.io/repos/jaredtking/jaqb/badge.svg?style=flat)](https://coveralls.io/r/jaredtking/jaqb)
-[![Latest Stable Version](https://poser.pugx.org/jaqb/jaqb/v/stable.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jaredtking/jaqb/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jaredtking/jaqb/?branch=master)
 [![Total Downloads](https://poser.pugx.org/jaqb/jaqb/downloads.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
 [![HHVM Status](http://hhvm.h4cc.de/badge/jaqb/jaqb.svg?style=flat)](http://hhvm.h4cc.de/package/jaqb/jaqb)
 
