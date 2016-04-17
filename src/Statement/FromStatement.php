@@ -101,7 +101,8 @@ class FromStatement extends Statement
             $type,
             $tables,
             $on,
-            $using, ];
+            $using,
+        ];
 
         return $this;
     }
@@ -145,13 +146,13 @@ class FromStatement extends Statement
             foreach ($join[1] as &$table) {
                 $table = $this->escapeIdentifier($table);
             }
-            $join[1] = implode(',', array_filter($join[1]));
+            $join[1] = implode(', ', array_filter($join[1]));
 
             // using clause
             foreach ($join[3] as &$column) {
                 $column = $this->escapeIdentifier($column);
             }
-            $join[3] = implode(',', array_filter($join[3]));
+            $join[3] = implode(', ', array_filter($join[3]));
 
             if ($join[3]) {
                 $join[3] = 'USING ('.$join[3].')';

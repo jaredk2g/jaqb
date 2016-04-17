@@ -54,7 +54,7 @@ class FromStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('FROM `test`,`test2`', $stmt->build());
 
         $this->assertEquals($stmt, $stmt->addJoin('table1 t1,table2 t2', 'test.id=t1.id', 'c1,c2'));
-        $this->assertEquals('FROM `test`,`test2` JOIN `table1` `t1`,`table2` `t2` ON test.id=t1.id USING (`c1`,`c2`)', $stmt->build());
+        $this->assertEquals('FROM `test`,`test2` JOIN `table1` `t1`, `table2` `t2` ON test.id=t1.id USING (`c1`, `c2`)', $stmt->build());
 
         $stmt = new FromStatement();
         $stmt->addTable('t1');

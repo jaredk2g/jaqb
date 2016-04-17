@@ -26,11 +26,11 @@ class SetStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $stmt->build());
 
         $stmt->addValues(['test' => 1, 'should"_not===_work' => 'fail']);
-        $this->assertEquals('SET `test`=?', $stmt->build());
+        $this->assertEquals('SET `test` = ?', $stmt->build());
         $this->assertEquals([1], $stmt->getValues());
 
         $stmt->addValues(['test2' => 2]);
-        $this->assertEquals('SET `test`=?,`test2`=?', $stmt->build());
+        $this->assertEquals('SET `test` = ?, `test2` = ?', $stmt->build());
         $this->assertEquals([1, 2], $stmt->getValues());
     }
 }

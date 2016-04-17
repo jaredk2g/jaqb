@@ -57,7 +57,7 @@ class ValuesStatement extends Statement
         }
 
         // generates (`col1`,`col2`,`col3`) VALUES (?,?,?)
-        return '('.implode(',', $fields).') VALUES ('.
-            implode(',', array_fill(0, count($fields), '?')).')';
+        return '('.implode(', ', $fields).') VALUES ('.
+            implode(', ', array_fill(0, count($fields), '?')).')';
     }
 }

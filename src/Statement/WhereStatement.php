@@ -158,7 +158,7 @@ class WhereStatement extends Statement
             $cond[2] = $this->parameterize($cond[2]);
         }
 
-        return implode('', $cond);
+        return implode(' ', $cond);
     }
 
     public function build()

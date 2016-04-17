@@ -30,7 +30,7 @@ class ValuesStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([1], $stmt->getValues());
 
         $stmt->addValues(['test2' => 2]);
-        $this->assertEquals('(`test`,`test2`) VALUES (?,?)', $stmt->build());
+        $this->assertEquals('(`test`, `test2`) VALUES (?, ?)', $stmt->build());
         $this->assertEquals([1, 2], $stmt->getValues());
     }
 }

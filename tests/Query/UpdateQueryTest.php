@@ -80,7 +80,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         // test for idempotence
         for ($i = 0; $i < 3; ++$i) {
-            $this->assertEquals('UPDATE `Users` SET `test`=?,`test2`=? WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
+            $this->assertEquals('UPDATE `Users` SET `test` = ?, `test2` = ? WHERE `uid` = ? ORDER BY `uid` ASC LIMIT 100', $query->build());
 
             // test values
             $this->assertEquals(['hello', 'field', 10], $query->getValues());
@@ -109,7 +109,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $stmt->shouldReceive('rowCount')->andReturn(10);
 
         $pdo = Mockery::mock();
-        $pdo->shouldReceive('prepare')->withArgs(['UPDATE `Test` WHERE `id`=?'])
+        $pdo->shouldReceive('prepare')->withArgs(['UPDATE `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
         $query = new UpdateQuery();

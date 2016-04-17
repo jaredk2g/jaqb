@@ -47,7 +47,7 @@ class SetStatement extends Statement
         $fields = [];
         foreach ($this->setValues as $key => $value) {
             if ($id = $this->escapeIdentifier($key)) {
-                $fields[] = $id.'=?';
+                $fields[] = $id.' = ?';
                 $this->values[] = $value;
             }
         }
@@ -57,6 +57,6 @@ class SetStatement extends Statement
         }
 
         // generates SET `col1`=?,`col2`=?,`col3`=?
-        return 'SET '.implode(',', $fields);
+        return 'SET '.implode(', ', $fields);
     }
 }

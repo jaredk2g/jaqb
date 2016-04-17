@@ -41,7 +41,7 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
 
         // test for idempotence
         for ($i = 0; $i < 3; ++$i) {
-            $this->assertEquals('INSERT INTO `Users` (`field1`,`field2`) VALUES (?,?)', $query->build());
+            $this->assertEquals('INSERT INTO `Users` (`field1`, `field2`) VALUES (?, ?)', $query->build());
 
             // test values
             $this->assertEquals(['what', 'test'], $query->getValues());

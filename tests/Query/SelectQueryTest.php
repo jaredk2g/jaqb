@@ -128,7 +128,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
                ->where('username', 'john');
 
         $query->from('Users')
-              ->join('FbProfiles fb', 'uid=fb.uid')
+              ->join('FbProfiles fb', 'uid = fb.uid')
               ->where('uid', 10)
               ->having('first_name', 'something')
               ->groupBy('last_name')
@@ -138,7 +138,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         // test for idempotence
         for ($i = 0; $i < 3; ++$i) {
-            $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid=fb.uid WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100 UNION SELECT * FROM `Users2` WHERE `username`=?', $query->build());
+            $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid = fb.uid WHERE `uid` = ? GROUP BY `last_name` HAVING `first_name` = ? ORDER BY `first_name` ASC LIMIT 10,100 UNION SELECT * FROM `Users2` WHERE `username` = ?', $query->build());
 
             // test values
             $this->assertEquals([10, 'something', 'john'], $query->getValues());
@@ -170,7 +170,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $stmt->shouldReceive('rowCount')->andReturn(10);
 
         $pdo = Mockery::mock();
-        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
+        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
         $query = new SelectQuery();
@@ -205,7 +205,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
              ->andReturn(['field' => 'value']);
 
         $pdo = Mockery::mock();
-        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
+        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
         $query = new SelectQuery();
@@ -239,7 +239,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
              ->andReturn([['field' => 'value'], ['field' => 'value2']]);
 
         $pdo = Mockery::mock();
-        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
+        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
         $query = new SelectQuery();
@@ -273,7 +273,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
              ->andReturn(['value', 'value2']);
 
         $pdo = Mockery::mock();
-        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
+        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
         $query = new SelectQuery();
@@ -307,7 +307,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
              ->andReturn('scalar');
 
         $pdo = Mockery::mock();
-        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id`=?'])
+        $pdo->shouldReceive('prepare')->withArgs(['SELECT * FROM `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
         $query = new SelectQuery();

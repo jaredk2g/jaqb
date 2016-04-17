@@ -68,7 +68,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
 
         // test for idempotence
         for ($i = 0; $i < 3; ++$i) {
-            $this->assertEquals('DELETE FROM `Users` WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
+            $this->assertEquals('DELETE FROM `Users` WHERE `uid` = ? ORDER BY `uid` ASC LIMIT 100', $query->build());
 
             // test values
             $this->assertEquals([10], $query->getValues());
@@ -96,7 +96,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $stmt->shouldReceive('rowCount')->andReturn(10);
 
         $pdo = Mockery::mock();
-        $pdo->shouldReceive('prepare')->withArgs(['DELETE FROM `Test` WHERE `id`=?'])
+        $pdo->shouldReceive('prepare')->withArgs(['DELETE FROM `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
         $query = new DeleteQuery();

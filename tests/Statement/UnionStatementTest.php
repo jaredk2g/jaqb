@@ -41,7 +41,7 @@ class UnionStatementTest extends PHPUnit_Framework_TestCase
         $stmt->addQuery($query)
              ->addQuery($query2, 'ALL');
 
-        $this->assertEquals('UNION SELECT * FROM `Users` WHERE `username`=? UNION ALL SELECT * FROM `Users2`', $stmt->build());
+        $this->assertEquals('UNION SELECT * FROM `Users` WHERE `username` = ? UNION ALL SELECT * FROM `Users2`', $stmt->build());
         $this->assertEquals(['john'], $stmt->getValues());
     }
 }

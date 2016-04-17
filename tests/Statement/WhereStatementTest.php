@@ -27,7 +27,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stmt, $stmt->addCondition('user_id', 10));
         $this->assertEquals([['user_id', '=', 10]], $stmt->getConditions());
 
-        $this->assertEquals('WHERE `user_id`=?', $stmt->build());
+        $this->assertEquals('WHERE `user_id` = ?', $stmt->build());
         $this->assertEquals([10], $stmt->getValues());
     }
 
@@ -38,7 +38,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stmt, $stmt->addCondition('created_at', 100, '>'));
         $this->assertEquals([['user_id', '=', 10], ['created_at', '>', 100]], $stmt->getConditions());
 
-        $this->assertEquals('WHERE `user_id`=? AND `created_at`>?', $stmt->build());
+        $this->assertEquals('WHERE `user_id` = ? AND `created_at` > ?', $stmt->build());
         $this->assertEquals([10, 100], $stmt->getValues());
     }
 
@@ -58,7 +58,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stmt, $stmt->addCondition(['field1' => 'value', 'field2' => false]));
         $this->assertEquals([['field1', '=', 'value'], ['field2', '=', false]], $stmt->getConditions());
 
-        $this->assertEquals('WHERE `field1`=? AND `field2`=?', $stmt->build());
+        $this->assertEquals('WHERE `field1` = ? AND `field2` = ?', $stmt->build());
         $this->assertEquals(['value', false], $stmt->getValues());
     }
 
@@ -68,7 +68,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stmt, $stmt->addCondition([['field', 'value'], ['field2', 'value2', 'like']]));
         $this->assertEquals([['field', '=', 'value'], ['field2', 'like', 'value2']], $stmt->getConditions());
 
-        $this->assertEquals('WHERE `field`=? AND `field2`like?', $stmt->build());
+        $this->assertEquals('WHERE `field` = ? AND `field2` like ?', $stmt->build());
         $this->assertEquals(['value', 'value2'], $stmt->getValues());
 
         $stmt = new WhereStatement();
@@ -85,7 +85,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stmt, $stmt->addCondition(['field' => 'value', ['field2', 'value2', 'like']]));
         $this->assertEquals([['field', '=', 'value'], ['field2', 'like', 'value2']], $stmt->getConditions());
 
-        $this->assertEquals('WHERE `field`=? AND `field2`like?', $stmt->build());
+        $this->assertEquals('WHERE `field` = ? AND `field2` like ?', $stmt->build());
         $this->assertEquals(['value', 'value2'], $stmt->getValues());
     }
 
@@ -103,7 +103,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $stmt = new WhereStatement();
         $this->assertEquals($stmt, $stmt->addCondition('field', [1, 2, 3]));
 
-        $this->assertEquals('WHERE `field`IN(?,?,?)', $stmt->build());
+        $this->assertEquals('WHERE `field` IN (?,?,?)', $stmt->build());
         $this->assertEquals([1, 2, 3], $stmt->getValues());
     }
 
@@ -114,10 +114,10 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
 
         $stmt->addCondition('field1', 'value')->addCondition('field2', 'value2')
              ->addCondition(['should"_not===_work' => 'fail']);
-        $this->assertEquals('WHERE `field1`=? AND `field2`=?', $stmt->build());
+        $this->assertEquals('WHERE `field1` = ? AND `field2` = ?', $stmt->build());
 
         $stmt = new WhereStatement(true);
         $stmt->addCondition('field1', 'value')->addCondition('field2', 'value2');
-        $this->assertEquals('HAVING `field1`=? AND `field2`=?', $stmt->build());
+        $this->assertEquals('HAVING `field1` = ? AND `field2` = ?', $stmt->build());
     }
 }
