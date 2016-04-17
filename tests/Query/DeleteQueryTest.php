@@ -17,7 +17,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $query = new DeleteQuery();
 
         $this->assertEquals($query, $query->from('Users'));
-        $this->assertInstanceOf('\\JAQB\\Statement\\FromStatement', $query->getFrom());
+        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getFrom());
         $this->assertEquals(['Users'], $query->getFrom()->getTables());
     }
 
@@ -28,7 +28,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->where('balance', 10, '>'));
         $this->assertEquals($query, $query->where('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('\\JAQB\\Statement\\WhereStatement', $where);
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
@@ -39,7 +39,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->orderBy('uid', 'ASC'));
         $orderBy = $query->getOrderBy();
-        $this->assertInstanceOf('\\JAQB\\Statement\\OrderStatement', $orderBy);
+        $this->assertInstanceOf('JAQB\Statement\OrderStatement', $orderBy);
         $this->assertFalse($orderBy->isGroupBy());
         $this->assertEquals([['uid', 'ASC']], $orderBy->getFields());
     }
@@ -50,7 +50,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->limit(10));
         $limit = $query->getLimit();
-        $this->assertInstanceOf('\\JAQB\\Statement\\LimitStatement', $limit);
+        $this->assertInstanceOf('JAQB\Statement\LimitStatement', $limit);
         $this->assertEquals(10, $limit->getLimit());
 
         $this->assertEquals($query, $query->limit('hello'));
@@ -61,7 +61,10 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
     {
         $query = new DeleteQuery();
 
-        $query->from('Users')->where('uid', 10)->limit(100)->orderBy('uid', 'ASC');
+        $query->from('Users')
+              ->where('uid', 10)
+              ->limit(100)
+              ->orderBy('uid', 'ASC');
 
         $this->assertEquals('DELETE FROM `Users` WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
 

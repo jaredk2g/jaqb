@@ -17,7 +17,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $query = new UpdateQuery();
 
         $this->assertEquals($query, $query->table('Users'));
-        $this->assertInstanceOf('\\JAQB\\Statement\\FromStatement', $query->getTable());
+        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getTable());
         $this->assertFalse($query->getTable()->hasFrom());
         $this->assertEquals(['Users'], $query->getTable()->getTables());
     }
@@ -28,7 +28,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->values(['test1' => 1, 'test2' => 2]));
         $this->assertEquals($query, $query->values(['test3' => 3]));
-        $this->assertInstanceOf('\\JAQB\\Statement\\SetStatement', $query->getSet());
+        $this->assertInstanceOf('JAQB\Statement\SetStatement', $query->getSet());
         $this->assertEquals(['test1' => 1, 'test2' => 2, 'test3' => 3], $query->getSet()->getValues());
     }
 
@@ -39,7 +39,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->where('balance', 10, '>'));
         $this->assertEquals($query, $query->where('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('\\JAQB\\Statement\\WhereStatement', $where);
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
@@ -50,7 +50,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->orderBy('uid', 'ASC'));
         $orderBy = $query->getOrderBy();
-        $this->assertInstanceOf('\\JAQB\\Statement\\OrderStatement', $orderBy);
+        $this->assertInstanceOf('JAQB\Statement\OrderStatement', $orderBy);
         $this->assertFalse($orderBy->isGroupBy());
         $this->assertEquals([['uid', 'ASC']], $orderBy->getFields());
     }
@@ -61,7 +61,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->limit(10));
         $limit = $query->getLimit();
-        $this->assertInstanceOf('\\JAQB\\Statement\\LimitStatement', $limit);
+        $this->assertInstanceOf('JAQB\Statement\LimitStatement', $limit);
         $this->assertEquals(10, $limit->getLimit());
 
         $this->assertEquals($query, $query->limit('hello'));
@@ -72,8 +72,11 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
     {
         $query = new UpdateQuery();
 
-        $query->table('Users')->where('uid', 10)->values(['test' => 'hello', 'test2' => 'field'])
-              ->orderBy('uid', 'ASC')->limit(100);
+        $query->table('Users')
+              ->where('uid', 10)
+              ->values(['test' => 'hello', 'test2' => 'field'])
+              ->orderBy('uid', 'ASC')
+              ->limit(100);
 
         $this->assertEquals('UPDATE `Users` SET `test`=?,`test2`=? WHERE `uid`=? ORDER BY `uid` ASC LIMIT 100', $query->build());
 

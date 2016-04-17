@@ -17,7 +17,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $query = new SelectQuery();
 
         $this->assertEquals($query, $query->select('name'));
-        $this->assertInstanceOf('\\JAQB\\Statement\\SelectStatement', $query->getSelect());
+        $this->assertInstanceOf('JAQB\Statement\SelectStatement', $query->getSelect());
         $this->assertEquals(['name'], $query->getSelect()->getFields());
     }
 
@@ -26,7 +26,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $query = new SelectQuery();
 
         $this->assertEquals($query, $query->from('Users'));
-        $this->assertInstanceOf('\\JAQB\\Statement\\FromStatement', $query->getFrom());
+        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getFrom());
         $this->assertEquals(['Users'], $query->getFrom()->getTables());
     }
 
@@ -35,7 +35,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $query = new SelectQuery();
 
         $this->assertEquals($query, $query->join('t2'));
-        $this->assertInstanceOf('\\JAQB\\Statement\\FromStatement', $query->getFrom());
+        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getFrom());
         $this->assertEquals([['JOIN', ['t2'], null, []]], $query->getFrom()->getJoins());
     }
 
@@ -46,7 +46,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->where('balance', 10, '>'));
         $this->assertEquals($query, $query->where('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('\\JAQB\\Statement\\WhereStatement', $where);
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
@@ -57,7 +57,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->limit(10));
         $limit = $query->getLimit();
-        $this->assertInstanceOf('\\JAQB\\Statement\\LimitStatement', $limit);
+        $this->assertInstanceOf('JAQB\Statement\LimitStatement', $limit);
         $this->assertEquals(10, $limit->getLimit());
         $this->assertEquals(0, $limit->getStart());
 
@@ -76,7 +76,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->groupBy('uid'));
         $groupBy = $query->getGroupBy();
-        $this->assertInstanceOf('\\JAQB\\Statement\\OrderStatement', $groupBy);
+        $this->assertInstanceOf('JAQB\Statement\OrderStatement', $groupBy);
         $this->assertTrue($groupBy->isGroupBy());
         $this->assertEquals([['uid']], $groupBy->getFields());
     }
@@ -88,7 +88,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->having('balance', 10, '>'));
         $this->assertEquals($query, $query->having('notes IS NULL'));
         $having = $query->getHaving();
-        $this->assertInstanceOf('\\JAQB\\Statement\\WhereStatement', $having);
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $having);
         $this->assertTrue($having->isHaving());
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $having->getConditions());
     }
@@ -99,7 +99,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->orderBy('uid', 'ASC'));
         $orderBy = $query->getOrderBy();
-        $this->assertInstanceOf('\\JAQB\\Statement\\OrderStatement', $orderBy);
+        $this->assertInstanceOf('JAQB\Statement\OrderStatement', $orderBy);
         $this->assertFalse($orderBy->isGroupBy());
         $this->assertEquals([['uid', 'ASC']], $orderBy->getFields());
     }
@@ -108,8 +108,12 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
     {
         $query = new SelectQuery();
 
-        $query->from('Users')->join('FbProfiles fb', 'uid=fb.uid')->where('uid', 10)->having('first_name', 'something')
-              ->groupBy('last_name')->orderBy('first_name', 'ASC')
+        $query->from('Users')
+              ->join('FbProfiles fb', 'uid=fb.uid')
+              ->where('uid', 10)
+              ->having('first_name', 'something')
+              ->groupBy('last_name')
+              ->orderBy('first_name', 'ASC')
               ->limit(100, 10);
 
         $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid=fb.uid WHERE `uid`=? GROUP BY `last_name` HAVING `first_name`=? ORDER BY `first_name` ASC LIMIT 10,100', $query->build());

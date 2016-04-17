@@ -37,8 +37,8 @@ class SqlQuery extends AbstractQuery
     }
 
     /**
-     * Sets the parameters for this query to be injected into
-     * the prepared statement.
+     * Sets the parameters for this query to be injected 
+     * into the prepared statement.
      *
      * @return self
      */
