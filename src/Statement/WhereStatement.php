@@ -166,6 +166,8 @@ class WhereStatement extends Statement
         // handle NULL values
         if ($cond[1] === '=' && $cond[2] === null) {
             return $cond[0].' IS NULL';
+        } elseif ($cond[1] === '<>' && $cond[2] === null) {
+            return $cond[0].' IS NOT NULL';
         }
 
         // handle array values, i.e. for IN conditions

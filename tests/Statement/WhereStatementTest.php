@@ -98,6 +98,15 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([], $stmt->getValues());
     }
 
+    public function testAddConditionNotNull()
+    {
+        $stmt = new WhereStatement();
+        $this->assertEquals($stmt, $stmt->addCondition('field', null, '<>'));
+
+        $this->assertEquals('WHERE `field` IS NOT NULL', $stmt->build());
+        $this->assertEquals([], $stmt->getValues());
+    }
+
     public function testAddConditionIn()
     {
         $stmt = new WhereStatement();

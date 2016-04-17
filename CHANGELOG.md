@@ -13,7 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - ValuesStatement `getValues()` now returns parameterized values and `getInsertValues()` returns the key-value map of values being inserted.
 
 ### Fixed
- - Where statement writes `null` values in conditions as `IS NULL`
+ - Where statement writes `null` values in conditions as `IS NULL` and `IS NOT NULL`
  - Deep cloning now works
  - Rebuilding queries no longer adds duplicate parameterized values.
 
