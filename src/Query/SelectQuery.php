@@ -141,6 +141,21 @@ class SelectQuery extends AbstractQuery
     }
 
     /**
+     * Adds a where not condition to the query.
+     *
+     * @param string $field
+     * @param string $condition condition value (optional)
+     *
+     * @return self
+     */
+    public function not($field, $condition = true)
+    {
+        $this->where->addCondition($field, $condition, '<>');
+
+        return $this;
+    }
+
+    /**
      * Adds a where between condition to the query.
      *
      * @param string $field
