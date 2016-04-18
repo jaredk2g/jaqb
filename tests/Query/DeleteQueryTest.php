@@ -33,6 +33,33 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
 
+    public function testNot()
+    {
+        $query = new DeleteQuery();
+
+        $this->assertEquals($query, $query->not('disabled'));
+        $this->assertEquals($query, $query->not('group', 'admin'));
+        $this->assertEquals($query, $query->not('group', null));
+        $this->assertEquals($query, $query->not('name', ['Larry', 'Curly', 'Moe']));
+        $this->assertEquals([['disabled', '<>', true], ['group', '<>', 'admin'], ['group', '<>', null], ['name', 'NOT IN', ['Larry', 'Curly', 'Moe']]], $query->getWhere()->getConditions());
+    }
+
+    public function testBetween()
+    {
+        $query = new DeleteQuery();
+
+        $this->assertEquals($query, $query->between('date', 2015, 2016));
+        $this->assertEquals([['date', 'BETWEEN', 2015, 2016]], $query->getWhere()->getConditions());
+    }
+
+    public function testNotBetween()
+    {
+        $query = new DeleteQuery();
+
+        $this->assertEquals($query, $query->notBetween('date', 2015, 2016));
+        $this->assertEquals([['date', 'NOT BETWEEN', 2015, 2016]], $query->getWhere()->getConditions());
+    }
+
     public function testOrderBy()
     {
         $query = new DeleteQuery();
@@ -63,15 +90,18 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
 
         $query->from('Users')
               ->where('uid', 10)
+              ->between('created_at', '2016-04-01', '2016-04-30')
+              ->notBetween('balance', 100, 150)
+              ->not('disabled')
               ->limit(100)
               ->orderBy('uid', 'ASC');
 
         // test for idempotence
         for ($i = 0; $i < 3; ++$i) {
-            $this->assertEquals('DELETE FROM `Users` WHERE `uid` = ? ORDER BY `uid` ASC LIMIT 100', $query->build());
+            $this->assertEquals('DELETE FROM `Users` WHERE `uid` = ? AND `created_at` BETWEEN ? AND ? AND `balance` NOT BETWEEN ? AND ? AND `disabled` <> ? ORDER BY `uid` ASC LIMIT 100', $query->build());
 
             // test values
-            $this->assertEquals([10], $query->getValues());
+            $this->assertEquals([10, '2016-04-01', '2016-04-30', 100, 150, true], $query->getValues());
         }
     }
 

@@ -90,6 +90,53 @@ class UpdateQuery extends AbstractQuery
     }
 
     /**
+     * Adds a where not condition to the query.
+     *
+     * @param string $field
+     * @param string $condition condition value (optional)
+     *
+     * @return self
+     */
+    public function not($field, $condition = true)
+    {
+        $this->where->addCondition($field, $condition, '<>');
+
+        return $this;
+    }
+
+    /**
+     * Adds a where between condition to the query.
+     *
+     * @param string $field
+     * @param mixed  $a     first between value
+     * @param mixed  $b     second between value
+     *
+     * @return self
+     */
+    public function between($field, $a, $b)
+    {
+        $this->where->addBetweenCondition($field, $a, $b);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where not between condition to the query.
+     *
+     * @param string $field
+     * @param mixed  $a     first between value
+     * @param mixed  $b     second between value
+     *
+     * @return self
+     */
+    public function notBetween($field, $a, $b)
+    {
+        $this->where->addNotBetweenCondition($field, $a, $b);
+
+        return $this;
+    }
+
+    /**
      * Sets the values for the query.
      *
      * @param array $values
