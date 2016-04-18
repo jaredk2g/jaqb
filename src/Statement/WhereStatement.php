@@ -83,23 +83,27 @@ class WhereStatement extends Statement
                     $this->addCondition($value);
                 }
             }
-        } else {
-            // handles #4
-            $condition = [$field];
 
-            if (func_num_args() >= 2) {
-                // handles #3
-                if (is_array($value)) {
-                    $operator = 'IN';
-                }
+            return $this;
+        }
 
-                // handles #1 and #2
-                $condition[] = $operator;
-                $condition[] = $value;
+        // handles #4
+        $condition = [$field];
+
+        if (func_num_args() >= 2) {
+            // handles #3
+            if (is_array($value) && $operator === '=') {
+                $operator = 'IN';
+            } elseif (is_array($value) && $operator === '<>') {
+                $operator = 'NOT IN';
             }
 
-            $this->conditions[] = $condition;
+            // handles #1 and #2
+            $condition[] = $operator;
+            $condition[] = $value;
         }
+
+        $this->conditions[] = $condition;
 
         return $this;
     }

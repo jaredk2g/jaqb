@@ -116,6 +116,15 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2, 3], $stmt->getValues());
     }
 
+    public function testAddConditionNotIn()
+    {
+        $stmt = new WhereStatement();
+        $this->assertEquals($stmt, $stmt->addCondition('field', [1, 2, 3], '<>'));
+
+        $this->assertEquals('WHERE `field` NOT IN (?,?,?)', $stmt->build());
+        $this->assertEquals([1, 2, 3], $stmt->getValues());
+    }
+
     public function testAddBetweenCondition()
     {
         $stmt = new WhereStatement();
