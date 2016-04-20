@@ -108,6 +108,13 @@ class WhereStatement extends Statement
         return $this;
     }
 
+    public function addConditionOr($field, $value = false, $operator = '=')
+    {
+        $this->conditions[] = ['OR'];
+
+        return call_user_func_array([$this, 'addCondition'], func_get_args());
+    }
+
     /**
      * Adds a between condition to the query.
      *
@@ -148,6 +155,29 @@ class WhereStatement extends Statement
     public function getConditions()
     {
         return $this->conditions;
+    }
+
+    public function build()
+    {
+        // reset the parameterized values
+        $this->values = [];
+
+        // build clause from conditions
+        $clauses = [];
+        foreach ($this->conditions as $condition) {
+            $clauses[] = $this->buildClause($condition);
+        }
+
+        // remove empty values
+        $clauses = array_filter($clauses);
+
+        if (count($clauses) == 0) {
+            return '';
+        }
+
+        $sql = (!$this->having) ? 'WHERE ' : 'HAVING ';
+
+        return $sql.$this->implodeClauses($clauses);
     }
 
     /**
@@ -207,26 +237,29 @@ class WhereStatement extends Statement
         return implode(' ', $cond);
     }
 
-    public function build()
+    protected function implodeClauses(array $clauses)
     {
-        // reset the parameterized values
-        $this->values = [];
+        $str = false;
+        $or = false;
+        foreach ($clauses as $clause) {
+            // an 'OR' token will change the operator used
+            // when concatenating the next clause
+            if ($clause == 'OR') {
+                $or = true;
+                continue;
+            }
 
-        // build clause from conditions
-        $clauses = [];
-        foreach ($this->conditions as $condition) {
-            $clauses[] = $this->buildClause($condition);
+            if (!$str) { // first clause needs no operator
+                $str = $clause;
+            } elseif ($or) {
+                $str .= " OR $clause";
+            } else {
+                $str .= " AND $clause";
+            }
+
+            $or = false;
         }
 
-        // remove empty values
-        $clauses = array_filter($clauses);
-
-        if (count($clauses) == 0) {
-            return '';
-        }
-
-        $sql = (!$this->having) ? 'WHERE ' : 'HAVING ';
-
-        return $sql.implode(' AND ', $clauses);
+        return $str;
     }
 }

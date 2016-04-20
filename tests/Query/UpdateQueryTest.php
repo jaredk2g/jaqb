@@ -44,6 +44,18 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
 
+    public function testOrWhere()
+    {
+        $query = new UpdateQuery();
+
+        $this->assertEquals($query, $query->orWhere('balance', 10, '>'));
+        $this->assertEquals($query, $query->orWhere('notes IS NULL'));
+        $where = $query->getWhere();
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertFalse($where->isHaving());
+        $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['notes IS NULL']], $where->getConditions());
+    }
+
     public function testNot()
     {
         $query = new UpdateQuery();
@@ -104,16 +116,17 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
               ->between('created_at', '2016-04-01', '2016-04-30')
               ->notBetween('balance', 100, 150)
               ->not('disabled')
+              ->orWhere('admin', true)
               ->values(['test' => 'hello', 'test2' => 'field'])
               ->orderBy('uid', 'ASC')
               ->limit(100);
 
         // test for idempotence
         for ($i = 0; $i < 3; ++$i) {
-            $this->assertEquals('UPDATE `Users` SET `test` = ?, `test2` = ? WHERE `uid` = ? AND `created_at` BETWEEN ? AND ? AND `balance` NOT BETWEEN ? AND ? AND `disabled` <> ? ORDER BY `uid` ASC LIMIT 100', $query->build());
+            $this->assertEquals('UPDATE `Users` SET `test` = ?, `test2` = ? WHERE `uid` = ? AND `created_at` BETWEEN ? AND ? AND `balance` NOT BETWEEN ? AND ? AND `disabled` <> ? OR `admin` = ? ORDER BY `uid` ASC LIMIT 100', $query->build());
 
             // test values
-            $this->assertEquals(['hello', 'field', 10, '2016-04-01', '2016-04-30', 100, 150, true], $query->getValues());
+            $this->assertEquals(['hello', 'field', 10, '2016-04-01', '2016-04-30', 100, 150, true, true], $query->getValues());
         }
     }
 

@@ -51,6 +51,18 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
 
+    public function testOrWhere()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->orWhere('balance', 10, '>'));
+        $this->assertEquals($query, $query->orWhere('notes IS NULL'));
+        $where = $query->getWhere();
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertFalse($where->isHaving());
+        $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['notes IS NULL']], $where->getConditions());
+    }
+
     public function testNot()
     {
         $query = new SelectQuery();
@@ -160,6 +172,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
               ->between('created_at', '2016-04-01', '2016-04-30')
               ->notBetween('balance', 100, 150)
               ->not('disabled')
+              ->orWhere('admin', true)
               ->having('first_name', 'something')
               ->groupBy('last_name')
               ->orderBy('first_name', 'ASC')
@@ -168,10 +181,10 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         // test for idempotence
         for ($i = 0; $i < 3; ++$i) {
-            $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid = fb.uid WHERE `uid` = ? AND `created_at` BETWEEN ? AND ? AND `balance` NOT BETWEEN ? AND ? AND `disabled` <> ? GROUP BY `last_name` HAVING `first_name` = ? ORDER BY `first_name` ASC LIMIT 10,100 UNION SELECT * FROM `Users2` WHERE `username` = ?', $query->build());
+            $this->assertEquals('SELECT * FROM `Users` JOIN `FbProfiles` `fb` ON uid = fb.uid WHERE `uid` = ? AND `created_at` BETWEEN ? AND ? AND `balance` NOT BETWEEN ? AND ? AND `disabled` <> ? OR `admin` = ? GROUP BY `last_name` HAVING `first_name` = ? ORDER BY `first_name` ASC LIMIT 10,100 UNION SELECT * FROM `Users2` WHERE `username` = ?', $query->build());
 
             // test values
-            $this->assertEquals([10, '2016-04-01', '2016-04-30', 100, 150, true, 'something', 'john'], $query->getValues());
+            $this->assertEquals([10, '2016-04-01', '2016-04-30', 100, 150, true, true, 'something', 'john'], $query->getValues());
         }
     }
 

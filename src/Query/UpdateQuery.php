@@ -90,6 +90,26 @@ class UpdateQuery extends AbstractQuery
     }
 
     /**
+     * Adds a where or condition to the query.
+     *
+     * @param array|string $field
+     * @param string       $condition condition value (optional)
+     * @param string       $operator  operator (optional)
+     *
+     * @return self
+     */
+    public function orWhere($field, $condition = false, $operator = '=')
+    {
+        if (func_num_args() >= 2) {
+            $this->where->addConditionOr($field, $condition, $operator);
+        } else {
+            $this->where->addConditionOr($field);
+        }
+
+        return $this;
+    }
+
+    /**
      * Adds a where not condition to the query.
      *
      * @param string $field

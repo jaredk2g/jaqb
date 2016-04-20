@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Select queries can now be unioned together (using SQL UNION).
 - Support for BETWEEN and NOT BETWEEN as WHERE conditions.
 - Added NOT where conditions.
+- Added OR where conditions.
 
 ### Changed
 - SetStatement `getValues()` now returns parameterized values and `getSetValues()` returns the key-value map of values being set.
