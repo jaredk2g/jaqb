@@ -10,6 +10,8 @@
  */
 namespace JAQB\Statement;
 
+use JAQB\Query\SelectQuery;
+
 class WhereStatement extends Statement
 {
     /**
@@ -148,6 +150,34 @@ class WhereStatement extends Statement
     }
 
     /**
+     * Adds an exists condition to the query.
+     *
+     * @param callable $f
+     *
+     * @return self
+     */
+    public function addExistsCondition(callable $f)
+    {
+        $this->conditions[] = ['EXISTS', $f];
+
+        return $this;
+    }
+
+    /**
+     * Adds a not exists condition to the query.
+     *
+     * @param callable $f
+     *
+     * @return self
+     */
+    public function addNotExistsCondition(callable $f)
+    {
+        $this->conditions[] = ['NOT EXISTS', $f];
+
+        return $this;
+    }
+
+    /**
      * Gets the conditions for this statement.
      *
      * @return array
@@ -190,6 +220,7 @@ class WhereStatement extends Statement
      * i)   ['SQL fragment']
      * ii)  ['identifier', '=', 'value']
      * iii) ['identifier', 'BETWEEN', 'value', 'value']
+     * iv)  ['EXISTS', function(SelectQuery $query) {}]
      *
      * @param array $cond
      *
@@ -202,13 +233,24 @@ class WhereStatement extends Statement
             return $cond[0];
         }
 
+        // handle EXISTS conditions
+        if (in_array($cond[0], ['EXISTS', 'NOT EXISTS'])) {
+            $f = $cond[1];
+            $query = new SelectQuery();
+            $f($query);
+            $sql = $query->build();
+            $this->values = array_merge($this->values, $query->getValues());
+
+            return $cond[0].' ('.$sql.')';
+        }
+
         // escape the identifier
         $cond[0] = $this->escapeIdentifier($cond[0]);
         if (empty($cond[0])) {
             return '';
         }
 
-        // handle between conditions
+        // handle BETWEEN conditions
         if ($cond[1] === 'BETWEEN') {
             return $cond[0].' BETWEEN '.$this->parameterize($cond[2]).' AND '.$this->parameterize($cond[3]);
         } elseif ($cond[1] === 'NOT BETWEEN') {

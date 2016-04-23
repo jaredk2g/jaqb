@@ -8,6 +8,7 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+use JAQB\Query\SelectQuery;
 use JAQB\Statement\WhereStatement;
 
 class WhereStatementTest extends PHPUnit_Framework_TestCase
@@ -157,6 +158,40 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('WHERE `field` NOT BETWEEN ? AND ?', $stmt->build());
         $this->assertEquals([1, 2], $stmt->getValues());
+    }
+
+    public function testAddExistsCondition()
+    {
+        $stmt = new WhereStatement();
+
+        $f = function ($query) {
+            $query->select('*')
+                  ->from('table')
+                  ->where('id', 10);
+        };
+        $this->assertEquals($stmt, $stmt->addExistsCondition($f));
+
+        $this->assertEquals([['EXISTS', $f]], $stmt->getConditions());
+
+        $this->assertEquals('WHERE EXISTS (SELECT * FROM `table` WHERE `id` = ?)', $stmt->build());
+        $this->assertEquals([10], $stmt->getValues());
+    }
+
+    public function testAddNotExistsCondition()
+    {
+        $stmt = new WhereStatement();
+
+        $f = function (SelectQuery $query) {
+            $query->select('*')
+                  ->from('table')
+                  ->where('id', 10);
+        };
+        $this->assertEquals($stmt, $stmt->addNotExistsCondition($f));
+
+        $this->assertEquals([['NOT EXISTS', $f]], $stmt->getConditions());
+
+        $this->assertEquals('WHERE NOT EXISTS (SELECT * FROM `table` WHERE `id` = ?)', $stmt->build());
+        $this->assertEquals([10], $stmt->getValues());
     }
 
     public function testBuild()

@@ -9,6 +9,7 @@
  * @license MIT
  */
 use JAQB\Query\DeleteQuery;
+use JAQB\Query\SelectQuery;
 
 class DeleteQueryTest extends PHPUnit_Framework_TestCase
 {
@@ -70,6 +71,26 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->notBetween('date', 2015, 2016));
         $this->assertEquals([['date', 'NOT BETWEEN', 2015, 2016]], $query->getWhere()->getConditions());
+    }
+
+    public function testExists()
+    {
+        $query = new DeleteQuery();
+
+        $f = function (SelectQuery $query) {};
+
+        $this->assertEquals($query, $query->exists($f));
+        $this->assertEquals([['EXISTS', $f]], $query->getWhere()->getConditions());
+    }
+
+    public function testNotExists()
+    {
+        $query = new DeleteQuery();
+
+        $f = function (SelectQuery $query) {};
+
+        $this->assertEquals($query, $query->notExists($f));
+        $this->assertEquals([['NOT EXISTS', $f]], $query->getWhere()->getConditions());
     }
 
     public function testOrderBy()

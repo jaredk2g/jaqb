@@ -157,6 +157,34 @@ class UpdateQuery extends AbstractQuery
     }
 
     /**
+     * Adds an exists condition to the query.
+     *
+     * @param callable $f
+     *
+     * @return self
+     */
+    public function exists(callable $f)
+    {
+        $this->where->addExistsCondition($f);
+
+        return $this;
+    }
+
+    /**
+     * Adds a not exists condition to the query.
+     *
+     * @param callable $f
+     *
+     * @return self
+     */
+    public function notExists(callable $f)
+    {
+        $this->where->addNotExistsCondition($f);
+
+        return $this;
+    }
+
+    /**
      * Sets the values for the query.
      *
      * @param array $values
