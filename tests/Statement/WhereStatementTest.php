@@ -53,6 +53,22 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([], $stmt->getValues());
     }
 
+    public function testAddConditionSubquery()
+    {
+        $f = function (SelectQuery $query) {
+            $query->select('COUNT(*)')
+                  ->from('table')
+                  ->where('rating', 5);
+        };
+
+        $stmt = new WhereStatement();
+        $this->assertEquals($stmt, $stmt->addCondition($f, 1, '>'));
+        $this->assertEquals([[$f, '>', 1]], $stmt->getConditions());
+
+        $this->assertEquals('WHERE (SELECT COUNT(*) FROM `table` WHERE `rating` = ?) > ?', $stmt->build());
+        $this->assertEquals([5, 1], $stmt->getValues());
+    }
+
     public function testAddConditionKeyValue()
     {
         $stmt = new WhereStatement();
@@ -136,6 +152,21 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('WHERE `user_id` = ? AND `field` NOT IN (?,?,?) OR `created_at` > ?', $stmt->build());
         $this->assertEquals([10, 1, 2, 3, 100], $stmt->getValues());
+    }
+
+    public function testAddConditionOrSubquery()
+    {
+        $f = function (SelectQuery $query) {
+            $query->where('blah')
+                  ->where('rating', 4);
+        };
+
+        $stmt = new WhereStatement();
+        $this->assertEquals($stmt, $stmt->addCondition('field', [1, 2, 3]));
+        $this->assertEquals($stmt, $stmt->addConditionOr($f));
+
+        $this->assertEquals('WHERE `field` IN (?,?,?) OR (blah AND `rating` = ?)', $stmt->build());
+        $this->assertEquals([1, 2, 3, 4], $stmt->getValues());
     }
 
     public function testAddBetweenCondition()

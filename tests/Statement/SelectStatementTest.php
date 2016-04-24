@@ -22,19 +22,21 @@ class SelectStatementTest extends PHPUnit_Framework_TestCase
     {
         $stmt = new SelectStatement();
         $this->assertEquals($stmt, $stmt->addFields(['test', 'test2']));
-        $this->assertEquals(['test', 'test2'], $stmt->getFields());
+        $this->assertEquals(['*', 'test', 'test2'], $stmt->getFields());
 
         $this->assertEquals($stmt, $stmt->addFields(['test3']));
-        $this->assertEquals(['test', 'test2', 'test3'], $stmt->getFields());
+        $this->assertEquals(['*', 'test', 'test2', 'test3'], $stmt->getFields());
     }
 
     public function testAddFieldsString()
     {
         $stmt = new SelectStatement();
+        $stmt->clearFields();
         $this->assertEquals($stmt, $stmt->addFields('test'));
         $this->assertEquals(['test'], $stmt->getFields());
 
         $stmt = new SelectStatement();
+        $stmt->clearFields();
         $this->assertEquals($stmt, $stmt->addFields('test, test2'));
         $this->assertEquals(['test', 'test2'], $stmt->getFields());
     }
@@ -42,6 +44,7 @@ class SelectStatementTest extends PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $stmt = new SelectStatement();
+        $stmt->clearFields();
         $this->assertEquals($stmt, $stmt->addFields('test,test2 AS blah,sum(p.amount)/count(p.*),should"_not===_work'));
         $this->assertEquals('SELECT `test`,`test2` AS `blah`,sum(p.amount)/count(p.*)', $stmt->build());
 

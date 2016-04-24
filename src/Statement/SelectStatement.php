@@ -15,7 +15,7 @@ class SelectStatement extends Statement
     /**
      * @var array
      */
-    protected $fields = [];
+    protected $fields = ['*'];
 
     /**
      * Adds fields to this statement.
@@ -40,6 +40,13 @@ class SelectStatement extends Statement
         return $this;
     }
 
+    public function clearFields()
+    {
+        $this->fields = [];
+
+        return $this;
+    }
+
     /**
      * Gets the fields associated with this statement.
      * If no fields are present then defaults to '*'.
@@ -48,7 +55,7 @@ class SelectStatement extends Statement
      */
     public function getFields()
     {
-        return (count($this->fields) > 0) ? $this->fields : ['*'];
+        return $this->fields;
     }
 
     public function build()
@@ -60,6 +67,10 @@ class SelectStatement extends Statement
 
         // remove empty values
         $fields = array_filter($fields);
+
+        if (count($fields) === 0) {
+            return '';
+        }
 
         return 'SELECT '.implode(',', $fields);
     }

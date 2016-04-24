@@ -35,7 +35,7 @@ class InsertQuery extends AbstractQuery
 
     public function __construct()
     {
-        $this->table = new FromStatement(false);
+        $this->table = new FromStatement(FromStatement::INSERT);
         $this->insertValues = new ValuesStatement();
     }
 
@@ -95,7 +95,6 @@ class InsertQuery extends AbstractQuery
     public function build()
     {
         $sql = [
-            'INSERT INTO',
             $this->table->build(),
             $this->insertValues->build(),
         ];

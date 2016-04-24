@@ -19,7 +19,6 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->table('Users'));
         $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getTable());
-        $this->assertFalse($query->getTable()->hasFrom());
         $this->assertEquals(['Users'], $query->getTable()->getTables());
     }
 

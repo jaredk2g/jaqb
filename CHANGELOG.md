@@ -10,10 +10,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added NOT where conditions.
 - Added OR where conditions.
 - Added EXISTS where conditions.
+- Subqueries can now be used as where conditions.
 
 ### Changed
 - SetStatement `getValues()` now returns parameterized values and `getSetValues()` returns the key-value map of values being set.
 - ValuesStatement `getValues()` now returns parameterized values and `getInsertValues()` returns the key-value map of values being inserted.
+- FromStatement `hasFrom()` has been removed and constructor signature now accepts a type.
 
 ### Fixed
  - Where statement writes `null` values in conditions as `IS NULL` and `IS NOT NULL`

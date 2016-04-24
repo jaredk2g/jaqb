@@ -84,7 +84,7 @@ class SelectQuery extends AbstractQuery
      */
     public function select($fields)
     {
-        $this->select->addFields($fields);
+        $this->select->clearFields()->addFields($fields);
 
         return $this;
     }
@@ -418,7 +418,16 @@ class SelectQuery extends AbstractQuery
             $this->having->getValues(),
             $this->union->getValues());
 
-        return implode(' ', array_filter($sql));
+        $sql = implode(' ', array_filter($sql));
+
+        // when there is no select statement then the query
+        // is probably just a where subquery, thus does
+        // not need to be prefixed with WHERE
+        if (strtolower(substr($sql, 0, 6)) === 'where ') {
+            return substr($sql, 6);
+        }
+
+        return $sql;
     }
 
     public function __clone()

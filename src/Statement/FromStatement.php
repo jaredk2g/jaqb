@@ -12,10 +12,15 @@ namespace JAQB\Statement;
 
 class FromStatement extends Statement
 {
+    const FROM = 0;
+    const INSERT = 1;
+    const UPDATE = 2;
+    const DELETE = 3;
+
     /**
      * @var bool
      */
-    protected $hasFrom;
+    protected $type;
 
     /**
      * @var array
@@ -28,21 +33,11 @@ class FromStatement extends Statement
     protected $joins = [];
 
     /**
-     * @param bool $hasFrom when true, statement is prefixed with `FROM`
+     * @param int $type type of table statement
      */
-    public function __construct($hasFrom = true)
+    public function __construct($type = self::FROM)
     {
-        $this->hasFrom = $hasFrom;
-    }
-
-    /**
-     * Tells whether this statement is prefixed with FROM.
-     *
-     * @return bool true: has FROM, false: no FROM
-     */
-    public function hasFrom()
-    {
-        return $this->hasFrom;
+        $this->type = $type;
     }
 
     /**
@@ -129,6 +124,19 @@ class FromStatement extends Statement
 
     public function build()
     {
+        $sql = [];
+
+        // prefix
+        if ($this->type === self::FROM) {
+            $sql[] = 'FROM';
+        } elseif ($this->type === self::UPDATE) {
+            $sql[] = 'UPDATE';
+        } elseif ($this->type === self::INSERT) {
+            $sql[] = 'INSERT INTO';
+        } elseif ($this->type === self::DELETE) {
+            $sql[] = 'DELETE FROM';
+        }
+
         // tables
         $tables = $this->tables;
         foreach ($tables as &$table) {
@@ -139,14 +147,29 @@ class FromStatement extends Statement
             return '';
         }
 
+        $sql[] = implode(',', array_filter($tables));
+
         // joins
-        $joins = $this->joins;
+        $sql[] = $this->buildJoins($this->joins);
+
+        return implode(' ', array_filter($sql));
+    }
+
+    private function buildJoins(array $joins)
+    {
         foreach ($joins as &$join) {
             // table(s)
             foreach ($join[1] as &$table) {
                 $table = $this->escapeIdentifier($table);
             }
             $join[1] = implode(', ', array_filter($join[1]));
+
+            // on clause
+            if ($join[2]) {
+                $join[2] = 'ON '.$join[2];
+            } else {
+                unset($join[2]);
+            }
 
             // using clause
             foreach ($join[3] as &$column) {
@@ -159,19 +182,9 @@ class FromStatement extends Statement
             } else {
                 unset($join[3]);
             }
-
-            // on clause
-            if ($join[2]) {
-                $join[2] = 'ON '.$join[2];
-            } else {
-                unset($join[2]);
-            }
-
             $join = implode(' ', $join);
         }
-        $joins = implode(' ', array_filter($joins));
 
-        return (($this->hasFrom) ? 'FROM ' : '').implode(',', array_filter($tables))
-            .(($joins) ? " $joins" : '');
+        return implode(' ', array_filter($joins));
     }
 }

@@ -48,7 +48,7 @@ class UpdateQuery extends AbstractQuery
 
     public function __construct()
     {
-        $this->table = new FromStatement(false);
+        $this->table = new FromStatement(FromStatement::UPDATE);
         $this->set = new SetStatement();
         $this->where = new WhereStatement();
         $this->orderBy = new OrderStatement();
@@ -286,7 +286,6 @@ class UpdateQuery extends AbstractQuery
     public function build()
     {
         $sql = [
-            'UPDATE',
             $this->table->build(),
             $this->set->build(),
             $this->where->build(),

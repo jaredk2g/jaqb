@@ -54,13 +54,15 @@ class WhereStatement extends Statement
      *      addCondition('group', ['admin', 'owner'])
      * 4. SQL fragment:
      *      addCondition('name LIKE "%john%"')
-     * 5. List of conditions to add:
+     * 5. Subquery:
+     *      addCondition(function(SelectQuery $query) {})
+     * 6. List of conditions to add:
      *      addCondition([['balance', 100, '>'],
      *                    ['user_id', 5]])
-     * 6. Map of equality comparisons:
+     * 7. Map of equality comparisons:
      *      addCondition(['username' => 'john',
      *                    'user_id' => 5])
-     * 7. List of SQL fragments:
+     * 8. List of SQL fragments:
      *      addCondition(['first_name LIKE "%john%"',
      *                    'last_name LIKE "%doe%"'])
      *
@@ -221,6 +223,8 @@ class WhereStatement extends Statement
      * ii)  ['identifier', '=', 'value']
      * iii) ['identifier', 'BETWEEN', 'value', 'value']
      * iv)  ['EXISTS', function(SelectQuery $query) {}]
+     * v)   [function(SelectQuery $query) {}]
+     * vi)  [function(SelectQuery $query) {}, '=', 'value']
      *
      * @param array $cond
      *
@@ -229,25 +233,29 @@ class WhereStatement extends Statement
     protected function buildClause(array $cond)
     {
         // handle SQL fragments
-        if (count($cond) == 1) {
+        if (count($cond) == 1 && (is_string($cond[0]) || !is_callable($cond[0]))) {
             return $cond[0];
         }
 
         // handle EXISTS conditions
         if (in_array($cond[0], ['EXISTS', 'NOT EXISTS'])) {
-            $f = $cond[1];
-            $query = new SelectQuery();
-            $f($query);
-            $sql = $query->build();
-            $this->values = array_merge($this->values, $query->getValues());
-
-            return $cond[0].' ('.$sql.')';
+            return $cond[0].' '.$this->buildSubquery($cond[1]);
         }
 
         // escape the identifier
-        $cond[0] = $this->escapeIdentifier($cond[0]);
+        if (is_string($cond[0]) || !is_callable($cond[0])) {
+            $cond[0] = $this->escapeIdentifier($cond[0]);
+        // handle a subquery
+        } elseif (is_callable($cond[0])) {
+            $cond[0] = $this->buildSubquery($cond[0]);
+        }
+
         if (empty($cond[0])) {
             return '';
+        }
+
+        if (count($cond) == 1) {
+            return $cond[0];
         }
 
         // handle BETWEEN conditions
@@ -279,6 +287,31 @@ class WhereStatement extends Statement
         return implode(' ', $cond);
     }
 
+    /**
+     * Builds a subquery.
+     *
+     * @param callable $f
+     *
+     * @return string
+     */
+    protected function buildSubquery(callable $f)
+    {
+        $query = new SelectQuery();
+        $query->getSelect()->clearFields();
+        $f($query);
+        $sql = $query->build();
+        $this->values = array_merge($this->values, $query->getValues());
+
+        return '('.$sql.')';
+    }
+
+    /**
+     * Implodes a list of WHERE clauses.
+     *
+     * @param array $clauses
+     *
+     * @return string
+     */
     protected function implodeClauses(array $clauses)
     {
         $str = false;

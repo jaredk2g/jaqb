@@ -42,7 +42,7 @@ class DeleteQuery extends AbstractQuery
 
     public function __construct()
     {
-        $this->from = new FromStatement();
+        $this->from = new FromStatement(FromStatement::DELETE);
         $this->where = new WhereStatement();
         $this->orderBy = new OrderStatement();
         $this->limit = new LimitStatement();
@@ -255,7 +255,6 @@ class DeleteQuery extends AbstractQuery
     public function build()
     {
         $sql = [
-            'DELETE',
             $this->from->build(),
             $this->where->build(),
             $this->orderBy->build(),

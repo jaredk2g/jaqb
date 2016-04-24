@@ -18,7 +18,6 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->into('Users'));
         $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getInto());
-        $this->assertFalse($query->getInto()->hasFrom());
         $this->assertEquals(['Users'], $query->getInto()->getTables());
     }
 
