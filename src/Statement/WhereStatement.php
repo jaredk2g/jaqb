@@ -219,12 +219,12 @@ class WhereStatement extends Statement
      *
      * A condition is represented by an array, and can be
      * have one of the following forms:
-     * i)   ['SQL fragment']
-     * ii)  ['identifier', '=', 'value']
-     * iii) ['identifier', 'BETWEEN', 'value', 'value']
-     * iv)  ['EXISTS', function(SelectQuery $query) {}]
-     * v)   [function(SelectQuery $query) {}]
-     * vi)  [function(SelectQuery $query) {}, '=', 'value']
+     * 1. ['SQL fragment']
+     * 2. ['identifier', '=', 'value']
+     * 3. ['identifier', 'BETWEEN', 'value', 'value']
+     * 4. ['EXISTS', function(SelectQuery $query) {}]
+     * 5. [function(SelectQuery $query) {}]
+     * 6. [function(SelectQuery $query) {}, '=', 'value']
      *
      * @param array $cond
      *
@@ -239,46 +239,37 @@ class WhereStatement extends Statement
 
         // handle EXISTS conditions
         if (in_array($cond[0], ['EXISTS', 'NOT EXISTS'])) {
-            return $cond[0].' '.$this->buildSubquery($cond[1]);
+            return $this->buildExists($cond[1], $cond[0] == 'EXISTS');
         }
 
-        // escape the identifier
+        // escape an identifier
         if (is_string($cond[0]) || !is_callable($cond[0])) {
             $cond[0] = $this->escapeIdentifier($cond[0]);
+
         // handle a subquery
+        // NOTE string callables are not supported
+        // as subquery functions
         } elseif (is_callable($cond[0])) {
             $cond[0] = $this->buildSubquery($cond[0]);
         }
 
-        if (empty($cond[0])) {
-            return '';
-        }
-
-        if (count($cond) == 1) {
+        if (count($cond) === 1 || empty($cond[0])) {
             return $cond[0];
         }
 
         // handle BETWEEN conditions
-        if ($cond[1] === 'BETWEEN') {
-            return $cond[0].' BETWEEN '.$this->parameterize($cond[2]).' AND '.$this->parameterize($cond[3]);
-        } elseif ($cond[1] === 'NOT BETWEEN') {
-            return $cond[0].' NOT BETWEEN '.$this->parameterize($cond[2]).' AND '.$this->parameterize($cond[3]);
+        if (in_array($cond[1], ['BETWEEN', 'NOT BETWEEN'])) {
+            return $this->buildBetween($cond[0], $cond[2], $cond[3], $cond[1] == 'BETWEEN');
         }
 
         // handle NULL values
-        if ($cond[1] === '=' && $cond[2] === null) {
-            return $cond[0].' IS NULL';
-        } elseif ($cond[1] === '<>' && $cond[2] === null) {
-            return $cond[0].' IS NOT NULL';
+        if ($cond[2] === null && in_array($cond[1], ['=', '<>'])) {
+            return $this->buildNull($cond[0], $cond[1] == '=');
         }
 
         // handle array values, i.e. for IN conditions
         if (is_array($cond[2])) {
-            foreach ($cond[2] as &$value) {
-                $value = $this->parameterize($value);
-            }
-            $cond[2] = '('.implode(',', $cond[2]).')';
-
+            $cond[2] = $this->parameterizeValues($cond[2]);
         // otherwise parameterize the value
         } else {
             $cond[2] = $this->parameterize($cond[2]);
@@ -303,6 +294,53 @@ class WhereStatement extends Statement
         $this->values = array_merge($this->values, $query->getValues());
 
         return '('.$sql.')';
+    }
+
+    /**
+     * Builds an EXISTS clause.
+     *
+     * @param callable $f
+     * @param bool     $isExists
+     *
+     * @return string
+     */
+    protected function buildExists(callable $f, $isExists)
+    {
+        $operator = $isExists ? 'EXISTS' : 'NOT EXISTS';
+
+        return $operator.' '.$this->buildSubquery($f);
+    }
+
+    /**
+     * Builds a BETWEEN clause.
+     *
+     * @param string $field
+     * @param mixed  $value1
+     * @param mixed  $value2
+     * @param bool   $isBetween
+     *
+     * @return string
+     */
+    protected function buildBetween($field, $value1, $value2, $isBetween)
+    {
+        $operator = $isBetween ? 'BETWEEN' : 'NOT BETWEEN';
+
+        return $field.' '.$operator.' '.$this->parameterize($value1).' AND '.$this->parameterize($value2);
+    }
+
+    /**
+     * Builds a NULL clause.
+     *
+     * @param string $field
+     * @param bool   $isEqual
+     *
+     * @return string
+     */
+    protected function buildNull($field, $isEqual)
+    {
+        $operator = $isEqual ? ' IS NULL' : ' IS NOT NULL';
+
+        return $field.$operator;
     }
 
     /**

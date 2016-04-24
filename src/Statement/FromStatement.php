@@ -155,6 +155,13 @@ class FromStatement extends Statement
         return implode(' ', array_filter($sql));
     }
 
+    /**
+     * Builds a list of joins.
+     *
+     * @param array $joins
+     *
+     * @return string
+     */
     private function buildJoins(array $joins)
     {
         foreach ($joins as &$join) {

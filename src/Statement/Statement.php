@@ -87,4 +87,20 @@ abstract class Statement
 
         return '?';
     }
+
+    /**
+     * Parameterizes a list of values.
+     *
+     * @param array $values
+     *
+     * @return string
+     */
+    protected function parameterizeValues(array $values)
+    {
+        foreach ($values as &$value) {
+            $value = $this->parameterize($value);
+        }
+
+        return '('.implode(',', $values).')';
+    }
 }
