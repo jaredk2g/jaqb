@@ -18,10 +18,11 @@ use JAQB\Statement\WhereStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\UnionStatement;
+use JAQB\Query\Traits\WhereConditions;
 
 class SelectQuery extends AbstractQuery
 {
-    use Executable, Fetchable;
+    use Executable, Fetchable, WhereConditions;
 
     /**
      * @var SelectStatement
@@ -32,11 +33,6 @@ class SelectQuery extends AbstractQuery
      * @var FromStatement
      */
     protected $from;
-
-    /**
-     * @var WhereStatement
-     */
-    protected $where;
 
     /**
      * @var WhereStatement
@@ -116,121 +112,6 @@ class SelectQuery extends AbstractQuery
     public function join($table, $on = null, $using = null, $type = 'JOIN')
     {
         $this->from->addJoin($table, $on, $using, $type);
-
-        return $this;
-    }
-
-    /**
-     * Adds a where condition to the query.
-     *
-     * @param array|string $field
-     * @param string       $condition condition value (optional)
-     * @param string       $operator  operator (optional)
-     *
-     * @return self
-     */
-    public function where($field, $condition = false, $operator = '=')
-    {
-        if (func_num_args() >= 2) {
-            $this->where->addCondition($field, $condition, $operator);
-        } else {
-            $this->where->addCondition($field);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Adds a where or condition to the query.
-     *
-     * @param array|string $field
-     * @param string       $condition condition value (optional)
-     * @param string       $operator  operator (optional)
-     *
-     * @return self
-     */
-    public function orWhere($field, $condition = false, $operator = '=')
-    {
-        if (func_num_args() >= 2) {
-            $this->where->addConditionOr($field, $condition, $operator);
-        } else {
-            $this->where->addConditionOr($field);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Adds a where not condition to the query.
-     *
-     * @param string $field
-     * @param string $condition condition value (optional)
-     *
-     * @return self
-     */
-    public function not($field, $condition = true)
-    {
-        $this->where->addCondition($field, $condition, '<>');
-
-        return $this;
-    }
-
-    /**
-     * Adds a where between condition to the query.
-     *
-     * @param string $field
-     * @param mixed  $a     first between value
-     * @param mixed  $b     second between value
-     *
-     * @return self
-     */
-    public function between($field, $a, $b)
-    {
-        $this->where->addBetweenCondition($field, $a, $b);
-
-        return $this;
-    }
-
-    /**
-     * Adds a where not between condition to the query.
-     *
-     * @param string $field
-     * @param mixed  $a     first between value
-     * @param mixed  $b     second between value
-     *
-     * @return self
-     */
-    public function notBetween($field, $a, $b)
-    {
-        $this->where->addNotBetweenCondition($field, $a, $b);
-
-        return $this;
-    }
-
-    /**
-     * Adds an exists condition to the query.
-     *
-     * @param callable $f
-     *
-     * @return self
-     */
-    public function exists(callable $f)
-    {
-        $this->where->addExistsCondition($f);
-
-        return $this;
-    }
-
-    /**
-     * Adds a not exists condition to the query.
-     *
-     * @param callable $f
-     *
-     * @return self
-     */
-    public function notExists(callable $f)
-    {
-        $this->where->addNotExistsCondition($f);
 
         return $this;
     }
@@ -336,16 +217,6 @@ class SelectQuery extends AbstractQuery
     }
 
     /**
-     * Gets the where statement for the query.
-     *
-     * @return WhereStatement
-     */
-    public function getWhere()
-    {
-        return $this->where;
-    }
-
-    /**
      * Gets the limit statement for the query.
      *
      * @return LimitStatement
@@ -368,7 +239,7 @@ class SelectQuery extends AbstractQuery
     /**
      * Gets the having statement for the query.
      *
-     * @return HavingStatement
+     * @return WhereStatement
      */
     public function getHaving()
     {
