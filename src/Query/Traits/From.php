@@ -5,7 +5,7 @@ namespace JAQB\Query\Traits;
 trait From
 {
     /**
-     * @var FromStatement
+     * @var \JAQB\Statement\FromStatement
      */
     protected $from;
 
