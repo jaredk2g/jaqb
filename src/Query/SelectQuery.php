@@ -18,23 +18,19 @@ use JAQB\Statement\WhereStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\UnionStatement;
+use JAQB\Query\Traits\From;
 use JAQB\Query\Traits\Limit;
 use JAQB\Query\Traits\OrderBy;
 use JAQB\Query\Traits\Where;
 
 class SelectQuery extends AbstractQuery
 {
-    use Executable, Fetchable, Limit, OrderBy, Where;
+    use Executable, Fetchable, From, Limit, OrderBy, Where;
 
     /**
      * @var SelectStatement
      */
     protected $select;
-
-    /**
-     * @var FromStatement
-     */
-    protected $from;
 
     /**
      * @var WhereStatement
@@ -73,20 +69,6 @@ class SelectQuery extends AbstractQuery
     public function select($fields)
     {
         $this->select->clearFields()->addFields($fields);
-
-        return $this;
-    }
-
-    /**
-     * Sets the table for the query.
-     *
-     * @param string $table table name
-     *
-     * @return self
-     */
-    public function from($table)
-    {
-        $this->from->addTable($table);
 
         return $this;
     }
@@ -166,16 +148,6 @@ class SelectQuery extends AbstractQuery
     public function getSelect()
     {
         return $this->select;
-    }
-
-    /**
-     * Gets the from statement for the query.
-     *
-     * @return FromStatement
-     */
-    public function getFrom()
-    {
-        return $this->from;
     }
 
     /**
