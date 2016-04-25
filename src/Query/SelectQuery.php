@@ -19,11 +19,11 @@ use JAQB\Statement\OrderStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\UnionStatement;
 use JAQB\Query\Traits\OrderBy;
-use JAQB\Query\Traits\WhereConditions;
+use JAQB\Query\Traits\Where;
 
 class SelectQuery extends AbstractQuery
 {
-    use Executable, Fetchable, OrderBy, WhereConditions;
+    use Executable, Fetchable, OrderBy, Where;
 
     /**
      * @var SelectStatement

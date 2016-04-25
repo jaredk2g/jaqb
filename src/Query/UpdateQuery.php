@@ -17,11 +17,11 @@ use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SetStatement;
 use JAQB\Statement\WhereStatement;
 use JAQB\Query\Traits\OrderBy;
-use JAQB\Query\Traits\WhereConditions;
+use JAQB\Query\Traits\Where;
 
 class UpdateQuery extends AbstractQuery
 {
-    use Executable, OrderBy, WhereConditions;
+    use Executable, OrderBy, Where;
 
     /**
      * @var FromStatement

@@ -2,10 +2,10 @@
 
 namespace JAQB\Query\Traits;
 
-trait WhereConditions
+trait Where
 {
     /**
-     * @var WhereStatement
+     * @var JAQB\Statement\WhereStatement
      */
     protected $where;
 
