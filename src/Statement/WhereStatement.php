@@ -356,25 +356,22 @@ class WhereStatement extends Statement
      */
     protected function implodeClauses(array $clauses)
     {
-        $str = false;
-        $or = false;
+        $str = '';
+        $op = false;
         foreach ($clauses as $clause) {
             // an 'OR' token will change the operator used
             // when concatenating the next clause
             if ($clause == 'OR') {
-                $or = true;
+                $op = ' OR ';
                 continue;
             }
 
-            if (!$str) { // first clause needs no operator
-                $str = $clause;
-            } elseif ($or) {
-                $str .= " OR $clause";
-            } else {
-                $str .= " AND $clause";
+            if ($op && $str) {
+                $str .= $op;
             }
 
-            $or = false;
+            $str .= $clause;
+            $op = ' AND ';
         }
 
         return $str;
