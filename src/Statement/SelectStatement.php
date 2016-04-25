@@ -72,6 +72,6 @@ class SelectStatement extends Statement
             return '';
         }
 
-        return 'SELECT '.implode(',', $fields);
+        return 'SELECT '.implode(', ', $fields);
     }
 }

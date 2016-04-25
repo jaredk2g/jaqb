@@ -46,7 +46,7 @@ class SelectStatementTest extends PHPUnit_Framework_TestCase
         $stmt = new SelectStatement();
         $stmt->clearFields();
         $this->assertEquals($stmt, $stmt->addFields('test,test2 AS blah,sum(p.amount)/count(p.*),should"_not===_work'));
-        $this->assertEquals('SELECT `test`,`test2` AS `blah`,sum(p.amount)/count(p.*)', $stmt->build());
+        $this->assertEquals('SELECT `test`, `test2` AS `blah`, sum(p.amount)/count(p.*)', $stmt->build());
 
         $stmt = new SelectStatement();
         $this->assertEquals('SELECT *', $stmt->build());
