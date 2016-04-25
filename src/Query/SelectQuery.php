@@ -308,7 +308,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    public function union(SelectQuery $query, $type = false)
+    public function union(SelectQuery $query, $type = '')
     {
         $this->union->addQuery($query, $type);
 

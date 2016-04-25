@@ -76,13 +76,13 @@ class WhereStatement extends Statement
     {
         if (is_array($field) && !$value) {
             foreach ($field as $key => $value) {
-                // handles #5
+                // handles #6
                 if (is_array($value)) {
                     call_user_func_array([$this, 'addCondition'], $value);
-                // handles #6
+                // handles #7
                 } elseif (!is_numeric($key)) {
                     $this->addCondition($key, $value);
-                // handles #7
+                // handles #8
                 } else {
                     $this->addCondition($value);
                 }
@@ -91,7 +91,7 @@ class WhereStatement extends Statement
             return $this;
         }
 
-        // handles #4
+        // handles #4 and #5
         $condition = [$field];
 
         if (func_num_args() >= 2) {
@@ -130,7 +130,7 @@ class WhereStatement extends Statement
      */
     public function addBetweenCondition($field, $a, $b)
     {
-        $this->conditions[] = [$field, 'BETWEEN', $a, $b];
+        $this->conditions[] = ['BETWEEN', $field, $a, $b, true];
 
         return $this;
     }
@@ -146,7 +146,7 @@ class WhereStatement extends Statement
      */
     public function addNotBetweenCondition($field, $a, $b)
     {
-        $this->conditions[] = [$field, 'NOT BETWEEN', $a, $b];
+        $this->conditions[] = ['BETWEEN', $field, $a, $b, false];
 
         return $this;
     }
@@ -160,7 +160,7 @@ class WhereStatement extends Statement
      */
     public function addExistsCondition(callable $f)
     {
-        $this->conditions[] = ['EXISTS', $f];
+        $this->conditions[] = ['EXISTS', $f, true];
 
         return $this;
     }
@@ -174,7 +174,7 @@ class WhereStatement extends Statement
      */
     public function addNotExistsCondition(callable $f)
     {
-        $this->conditions[] = ['NOT EXISTS', $f];
+        $this->conditions[] = ['EXISTS', $f, false];
 
         return $this;
     }
@@ -207,9 +207,7 @@ class WhereStatement extends Statement
             return '';
         }
 
-        $sql = (!$this->having) ? 'WHERE ' : 'HAVING ';
-
-        return $sql.$this->implodeClauses($clauses);
+        return ((!$this->having) ? 'WHERE ' : 'HAVING ').$this->implodeClauses($clauses);
     }
 
     /**
@@ -221,8 +219,8 @@ class WhereStatement extends Statement
      * have one of the following forms:
      * 1. ['SQL fragment']
      * 2. ['identifier', '=', 'value']
-     * 3. ['identifier', 'BETWEEN', 'value', 'value']
-     * 4. ['EXISTS', function(SelectQuery $query) {}]
+     * 3. ['BETWEEN', 'identifier', 'value', 'value', true]
+     * 4. ['EXISTS', function(SelectQuery $query) {}, true]
      * 5. [function(SelectQuery $query) {}]
      * 6. [function(SelectQuery $query) {}, '=', 'value']
      *
@@ -238,8 +236,13 @@ class WhereStatement extends Statement
         }
 
         // handle EXISTS conditions
-        if (in_array($cond[0], ['EXISTS', 'NOT EXISTS'])) {
-            return $this->buildExists($cond[1], $cond[0] == 'EXISTS');
+        if ($cond[0] === 'EXISTS') {
+            return $this->buildExists($cond[1], $cond[2]);
+        }
+
+        // handle BETWEEN conditions
+        if ($cond[0] === 'BETWEEN') {
+            return $this->buildBetween($cond[1], $cond[2], $cond[3], $cond[4]);
         }
 
         // escape an identifier
@@ -255,11 +258,6 @@ class WhereStatement extends Statement
 
         if (count($cond) === 1 || empty($cond[0])) {
             return $cond[0];
-        }
-
-        // handle BETWEEN conditions
-        if (in_array($cond[1], ['BETWEEN', 'NOT BETWEEN'])) {
-            return $this->buildBetween($cond[0], $cond[2], $cond[3], $cond[1] == 'BETWEEN');
         }
 
         // handle NULL values
@@ -325,7 +323,7 @@ class WhereStatement extends Statement
     {
         $operator = $isBetween ? 'BETWEEN' : 'NOT BETWEEN';
 
-        return $field.' '.$operator.' '.$this->parameterize($value1).' AND '.$this->parameterize($value2);
+        return $this->escapeIdentifier($field).' '.$operator.' '.$this->parameterize($value1).' AND '.$this->parameterize($value2);
     }
 
     /**

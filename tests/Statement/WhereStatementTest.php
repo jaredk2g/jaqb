@@ -174,7 +174,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $stmt = new WhereStatement();
         $this->assertEquals($stmt, $stmt->addBetweenCondition('field', 1, 2));
 
-        $this->assertEquals([['field', 'BETWEEN', 1, 2]], $stmt->getConditions());
+        $this->assertEquals([['BETWEEN', 'field', 1, 2, true]], $stmt->getConditions());
 
         $this->assertEquals('WHERE `field` BETWEEN ? AND ?', $stmt->build());
         $this->assertEquals([1, 2], $stmt->getValues());
@@ -185,7 +185,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $stmt = new WhereStatement();
         $this->assertEquals($stmt, $stmt->addNotBetweenCondition('field', 1, 2));
 
-        $this->assertEquals([['field', 'NOT BETWEEN', 1, 2]], $stmt->getConditions());
+        $this->assertEquals([['BETWEEN', 'field', 1, 2, false]], $stmt->getConditions());
 
         $this->assertEquals('WHERE `field` NOT BETWEEN ? AND ?', $stmt->build());
         $this->assertEquals([1, 2], $stmt->getValues());
@@ -202,7 +202,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         };
         $this->assertEquals($stmt, $stmt->addExistsCondition($f));
 
-        $this->assertEquals([['EXISTS', $f]], $stmt->getConditions());
+        $this->assertEquals([['EXISTS', $f, true]], $stmt->getConditions());
 
         $this->assertEquals('WHERE EXISTS (SELECT * FROM `table` WHERE `id` = ?)', $stmt->build());
         $this->assertEquals([10], $stmt->getValues());
@@ -219,7 +219,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         };
         $this->assertEquals($stmt, $stmt->addNotExistsCondition($f));
 
-        $this->assertEquals([['NOT EXISTS', $f]], $stmt->getConditions());
+        $this->assertEquals([['EXISTS', $f, false]], $stmt->getConditions());
 
         $this->assertEquals('WHERE NOT EXISTS (SELECT * FROM `table` WHERE `id` = ?)', $stmt->build());
         $this->assertEquals([10], $stmt->getValues());

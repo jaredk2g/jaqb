@@ -62,7 +62,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $query = new DeleteQuery();
 
         $this->assertEquals($query, $query->between('date', 2015, 2016));
-        $this->assertEquals([['date', 'BETWEEN', 2015, 2016]], $query->getWhere()->getConditions());
+        $this->assertEquals([['BETWEEN', 'date', 2015, 2016, true]], $query->getWhere()->getConditions());
     }
 
     public function testNotBetween()
@@ -70,7 +70,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $query = new DeleteQuery();
 
         $this->assertEquals($query, $query->notBetween('date', 2015, 2016));
-        $this->assertEquals([['date', 'NOT BETWEEN', 2015, 2016]], $query->getWhere()->getConditions());
+        $this->assertEquals([['BETWEEN', 'date', 2015, 2016, false]], $query->getWhere()->getConditions());
     }
 
     public function testExists()
@@ -80,7 +80,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $f = function (SelectQuery $query) {};
 
         $this->assertEquals($query, $query->exists($f));
-        $this->assertEquals([['EXISTS', $f]], $query->getWhere()->getConditions());
+        $this->assertEquals([['EXISTS', $f, true]], $query->getWhere()->getConditions());
     }
 
     public function testNotExists()
@@ -90,7 +90,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $f = function (SelectQuery $query) {};
 
         $this->assertEquals($query, $query->notExists($f));
-        $this->assertEquals([['NOT EXISTS', $f]], $query->getWhere()->getConditions());
+        $this->assertEquals([['EXISTS', $f, false]], $query->getWhere()->getConditions());
     }
 
     public function testOrderBy()

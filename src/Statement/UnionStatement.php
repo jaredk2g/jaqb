@@ -22,12 +22,12 @@ class UnionStatement extends Statement
     /**
      * Adds a query to the statement.
      *
-     * @param SelectQuery  $query
-     * @param string|false $type
+     * @param SelectQuery $query
+     * @param string      $type
      *
      * @return self
      */
-    public function addQuery(SelectQuery $query, $type = false)
+    public function addQuery(SelectQuery $query, $type = '')
     {
         $this->queries[] = [$query, $type];
 
@@ -54,12 +54,11 @@ class UnionStatement extends Statement
         foreach ($this->queries as $row) {
             list($query, $type) = $row;
 
-            $prefix = 'UNION ';
             if ($type) {
-                $prefix .= $type.' ';
+                $type .= ' ';
             }
 
-            $queries[] = $prefix.$query->build();
+            $queries[] = 'UNION '.$type.$query->build();
 
             $this->values = array_merge(
                 $this->values,
