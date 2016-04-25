@@ -41,9 +41,9 @@ trait Where
     public function orWhere($field, $condition = false, $operator = '=')
     {
         if (func_num_args() >= 2) {
-            $this->where->addConditionOr($field, $condition, $operator);
+            $this->where->addOrCondition($field, $condition, $operator);
         } else {
-            $this->where->addConditionOr($field);
+            $this->where->addOrCondition($field);
         }
 
         return $this;

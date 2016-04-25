@@ -112,7 +112,13 @@ class WhereStatement extends Statement
         return $this;
     }
 
-    public function addConditionOr($field, $value = false, $operator = '=')
+    /**
+     * Adds an OR condition. Uses same arguments as
+     * adding AND conditions.
+     *
+     * @return self
+     */
+    public function addOrCondition()
     {
         $this->conditions[] = ['OR'];
 

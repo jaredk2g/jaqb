@@ -142,19 +142,19 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2, 3], $stmt->getValues());
     }
 
-    public function testAddConditionOr()
+    public function testAddOrCondition()
     {
         $stmt = new WhereStatement();
-        $this->assertEquals($stmt, $stmt->addConditionOr('user_id', 10));
+        $this->assertEquals($stmt, $stmt->addOrCondition('user_id', 10));
         $this->assertEquals([['OR'], ['user_id', '=', 10]], $stmt->getConditions());
         $this->assertEquals($stmt, $stmt->addCondition('field', [1, 2, 3], '<>'));
-        $this->assertEquals($stmt, $stmt->addConditionOr('created_at', 100, '>'));
+        $this->assertEquals($stmt, $stmt->addOrCondition('created_at', 100, '>'));
 
         $this->assertEquals('WHERE `user_id` = ? AND `field` NOT IN (?,?,?) OR `created_at` > ?', $stmt->build());
         $this->assertEquals([10, 1, 2, 3, 100], $stmt->getValues());
     }
 
-    public function testAddConditionOrSubquery()
+    public function testAddOrConditionSubquery()
     {
         $f = function (SelectQuery $query) {
             $query->where('blah')
@@ -163,7 +163,7 @@ class WhereStatementTest extends PHPUnit_Framework_TestCase
 
         $stmt = new WhereStatement();
         $this->assertEquals($stmt, $stmt->addCondition('field', [1, 2, 3]));
-        $this->assertEquals($stmt, $stmt->addConditionOr($f));
+        $this->assertEquals($stmt, $stmt->addOrCondition($f));
 
         $this->assertEquals('WHERE `field` IN (?,?,?) OR (blah AND `rating` = ?)', $stmt->build());
         $this->assertEquals([1, 2, 3, 4], $stmt->getValues());
