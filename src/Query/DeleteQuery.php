@@ -15,21 +15,17 @@ use JAQB\Statement\FromStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\WhereStatement;
+use JAQB\Query\Traits\OrderBy;
 use JAQB\Query\Traits\WhereConditions;
 
 class DeleteQuery extends AbstractQuery
 {
-    use Executable, WhereConditions;
+    use Executable, OrderBy, WhereConditions;
 
     /**
      * @var FromStatement
      */
     protected $from;
-
-    /**
-     * @var OrderStatement
-     */
-    protected $orderBy;
 
     /**
      * @var LimitStatement
@@ -74,21 +70,6 @@ class DeleteQuery extends AbstractQuery
     }
 
     /**
-     * Sets the order for the query.
-     *
-     * @param string|array $fields
-     * @param string       $direction
-     *
-     * @return self
-     */
-    public function orderBy($fields, $direction = false)
-    {
-        $this->orderBy->addFields($fields, $direction);
-
-        return $this;
-    }
-
-    /**
      * Gets the from statement for the query.
      *
      * @return FromStatement
@@ -106,16 +87,6 @@ class DeleteQuery extends AbstractQuery
     public function getLimit()
     {
         return $this->limit;
-    }
-
-    /**
-     * Gets the order by statement for the query.
-     *
-     * @return OrderByStatement
-     */
-    public function getOrderBy()
-    {
-        return $this->orderBy;
     }
 
     /**

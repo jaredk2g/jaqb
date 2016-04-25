@@ -16,11 +16,12 @@ use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SetStatement;
 use JAQB\Statement\WhereStatement;
+use JAQB\Query\Traits\OrderBy;
 use JAQB\Query\Traits\WhereConditions;
 
 class UpdateQuery extends AbstractQuery
 {
-    use Executable, WhereConditions;
+    use Executable, OrderBy, WhereConditions;
 
     /**
      * @var FromStatement
@@ -31,11 +32,6 @@ class UpdateQuery extends AbstractQuery
      * @var SetStatement
      */
     protected $set;
-
-    /**
-     * @var OrderStatement
-     */
-    protected $orderBy;
 
     /**
      * @var LimitStatement
@@ -95,21 +91,6 @@ class UpdateQuery extends AbstractQuery
     }
 
     /**
-     * Sets the order for the query.
-     *
-     * @param string|array $fields
-     * @param string       $direction
-     *
-     * @return self
-     */
-    public function orderBy($fields, $direction = false)
-    {
-        $this->orderBy->addFields($fields, $direction);
-
-        return $this;
-    }
-
-    /**
      * Gets the table name for the query.
      *
      * @return FromStatement
@@ -127,16 +108,6 @@ class UpdateQuery extends AbstractQuery
     public function getSet()
     {
         return $this->set;
-    }
-
-    /**
-     * Gets the order by statement for the query.
-     *
-     * @return OrderByStatement
-     */
-    public function getOrderBy()
-    {
-        return $this->orderBy;
     }
 
     /**
