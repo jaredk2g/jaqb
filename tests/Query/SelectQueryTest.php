@@ -71,7 +71,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->not('group', 'admin'));
         $this->assertEquals($query, $query->not('group', null));
         $this->assertEquals($query, $query->not('name', ['Larry', 'Curly', 'Moe']));
-        $this->assertEquals([['disabled', '<>', true], ['group', '<>', 'admin'], ['group', '<>', null], ['name', 'NOT IN', ['Larry', 'Curly', 'Moe']]], $query->getWhere()->getConditions());
+        $this->assertEquals([['disabled', '<>', true], ['group', '<>', 'admin'], ['group', '<>', null], ['name', '<>', ['Larry', 'Curly', 'Moe']]], $query->getWhere()->getConditions());
     }
 
     public function testBetween()

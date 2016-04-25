@@ -94,15 +94,8 @@ class WhereStatement extends Statement
         // handles #4 and #5
         $condition = [$field];
 
+        // handles #1, #2, and #3
         if (func_num_args() >= 2) {
-            // handles #3
-            if (is_array($value) && $operator === '=') {
-                $operator = 'IN';
-            } elseif (is_array($value) && $operator === '<>') {
-                $operator = 'NOT IN';
-            }
-
-            // handles #1 and #2
             $condition[] = $operator;
             $condition[] = $value;
         }
@@ -271,13 +264,13 @@ class WhereStatement extends Statement
             return $this->buildNull($cond[0], $cond[1] == '=');
         }
 
-        // handle array values, i.e. for IN conditions
-        if (is_array($cond[2])) {
-            $cond[2] = $this->parameterizeValues($cond[2]);
-        // otherwise parameterize the value
-        } else {
-            $cond[2] = $this->parameterize($cond[2]);
+        // handle IN values
+        if (is_array($cond[2]) && in_array($cond[1], ['=', '<>'])) {
+            return $this->buildIn($cond[0], $cond[2], $cond[1] == '=');
         }
+
+        // otherwise parameterize the value
+        $cond[2] = $this->parameterize($cond[2]);
 
         return implode(' ', $cond);
     }
@@ -345,6 +338,22 @@ class WhereStatement extends Statement
         $operator = $isEqual ? ' IS NULL' : ' IS NOT NULL';
 
         return $field.$operator;
+    }
+
+    /**
+     * Builds an IN clause.
+     *
+     * @param string $field
+     * @param array  $values
+     * @param bool   $isIn
+     *
+     * @return string
+     */
+    protected function buildIn($field, array $values, $isIn)
+    {
+        $operator = $isIn ? ' IN ' : ' NOT IN ';
+
+        return $field.$operator.$this->parameterizeValues($values);
     }
 
     /**

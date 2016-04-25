@@ -208,7 +208,7 @@ class SelectQuery extends AbstractQuery
         // when there is no select statement then the query
         // is probably just a where subquery, thus does
         // not need to be prefixed with WHERE
-        if (strtolower(substr($sql, 0, 6)) === 'where ') {
+        if (substr($sql, 0, 6) === 'WHERE ') {
             return substr($sql, 6);
         }
 
