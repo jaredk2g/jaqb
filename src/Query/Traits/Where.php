@@ -5,7 +5,7 @@ namespace JAQB\Query\Traits;
 trait Where
 {
     /**
-     * @var JAQB\Statement\WhereStatement
+     * @var \JAQB\Statement\WhereStatement
      */
     protected $where;
 

@@ -5,7 +5,7 @@ namespace JAQB\Query\Traits;
 trait Limit
 {
     /**
-     * @var JAQB\Statement\LimitStatement
+     * @var \JAQB\Statement\LimitStatement
      */
     protected $limit;
 

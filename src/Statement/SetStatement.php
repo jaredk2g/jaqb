@@ -56,7 +56,7 @@ class SetStatement extends Statement
             return '';
         }
 
-        // generates SET `col1`=?,`col2`=?,`col3`=?
+        // produces "SET `col1`=?,`col2`=?,`col3`=?"
         return 'SET '.implode(', ', $fields);
     }
 }

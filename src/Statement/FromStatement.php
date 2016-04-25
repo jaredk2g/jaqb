@@ -18,7 +18,7 @@ class FromStatement extends Statement
     const DELETE = 3;
 
     /**
-     * @var bool
+     * @var int
      */
     protected $type;
 

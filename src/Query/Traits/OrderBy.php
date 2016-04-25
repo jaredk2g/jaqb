@@ -5,7 +5,7 @@ namespace JAQB\Query\Traits;
 trait OrderBy
 {
     /**
-     * @var JAQB\Statement\OrderStatement
+     * @var \JAQB\Statement\OrderStatement
      */
     protected $orderBy;
 
