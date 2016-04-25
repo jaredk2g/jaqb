@@ -18,12 +18,13 @@ use JAQB\Statement\WhereStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\UnionStatement;
+use JAQB\Query\Traits\Limit;
 use JAQB\Query\Traits\OrderBy;
 use JAQB\Query\Traits\Where;
 
 class SelectQuery extends AbstractQuery
 {
-    use Executable, Fetchable, OrderBy, Where;
+    use Executable, Fetchable, Limit, OrderBy, Where;
 
     /**
      * @var SelectStatement
@@ -44,11 +45,6 @@ class SelectQuery extends AbstractQuery
      * @var OrderStatement
      */
     protected $groupBy;
-
-    /**
-     * @var LimitStatement
-     */
-    protected $limit;
 
     /**
      * @var UnionStatement
@@ -108,21 +104,6 @@ class SelectQuery extends AbstractQuery
     public function join($table, $on = null, $using = null, $type = 'JOIN')
     {
         $this->from->addJoin($table, $on, $using, $type);
-
-        return $this;
-    }
-
-    /**
-     * Sets the limit for the query.
-     *
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return self
-     */
-    public function limit($limit, $offset = 0)
-    {
-        $this->limit->setLimit($limit, $offset);
 
         return $this;
     }
@@ -195,16 +176,6 @@ class SelectQuery extends AbstractQuery
     public function getFrom()
     {
         return $this->from;
-    }
-
-    /**
-     * Gets the limit statement for the query.
-     *
-     * @return LimitStatement
-     */
-    public function getLimit()
-    {
-        return $this->limit;
     }
 
     /**

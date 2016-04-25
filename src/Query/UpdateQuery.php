@@ -16,12 +16,13 @@ use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SetStatement;
 use JAQB\Statement\WhereStatement;
+use JAQB\Query\Traits\Limit;
 use JAQB\Query\Traits\OrderBy;
 use JAQB\Query\Traits\Where;
 
 class UpdateQuery extends AbstractQuery
 {
-    use Executable, OrderBy, Where;
+    use Executable, Limit, OrderBy, Where;
 
     /**
      * @var FromStatement
@@ -32,11 +33,6 @@ class UpdateQuery extends AbstractQuery
      * @var SetStatement
      */
     protected $set;
-
-    /**
-     * @var LimitStatement
-     */
-    protected $limit;
 
     public function __construct()
     {
@@ -76,21 +72,6 @@ class UpdateQuery extends AbstractQuery
     }
 
     /**
-     * Sets the limit for the query.
-     *
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return self
-     */
-    public function limit($limit, $offset = 0)
-    {
-        $this->limit->setLimit($limit, $offset);
-
-        return $this;
-    }
-
-    /**
      * Gets the table name for the query.
      *
      * @return FromStatement
@@ -108,16 +89,6 @@ class UpdateQuery extends AbstractQuery
     public function getSet()
     {
         return $this->set;
-    }
-
-    /**
-     * Gets the limit statement for the query.
-     *
-     * @return LimitStatement
-     */
-    public function getLimit()
-    {
-        return $this->limit;
     }
 
     /**
