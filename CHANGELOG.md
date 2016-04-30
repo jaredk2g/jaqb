@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## 1.3 - 2016-04-30
 ### Added
 - Support for IN and NOT IN statements as WHERE conditions when passing in an array value.
 - Select queries can now be unioned together (using SQL UNION).
