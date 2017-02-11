@@ -1,5 +1,5 @@
 JAQB
-===========
+====
 
 [![Latest Stable Version](https://poser.pugx.org/jaqb/jaqb/v/stable.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
@@ -9,12 +9,11 @@ JAQB
 [![Total Downloads](https://poser.pugx.org/jaqb/jaqb/downloads.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
 [![HHVM Status](http://hhvm.h4cc.de/badge/jaqb/jaqb.svg?style=flat)](http://hhvm.h4cc.de/package/jaqb/jaqb)
 
-
 JAQB: Just Another Query Builder for PHP (pronounced "jacob")
 
 ## Requirements
 
-- PHP 5.4+, PHP 7, or HHVM 3.3+
+- PHP 5.6+, PHP 7, or HHVM 3.3+
 - [PDO](http://php.net/pdo)
 
 ## Installation
