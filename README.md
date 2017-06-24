@@ -24,16 +24,64 @@ The easiest way to install JAQB is with [composer](http://getcomposer.org):
 composer require jaqb/jaqb
 ```
 
-## Usage
+## Configuration
+
+The connection manager accepts an array of connection configurations. With the connection manager you can conveniently manage one or more database connections. Connections are referenced by a unique ID in the configuration.
 
 ```php
-$qb = new JAQB\QueryBuilder($pdo);
+use JAQB\ConnectionManager;
+
+$config = [
+    'main' => [
+        'type' => 'mysql',
+        'host' => 'localhost',
+        'name' => 'dbname'
+        'username' => 'myuser',
+        'password' => 'mypassword',
+        'errorMode' => PDO::ERRMODE_EXCEPTION
+    ],
+    'sqlite' => [
+        'dsn' => 'sqlite:mydb.sqlite'
+    ]
+];
+
+$manager = new ConnectionManager($config);
+```
+
+### Supplying an existing PDO object
+
+You can also manually add existing PDO connections.
+ 
+```php
+use JAQB\ConnectionManager;
+use JAQB\QueryBuilder;
+
+$pdo = new PDO('...');
+$connection = new QueryBuilder($pdo);
+$manager = new ConnectionManager();
+$manager->add('users', $connection); 
+```
+
+## Usage
+
+### Retrieving a connection
+
+You can retrieve a connection by calling `get()` on the connection manager with the ID of the connection.
+
+```php
+$db = $manager->get('main');
+```
+
+If there is only one connection then you can also get it as the default.
+
+```php
+$db = $manager->getDefault();
 ```
 
 ### Select Query
 
 ```php
-$qb->select('*')
+$db->select('*')
    ->from('Movies')
    ->join('Directors', 'Directors.id = Movies.director_id')
    ->where('Directors.name', 'Quentin Tarantino')
@@ -48,7 +96,7 @@ $qb->select('*')
 ### Insert Query
 
 ```php
-$qb->insert(['name' => 'Catcher in the Rye', 'author' => 'JD Salinger'])
+$db->insert(['name' => 'Catcher in the Rye', 'author' => 'JD Salinger'])
    ->into('Books')
    ->execute();
 ```
@@ -56,7 +104,7 @@ $qb->insert(['name' => 'Catcher in the Rye', 'author' => 'JD Salinger'])
 ### Update Query
 
 ```php
-$qb->update('Users')
+$db->update('Users')
    ->where('uid', 10)
    ->values(['first_name' => 'JAQB', 'website' => 'example.com'])
    ->orderBy('uid', 'ASC')
@@ -67,7 +115,7 @@ $qb->update('Users')
 ### Delete Query
 
 ```php
-$qb->delete('Users')
+$db->delete('Users')
    ->where('last_login', strtotime('-1 year'), '<')
    ->limit(100)
    ->orderBy('last_login', 'ASC')
@@ -77,7 +125,7 @@ $qb->delete('Users')
 ### Pure SQL Query
 
 ```php
-$qb->raw('SHOW COLUMNS FROM `Events`')
+$db->raw('SHOW COLUMNS FROM `Events`')
    ->execute();
 ```
 

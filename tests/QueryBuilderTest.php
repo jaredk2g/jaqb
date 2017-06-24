@@ -3,7 +3,7 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
@@ -14,7 +14,7 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
 {
     public function testPDO()
     {
-        $pdo = new stdClass();
+        $pdo = Mockery::mock(PDO::class);
         $qb = new QueryBuilder($pdo);
         $this->assertEquals($pdo, $qb->getPDO());
     }

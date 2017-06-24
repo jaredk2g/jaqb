@@ -26,7 +26,7 @@ trait From
     /**
      * Gets the from statement for the query.
      *
-     * @return FromStatement
+     * @return \JAQB\Statement\FromStatement
      */
     public function getFrom()
     {

@@ -3,12 +3,15 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB;
+
+use PDO;
 
 class QueryBuilder
 {
@@ -20,7 +23,7 @@ class QueryBuilder
     /**
      * @param PDO $pdo
      */
-    public function __construct($pdo = null)
+    public function __construct(PDO $pdo = null)
     {
         $this->pdo = $pdo;
     }
@@ -40,7 +43,7 @@ class QueryBuilder
      *
      * @param string|array $fields select fields
      *
-     * @return SelectQuery
+     * @return \JAQB\Query\SelectQuery
      */
     public function select($fields = '*')
     {
@@ -54,7 +57,7 @@ class QueryBuilder
      *
      * @param array $values insert values
      *
-     * @return InsertQuery
+     * @return \JAQB\Query\InsertQuery
      */
     public function insert(array $values)
     {
@@ -68,7 +71,7 @@ class QueryBuilder
      *
      * @param string $table update table
      *
-     * @return UpdateQuery
+     * @return \JAQB\Query\UpdateQuery
      */
     public function update($table)
     {
@@ -82,7 +85,7 @@ class QueryBuilder
      *
      * @param string $from delete table
      *
-     * @return DeleteQuery
+     * @return \JAQB\Query\DeleteQuery
      */
     public function delete($from)
     {
@@ -96,7 +99,7 @@ class QueryBuilder
      *
      * @param string $sql SQL statement
      *
-     * @return SqlQuery
+     * @return \JAQB\Query\SqlQuery
      */
     public function raw($sql)
     {

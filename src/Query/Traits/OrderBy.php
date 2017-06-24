@@ -27,7 +27,7 @@ trait OrderBy
     /**
      * Gets the order by statement for the query.
      *
-     * @return OrderByStatement
+     * @return \JAQB\Statement\OrderStatement
      */
     public function getOrderBy()
     {

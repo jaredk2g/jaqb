@@ -3,22 +3,23 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB\Query;
 
 use JAQB\Operations\Executable;
+use JAQB\Query\Traits\Limit;
+use JAQB\Query\Traits\OrderBy;
+use JAQB\Query\Traits\Where;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SetStatement;
 use JAQB\Statement\WhereStatement;
-use JAQB\Query\Traits\Limit;
-use JAQB\Query\Traits\OrderBy;
-use JAQB\Query\Traits\Where;
 
 class UpdateQuery extends AbstractQuery
 {
@@ -84,7 +85,7 @@ class UpdateQuery extends AbstractQuery
     /**
      * Gets the values for the query.
      *
-     * @return array
+     * @return SetStatement
      */
     public function getSet()
     {

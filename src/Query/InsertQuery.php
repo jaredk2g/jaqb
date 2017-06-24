@@ -3,11 +3,12 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB\Query;
 
 use JAQB\Operations\Executable;
@@ -80,7 +81,7 @@ class InsertQuery extends AbstractQuery
     /**
      * Gets the insert values for the query.
      *
-     * @return InsertStatement
+     * @return ValuesStatement
      */
     public function getInsertValues()
     {

@@ -27,7 +27,7 @@ trait Limit
     /**
      * Gets the limit statement for the query.
      *
-     * @return LimitStatement
+     * @return \JAQB\Statement\LimitStatement
      */
     public function getLimit()
     {

@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
 - Added `aggregate()`, `count()`, `sum()`, `average()`, `min()`, and `max()` methods to select queries.
+- Added a connection manager for managing connections to one or more databases.
 
 ## 1.3 - 2016-04-30
 ### Added

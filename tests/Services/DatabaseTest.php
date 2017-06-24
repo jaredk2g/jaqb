@@ -3,7 +3,7 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
@@ -25,7 +25,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
             ],
         ];
         $app = new Application($config);
-        $app['pdo'] = Mockery::mock();
+        $app['pdo'] = Mockery::mock(PDO::class);
         $service = new Database();
 
         $db = $service($app);

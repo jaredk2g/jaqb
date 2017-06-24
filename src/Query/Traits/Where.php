@@ -127,7 +127,7 @@ trait Where
     /**
      * Gets the where statement for the query.
      *
-     * @return WhereStatement
+     * @return \JAQB\Statement\WhereStatement
      */
     public function getWhere()
     {

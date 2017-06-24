@@ -3,17 +3,18 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB\Operations;
 
 trait Executable
 {
     /**
-     * @var PDO
+     * @var \PDO
      */
     protected $pdo;
 
@@ -25,7 +26,7 @@ trait Executable
     /**
      * Sets the PDO instance used by this query.
      *
-     * @param PDO $pdo
+     * @param \PDO $pdo
      *
      * @return self
      */
@@ -36,10 +37,10 @@ trait Executable
         return $this;
     }
 
-    /** 
+    /**
      * Gets the PDO instance used by this query.
      *
-     * @return PDO
+     * @return \PDO
      */
     public function getPDO()
     {
@@ -49,7 +50,7 @@ trait Executable
     /**
      * Executes a query.
      *
-     * @return PDOStatement|bool result
+     * @return \PDOStatement|bool result
      */
     public function execute()
     {

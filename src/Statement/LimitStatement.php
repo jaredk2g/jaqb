@@ -3,11 +3,12 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB\Statement;
 
 class LimitStatement extends Statement
@@ -28,7 +29,7 @@ class LimitStatement extends Statement
     protected $max;
 
     /**
-     * @param $max maximum # the limit can be set to, 0=infinity
+     * @param int $max maximum # the limit can be set to, 0=infinity
      */
     public function __construct($max = 0)
     {
