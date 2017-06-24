@@ -3,7 +3,7 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
@@ -54,6 +54,32 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['notes IS NULL']], $where->getConditions());
+    }
+
+    public function testWhereInfix()
+    {
+        $query = new UpdateQuery();
+
+        $this->assertEquals($query, $query->whereInfix('balance', '>', 10));
+        $this->assertEquals($query, $query->whereInfix('name', 'Bob'));
+        $this->assertEquals($query, $query->whereInfix('notes IS NULL'));
+        $where = $query->getWhere();
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertFalse($where->isHaving());
+        $this->assertEquals([['balance', '>', 10], ['name', '=', 'Bob'], ['notes IS NULL']], $where->getConditions());
+    }
+
+    public function testOrWhereInfix()
+    {
+        $query = new UpdateQuery();
+
+        $this->assertEquals($query, $query->orWhereInfix('balance', '>', 10));
+        $this->assertEquals($query, $query->orWhereInfix('name', 'Bob'));
+        $this->assertEquals($query, $query->orWhereInfix('notes IS NULL'));
+        $where = $query->getWhere();
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertFalse($where->isHaving());
+        $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['name', '=', 'Bob'], ['OR'], ['notes IS NULL']], $where->getConditions());
     }
 
     public function testNot()

@@ -3,7 +3,7 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
@@ -21,7 +21,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['name'], $query->getSelect()->getFields());
     }
 
-    function testAggregate()
+    public function testAggregate()
     {
         $query = new SelectQuery();
 
@@ -32,7 +32,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['SUM(total)'], $query->getSelect()->getFields());
     }
 
-    function testCount()
+    public function testCount()
     {
         $query = new SelectQuery();
 
@@ -40,7 +40,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['COUNT(id)'], $query->getSelect()->getFields());
     }
 
-    function testSum()
+    public function testSum()
     {
         $query = new SelectQuery();
 
@@ -48,7 +48,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['SUM(amount)'], $query->getSelect()->getFields());
     }
 
-    function testAverage()
+    public function testAverage()
     {
         $query = new SelectQuery();
 
@@ -56,7 +56,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['AVG(amount)'], $query->getSelect()->getFields());
     }
 
-    function testMin()
+    public function testMin()
     {
         $query = new SelectQuery();
 
@@ -64,7 +64,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['MIN(stars)'], $query->getSelect()->getFields());
     }
 
-    function testMax()
+    public function testMax()
     {
         $query = new SelectQuery();
 
@@ -112,6 +112,32 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['notes IS NULL']], $where->getConditions());
+    }
+
+    public function testWhereInfix()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->whereInfix('balance', '>', 10));
+        $this->assertEquals($query, $query->whereInfix('name', 'Bob'));
+        $this->assertEquals($query, $query->whereInfix('notes IS NULL'));
+        $where = $query->getWhere();
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertFalse($where->isHaving());
+        $this->assertEquals([['balance', '>', 10], ['name', '=', 'Bob'], ['notes IS NULL']], $where->getConditions());
+    }
+
+    public function testOrWhereInfix()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->orWhereInfix('balance', '>', 10));
+        $this->assertEquals($query, $query->orWhereInfix('name', 'Bob'));
+        $this->assertEquals($query, $query->orWhereInfix('notes IS NULL'));
+        $where = $query->getWhere();
+        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertFalse($where->isHaving());
+        $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['name', '=', 'Bob'], ['OR'], ['notes IS NULL']], $where->getConditions());
     }
 
     public function testNot()

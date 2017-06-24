@@ -50,6 +50,52 @@ trait Where
     }
 
     /**
+     * Sets the where conditions for the query with infix style arguments.
+     *
+     * @param array|string $field
+     * @param string       $operator  operator (optional)
+     * @param string|bool  $condition condition value (optional)
+     *
+     * @return self
+     */
+    public function whereInfix($field, $operator = '=', $condition = false)
+    {
+        $numArgs = func_num_args();
+        if ($numArgs > 2) {
+            $this->where->addCondition($field, $condition, $operator);
+        } elseif ($numArgs == 2) {
+            $this->where->addCondition($field, $operator, '=');
+        } else {
+            $this->where->addCondition($field);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds a where or condition to the query with infix style arguments.
+     *
+     * @param array|string $field
+     * @param string       $operator  operator (optional)
+     * @param string       $condition condition value (optional)
+     *
+     * @return self
+     */
+    public function orWhereInfix($field, $operator = '=', $condition = false)
+    {
+        $numArgs = func_num_args();
+        if ($numArgs > 2) {
+            $this->where->addOrCondition($field, $condition, $operator);
+        } elseif ($numArgs == 2) {
+            $this->where->addOrCondition($field, $operator, '=');
+        } else {
+            $this->where->addOrCondition($field);
+        }
+
+        return $this;
+    }
+
+    /**
      * Adds a where not condition to the query.
      *
      * @param string $field
