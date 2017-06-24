@@ -185,7 +185,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $stmt->shouldReceive('execute')->andReturn(true);
         $stmt->shouldReceive('rowCount')->andReturn(10);
 
-        $pdo = Mockery::mock();
+        $pdo = Mockery::mock(PDO::class);
         $pdo->shouldReceive('prepare')->withArgs(['DELETE FROM `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
@@ -203,7 +203,7 @@ class DeleteQueryTest extends PHPUnit_Framework_TestCase
         $stmt = Mockery::mock();
         $stmt->shouldReceive('execute')->andReturn(false);
 
-        $pdo = Mockery::mock();
+        $pdo = Mockery::mock(PDO::class);
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
         $query = new DeleteQuery();

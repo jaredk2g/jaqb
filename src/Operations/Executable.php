@@ -11,10 +11,12 @@
 
 namespace JAQB\Operations;
 
+use PDO;
+
 trait Executable
 {
     /**
-     * @var \PDO
+     * @var PDO
      */
     protected $pdo;
 
@@ -26,11 +28,11 @@ trait Executable
     /**
      * Sets the PDO instance used by this query.
      *
-     * @param \PDO $pdo
+     * @param PDO $pdo
      *
      * @return self
      */
-    public function setPDO($pdo)
+    public function setPDO(PDO $pdo)
     {
         $this->pdo = $pdo;
 
@@ -40,7 +42,7 @@ trait Executable
     /**
      * Gets the PDO instance used by this query.
      *
-     * @return \PDO
+     * @return PDO
      */
     public function getPDO()
     {

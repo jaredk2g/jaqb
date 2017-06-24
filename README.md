@@ -142,6 +142,26 @@ The following methods can be used to execute a query and retrieve results:
 Also:
 - `rowCount()` - returns the number of rows affected by the last executed statement
 
+### Transactions
+
+Queries support [PDO transactions](http://php.net/manual/en/pdo.transactions.php).
+
+```php
+$db->beginTransaction();
+
+try {
+    for ($i = 1; $i <= 10; $i++) {
+        $db->insert(['name' => "Item # $i"])
+           ->into('Items')
+           ->execute();
+    }
+    
+    $db->commit();
+} catch (Exception $e) {
+    $db->rollBack();
+}
+```
+
 ### Building a Query
 
 If you want to build a query without executing it just use `build()` instead. `getValues()` will retrieve any [ordered question mark parameters](http://php.net/manual/en/pdo.prepare.php).

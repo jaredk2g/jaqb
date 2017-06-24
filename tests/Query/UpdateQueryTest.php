@@ -197,7 +197,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $stmt->shouldReceive('execute')->andReturn(true);
         $stmt->shouldReceive('rowCount')->andReturn(10);
 
-        $pdo = Mockery::mock();
+        $pdo = Mockery::mock(PDO::class);
         $pdo->shouldReceive('prepare')->withArgs(['UPDATE `Test` WHERE `id` = ?'])
             ->andReturn($stmt);
 
@@ -215,7 +215,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $stmt = Mockery::mock();
         $stmt->shouldReceive('execute')->andReturn(false);
 
-        $pdo = Mockery::mock();
+        $pdo = Mockery::mock(PDO::class);
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
         $query = new UpdateQuery();

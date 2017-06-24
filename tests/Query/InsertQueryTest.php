@@ -3,7 +3,7 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
@@ -67,7 +67,7 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
         $stmt->shouldReceive('execute')->andReturn(true);
         $stmt->shouldReceive('rowCount')->andReturn(10);
 
-        $pdo = Mockery::mock();
+        $pdo = Mockery::mock(PDO::class);
         $pdo->shouldReceive('prepare')->withArgs(['INSERT INTO `Test`'])
             ->andReturn($stmt);
 
@@ -85,7 +85,7 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
         $stmt = Mockery::mock();
         $stmt->shouldReceive('execute')->andReturn(false);
 
-        $pdo = Mockery::mock();
+        $pdo = Mockery::mock(PDO::class);
         $pdo->shouldReceive('prepare')->andReturn($stmt);
 
         $query = new InsertQuery();

@@ -49,7 +49,11 @@ class QueryBuilder
     {
         $query = new Query\SelectQuery();
 
-        return $query->setPDO($this->pdo)->select($fields);
+        if ($this->pdo) {
+            $query->setPDO($this->pdo);
+        }
+
+        return $query->select($fields);
     }
 
     /**
@@ -63,7 +67,11 @@ class QueryBuilder
     {
         $query = new Query\InsertQuery();
 
-        return $query->setPDO($this->pdo)->values($values);
+        if ($this->pdo) {
+            $query->setPDO($this->pdo);
+        }
+
+        return $query->values($values);
     }
 
     /**
@@ -77,7 +85,11 @@ class QueryBuilder
     {
         $query = new Query\UpdateQuery();
 
-        return $query->setPDO($this->pdo)->table($table);
+        if ($this->pdo) {
+            $query->setPDO($this->pdo);
+        }
+
+        return $query->table($table);
     }
 
     /**
@@ -91,7 +103,11 @@ class QueryBuilder
     {
         $query = new Query\DeleteQuery();
 
-        return $query->setPDO($this->pdo)->from($from);
+        if ($this->pdo) {
+            $query->setPDO($this->pdo);
+        }
+
+        return $query->from($from);
     }
 
     /**
@@ -105,6 +121,50 @@ class QueryBuilder
     {
         $query = new Query\SqlQuery();
 
-        return $query->setPDO($this->pdo)->raw($sql);
+        if ($this->pdo) {
+            $query->setPDO($this->pdo);
+        }
+
+        return $query->raw($sql);
+    }
+
+    /**
+     * Starts a transaction.
+     *
+     * @return bool
+     */
+    public function beginTransaction()
+    {
+        return $this->pdo->beginTransaction();
+    }
+
+    /**
+     * Commits the transaction.
+     *
+     * @return bool
+     */
+    public function commit()
+    {
+        return $this->pdo->commit();
+    }
+
+    /**
+     * Rolls back the transaction.
+     *
+     * @return bool
+     */
+    public function rollBack()
+    {
+        return $this->pdo->rollBack();
+    }
+
+    /**
+     * Checks if the query is in a transaction.
+     *
+     * @return bool
+     */
+    public function inTransaction()
+    {
+        return $this->pdo->inTransaction();
     }
 }
