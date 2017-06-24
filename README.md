@@ -141,6 +141,7 @@ The following methods can be used to execute a query and retrieve results:
 
 Also:
 - `rowCount()` - returns the number of rows affected by the last executed statement
+- `$db->lastInsertId()` - returns the last inserted ID
 
 ### Transactions
 

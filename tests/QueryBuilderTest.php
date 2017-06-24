@@ -93,4 +93,14 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($qb->commit());
         $this->assertTrue($qb->rollBack());
     }
+
+    public function testLastInsertId()
+    {
+        $pdo = Mockery::mock(PDO::class);
+        $pdo->shouldReceive('lastInsertId')->andReturn(1);
+
+        $qb = new QueryBuilder($pdo);
+
+        $this->assertEquals(1, $qb->lastInsertId());
+    }
 }

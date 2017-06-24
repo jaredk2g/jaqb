@@ -167,4 +167,14 @@ class QueryBuilder
     {
         return $this->pdo->inTransaction();
     }
+
+    /**
+     * Gets the last inserted ID.
+     *
+     * @return mixed
+     */
+    public function lastInsertId()
+    {
+        return $this->pdo->lastInsertId();
+    }
 }

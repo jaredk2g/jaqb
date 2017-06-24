@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added a connection manager for managing connections to one or more databases.
 - Added `whereInfix()` and `orWhereInfix()` for infix style where conditions.
 - Added support for transactions.
+- Added `lastInsertId()` to get the ID of the last insert.
 
 ## 1.3 - 2016-04-30
 ### Added
