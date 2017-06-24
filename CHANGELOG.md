@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Added
+- Added `aggregate()`, `count()`, `sum()`, `average()`, `min()`, and `max()` methods to select queries.
+
 ## 1.3 - 2016-04-30
 ### Added
 - Support for IN and NOT IN statements as WHERE conditions when passing in an array value.

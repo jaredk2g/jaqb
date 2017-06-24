@@ -74,6 +74,81 @@ class SelectQuery extends AbstractQuery
     }
 
     /**
+     * Sets the selected fields to an aggregate function.
+     *
+     * @param $function
+     * @param string $field
+     *
+     * @return self
+     */
+    function aggregate($function, $field = '*')
+    {
+        $this->select->clearFields()->addFields($function.'('.$field.')');
+
+        return $this;
+    }
+
+    /**
+     * Sets a COUNT() query.
+     *
+     * @param $field
+     *
+     * @return self
+     */
+    function count($field = '*')
+    {
+        return $this->aggregate('COUNT', $field);
+    }
+
+    /**
+     * Sets a SUM() query.
+     *
+     * @param $field
+     *
+     * @return self
+     */
+    function sum($field)
+    {
+        return $this->aggregate('SUM', $field);
+    }
+
+    /**
+     * Sets an AVG() query.
+     *
+     * @param $field
+     *
+     * @return self
+     */
+    function average($field)
+    {
+        return $this->aggregate('AVG', $field);
+    }
+
+    /**
+     * Sets a MIN() query.
+     *
+     * @param $field
+     *
+     * @return self
+     */
+    function min($field)
+    {
+        return $this->aggregate('MIN', $field);
+    }
+
+    /**
+     * Sets a MAX() query.
+     *
+     * @param $field
+     *
+     * @return self
+     */
+    function max($field)
+    {
+        return $this->aggregate('MAX', $field);
+    }
+
+    /**
      * Adds a join to the query.
      *
      * @param string $table table name

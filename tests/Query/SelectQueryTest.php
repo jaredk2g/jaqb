@@ -21,6 +21,57 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['name'], $query->getSelect()->getFields());
     }
 
+    function testAggregate()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->aggregate('COUNT'));
+        $this->assertEquals(['COUNT(*)'], $query->getSelect()->getFields());
+
+        $this->assertEquals($query, $query->aggregate('SUM', 'total'));
+        $this->assertEquals(['SUM(total)'], $query->getSelect()->getFields());
+    }
+
+    function testCount()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->count('id'));
+        $this->assertEquals(['COUNT(id)'], $query->getSelect()->getFields());
+    }
+
+    function testSum()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->sum('amount'));
+        $this->assertEquals(['SUM(amount)'], $query->getSelect()->getFields());
+    }
+
+    function testAverage()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->average('amount'));
+        $this->assertEquals(['AVG(amount)'], $query->getSelect()->getFields());
+    }
+
+    function testMin()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->min('stars'));
+        $this->assertEquals(['MIN(stars)'], $query->getSelect()->getFields());
+    }
+
+    function testMax()
+    {
+        $query = new SelectQuery();
+
+        $this->assertEquals($query, $query->max('stars'));
+        $this->assertEquals(['MAX(stars)'], $query->getSelect()->getFields());
+    }
+
     public function testFrom()
     {
         $query = new SelectQuery();
