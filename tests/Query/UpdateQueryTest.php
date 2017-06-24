@@ -10,6 +10,11 @@
  */
 use JAQB\Query\SelectQuery;
 use JAQB\Query\UpdateQuery;
+use JAQB\Statement\FromStatement;
+use JAQB\Statement\LimitStatement;
+use JAQB\Statement\OrderStatement;
+use JAQB\Statement\SetStatement;
+use JAQB\Statement\WhereStatement;
 
 class UpdateQueryTest extends PHPUnit_Framework_TestCase
 {
@@ -18,7 +23,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $query = new UpdateQuery();
 
         $this->assertEquals($query, $query->table('Users'));
-        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getTable());
+        $this->assertInstanceOf(FromStatement::class, $query->getTable());
         $this->assertEquals(['Users'], $query->getTable()->getTables());
     }
 
@@ -28,7 +33,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->values(['test1' => 1, 'test2' => 2]));
         $this->assertEquals($query, $query->values(['test3' => 3]));
-        $this->assertInstanceOf('JAQB\Statement\SetStatement', $query->getSet());
+        $this->assertInstanceOf(SetStatement::class, $query->getSet());
         $this->assertEquals(['test1' => 1, 'test2' => 2, 'test3' => 3], $query->getSet()->getSetValues());
     }
 
@@ -39,7 +44,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->where('balance', 10, '>'));
         $this->assertEquals($query, $query->where('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
@@ -51,7 +56,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->orWhere('balance', 10, '>'));
         $this->assertEquals($query, $query->orWhere('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['notes IS NULL']], $where->getConditions());
     }
@@ -64,7 +69,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->whereInfix('name', 'Bob'));
         $this->assertEquals($query, $query->whereInfix('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['balance', '>', 10], ['name', '=', 'Bob'], ['notes IS NULL']], $where->getConditions());
     }
@@ -77,7 +82,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->orWhereInfix('name', 'Bob'));
         $this->assertEquals($query, $query->orWhereInfix('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['name', '=', 'Bob'], ['OR'], ['notes IS NULL']], $where->getConditions());
     }
@@ -135,7 +140,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->orderBy('uid', 'ASC'));
         $orderBy = $query->getOrderBy();
-        $this->assertInstanceOf('JAQB\Statement\OrderStatement', $orderBy);
+        $this->assertInstanceOf(OrderStatement::class, $orderBy);
         $this->assertFalse($orderBy->isGroupBy());
         $this->assertEquals([['uid', 'ASC']], $orderBy->getFields());
     }
@@ -146,7 +151,7 @@ class UpdateQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->limit(10));
         $limit = $query->getLimit();
-        $this->assertInstanceOf('JAQB\Statement\LimitStatement', $limit);
+        $this->assertInstanceOf(LimitStatement::class, $limit);
         $this->assertEquals(10, $limit->getLimit());
 
         $this->assertEquals($query, $query->limit('hello'));

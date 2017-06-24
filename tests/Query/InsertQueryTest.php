@@ -9,6 +9,8 @@
  * @license MIT
  */
 use JAQB\Query\InsertQuery;
+use JAQB\Statement\FromStatement;
+use JAQB\Statement\ValuesStatement;
 
 class InsertQueryTest extends PHPUnit_Framework_TestCase
 {
@@ -17,7 +19,7 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
         $query = new InsertQuery();
 
         $this->assertEquals($query, $query->into('Users'));
-        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getInto());
+        $this->assertInstanceOf(FromStatement::class, $query->getInto());
         $this->assertEquals(['Users'], $query->getInto()->getTables());
     }
 
@@ -27,7 +29,7 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->values(['test1' => 1, 'test2' => 2]));
         $this->assertEquals($query, $query->values(['test3' => 3]));
-        $this->assertInstanceOf('JAQB\Statement\ValuesStatement', $query->getInsertValues());
+        $this->assertInstanceOf(ValuesStatement::class, $query->getInsertValues());
         $this->assertEquals(['test1' => 1, 'test2' => 2, 'test3' => 3], $query->getInsertValues()->getInsertValues());
     }
 

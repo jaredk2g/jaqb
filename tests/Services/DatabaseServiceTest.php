@@ -9,6 +9,7 @@
  * @license MIT
  */
 use Infuse\Application;
+use JAQB\QueryBuilder;
 use JAQB\Services\Database;
 
 class DatabaseServiceTest extends PHPUnit_Framework_TestCase
@@ -29,7 +30,7 @@ class DatabaseServiceTest extends PHPUnit_Framework_TestCase
         $service = new Database();
 
         $db = $service($app);
-        $this->assertInstanceOf('JAQB\QueryBuilder', $db);
+        $this->assertInstanceOf(QueryBuilder::class, $db);
         $this->assertEquals($app['pdo'], $db->getPdo());
     }
 }

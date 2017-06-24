@@ -9,6 +9,12 @@
  * @license MIT
  */
 use JAQB\Query\SelectQuery;
+use JAQB\Statement\FromStatement;
+use JAQB\Statement\LimitStatement;
+use JAQB\Statement\OrderStatement;
+use JAQB\Statement\SelectStatement;
+use JAQB\Statement\UnionStatement;
+use JAQB\Statement\WhereStatement;
 
 class SelectQueryTest extends PHPUnit_Framework_TestCase
 {
@@ -17,7 +23,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $query = new SelectQuery();
 
         $this->assertEquals($query, $query->select('name'));
-        $this->assertInstanceOf('JAQB\Statement\SelectStatement', $query->getSelect());
+        $this->assertInstanceOf(SelectStatement::class, $query->getSelect());
         $this->assertEquals(['name'], $query->getSelect()->getFields());
     }
 
@@ -77,7 +83,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $query = new SelectQuery();
 
         $this->assertEquals($query, $query->from('Users'));
-        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getFrom());
+        $this->assertInstanceOf(FromStatement::class, $query->getFrom());
         $this->assertEquals(['Users'], $query->getFrom()->getTables());
     }
 
@@ -86,7 +92,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $query = new SelectQuery();
 
         $this->assertEquals($query, $query->join('t2'));
-        $this->assertInstanceOf('JAQB\Statement\FromStatement', $query->getFrom());
+        $this->assertInstanceOf(FromStatement::class, $query->getFrom());
         $this->assertEquals([['JOIN', ['t2'], null, []]], $query->getFrom()->getJoins());
     }
 
@@ -97,7 +103,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->where('balance', 10, '>'));
         $this->assertEquals($query, $query->where('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $where->getConditions());
     }
@@ -109,7 +115,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->orWhere('balance', 10, '>'));
         $this->assertEquals($query, $query->orWhere('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['notes IS NULL']], $where->getConditions());
     }
@@ -122,7 +128,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->whereInfix('name', 'Bob'));
         $this->assertEquals($query, $query->whereInfix('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['balance', '>', 10], ['name', '=', 'Bob'], ['notes IS NULL']], $where->getConditions());
     }
@@ -135,7 +141,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->orWhereInfix('name', 'Bob'));
         $this->assertEquals($query, $query->orWhereInfix('notes IS NULL'));
         $where = $query->getWhere();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $where);
+        $this->assertInstanceOf(WhereStatement::class, $where);
         $this->assertFalse($where->isHaving());
         $this->assertEquals([['OR'], ['balance', '>', 10], ['OR'], ['name', '=', 'Bob'], ['OR'], ['notes IS NULL']], $where->getConditions());
     }
@@ -193,7 +199,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->limit(10));
         $limit = $query->getLimit();
-        $this->assertInstanceOf('JAQB\Statement\LimitStatement', $limit);
+        $this->assertInstanceOf(LimitStatement::class, $limit);
         $this->assertEquals(10, $limit->getLimit());
         $this->assertEquals(0, $limit->getStart());
 
@@ -212,7 +218,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->groupBy('uid'));
         $groupBy = $query->getGroupBy();
-        $this->assertInstanceOf('JAQB\Statement\OrderStatement', $groupBy);
+        $this->assertInstanceOf(OrderStatement::class, $groupBy);
         $this->assertTrue($groupBy->isGroupBy());
         $this->assertEquals([['uid']], $groupBy->getFields());
     }
@@ -224,7 +230,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->having('balance', 10, '>'));
         $this->assertEquals($query, $query->having('notes IS NULL'));
         $having = $query->getHaving();
-        $this->assertInstanceOf('JAQB\Statement\WhereStatement', $having);
+        $this->assertInstanceOf(WhereStatement::class, $having);
         $this->assertTrue($having->isHaving());
         $this->assertEquals([['balance', '>', 10], ['notes IS NULL']], $having->getConditions());
     }
@@ -235,7 +241,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $query->orderBy('uid', 'ASC'));
         $orderBy = $query->getOrderBy();
-        $this->assertInstanceOf('JAQB\Statement\OrderStatement', $orderBy);
+        $this->assertInstanceOf(OrderStatement::class, $orderBy);
         $this->assertFalse($orderBy->isGroupBy());
         $this->assertEquals([['uid', 'ASC']], $orderBy->getFields());
     }
@@ -251,7 +257,7 @@ class SelectQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query, $query->union($query3, 'ALL'));
 
         $union = $query->getUnion();
-        $this->assertInstanceOf('JAQB\Statement\UnionStatement', $union);
+        $this->assertInstanceOf(UnionStatement::class, $union);
         $this->assertEquals([[$query2, false], [$query3, 'ALL']], $union->getQueries());
     }
 
