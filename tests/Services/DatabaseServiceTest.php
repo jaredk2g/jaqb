@@ -11,7 +11,7 @@
 use Infuse\Application;
 use JAQB\Services\Database;
 
-class DatabaseTest extends PHPUnit_Framework_TestCase
+class DatabaseServiceTest extends PHPUnit_Framework_TestCase
 {
     public function testInvoke()
     {
