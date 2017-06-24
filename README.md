@@ -38,7 +38,9 @@ $config = [
         'name' => 'dbname'
         'username' => 'myuser',
         'password' => 'mypassword',
-        'errorMode' => PDO::ERRMODE_EXCEPTION
+        'options' => [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]
     ],
     'sqlite' => [
         'dsn' => 'sqlite:mydb.sqlite'

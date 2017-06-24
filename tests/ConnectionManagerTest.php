@@ -93,7 +93,6 @@ class ConnectionManagerTest extends PHPUnit_Framework_TestCase
             'name' => 'test',
             'username' => 'root',
             'password' => 'password',
-            'errorMode' => PDO::ERRMODE_SILENT,
         ];
 
         $manager = new ConnectionManager();
@@ -125,18 +124,19 @@ class ConnectionManagerTest extends PHPUnit_Framework_TestCase
             'type' => 'mysql',
             'host' => 'localhost',
             'name' => 'test',
-            'errorMode' => PDO::ERRMODE_SILENT,
         ];
 
         $manager = new ConnectionManager();
         $manager->buildFromConfig($config, 'test');
     }
 
-    public function testBuildFromConfigErrorMode()
+    public function testBuildFromConfigOptions()
     {
         $config = [
             'dsn' => 'sqlite:'.__DIR__.'/test.sqlite',
-            'errorMode' => PDO::ERRMODE_SILENT,
+            'options' => [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
+            ],
         ];
 
         $manager = new ConnectionManager();
@@ -156,7 +156,9 @@ class ConnectionManagerTest extends PHPUnit_Framework_TestCase
             'charset' => 'utf8',
             'username' => 'test',
             'password' => 'password',
-            'errorMode' => PDO::ERRMODE_EXCEPTION,
+            'options' => [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            ],
         ];
 
         $manager = new ConnectionManager();

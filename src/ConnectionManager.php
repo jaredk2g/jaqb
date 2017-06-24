@@ -129,11 +129,7 @@ class ConnectionManager
 
         $user = isset($config['user']) ? $config['user'] : null;
         $password = isset($config['password']) ? $config['password'] : null;
-
-        $options = [];
-        if (isset($config['errorMode'])) {
-            $options[PDO::ATTR_ERRMODE] = $config['errorMode'];
-        }
+        $options = isset($config['options']) ? $config['options'] : [];
 
         $pdo = new PDO($dsn, $user, $password, $options);
 
