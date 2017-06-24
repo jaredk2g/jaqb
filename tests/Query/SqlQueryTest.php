@@ -71,6 +71,7 @@ class SqlQueryTest extends PHPUnit_Framework_TestCase
 
         $query = new SqlQuery();
         $query->setPDO($pdo);
+        $query->raw('SHOW TABLES');
 
         $this->assertFalse($query->execute());
     }
@@ -105,6 +106,7 @@ class SqlQueryTest extends PHPUnit_Framework_TestCase
 
         $query = new SqlQuery();
         $query->setPDO($pdo);
+        $query->raw('SHOW TABLES');
 
         $this->assertFalse($query->one());
     }
@@ -139,6 +141,7 @@ class SqlQueryTest extends PHPUnit_Framework_TestCase
 
         $query = new SqlQuery();
         $query->setPDO($pdo);
+        $query->raw('SHOW TABLES');
 
         $this->assertFalse($query->all());
     }
@@ -173,6 +176,7 @@ class SqlQueryTest extends PHPUnit_Framework_TestCase
 
         $query = new SqlQuery();
         $query->setPDO($pdo);
+        $query->raw('SHOW TABLES');
 
         $this->assertFalse($query->column());
     }
@@ -207,6 +211,7 @@ class SqlQueryTest extends PHPUnit_Framework_TestCase
 
         $query = new SqlQuery();
         $query->setPDO($pdo);
+        $query->raw('SHOW TABLES');
 
         $this->assertFalse($query->scalar());
     }
