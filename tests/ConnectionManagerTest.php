@@ -48,13 +48,68 @@ class ConnectionManagerTest extends PHPUnit_Framework_TestCase
 
     public function testGetDefault()
     {
+        $config = [
+            'test' => [
+                'dsn' => 'sqlite:'.__DIR__.'/test.sqlite',
+            ],
+        ];
+
+        $manager = new ConnectionManager($config);
+
+        $connection = $manager->getDefault();
+        $this->assertInstanceOf(QueryBuilder::class, $connection);
+        $this->assertEquals($connection, $manager->get('test'));
+
+        for ($i = 0; $i < 5; ++$i) {
+            $this->assertEquals($connection, $manager->getDefault());
+        }
+    }
+
+    public function testGetDefaultDoesNotExist()
+    {
         $this->expectException(JAQBException::class);
 
         $manager = new ConnectionManager();
         $manager->getDefault();
     }
 
-    public function testGetDefaultDoesNotExist()
+    public function testGetDefaultMultipleConfigs()
+    {
+        $config = [
+            'test' => [
+                'dsn' => 'sqlite:'.__DIR__.'/test.sqlite',
+                'default' => true,
+            ],
+            'db2' => [
+                'dsn' => 'sqlite:'.__DIR__.'/test2.sqlite',
+            ],
+        ];
+
+        $manager = new ConnectionManager($config);
+
+        $connection = $manager->getDefault();
+        $this->assertInstanceOf(QueryBuilder::class, $connection);
+    }
+
+    public function testGetDefaultMultipleConfigsNoDefault()
+    {
+        $this->expectException(JAQBException::class);
+
+        $config = [
+            'test' => [
+                'dsn' => 'sqlite:'.__DIR__.'/test.sqlite',
+            ],
+            'db2' => [
+                'dsn' => 'sqlite:'.__DIR__.'/test2.sqlite',
+            ],
+        ];
+
+        $manager = new ConnectionManager($config);
+
+        $manager->getDefault();
+    }
+
+    public function testGetDefaultExistingConnection()
     {
         $manager = new ConnectionManager();
         $connection = new QueryBuilder();
@@ -62,6 +117,18 @@ class ConnectionManagerTest extends PHPUnit_Framework_TestCase
 
         $connection2 = $manager->getDefault();
         $this->assertEquals($connection, $connection2);
+    }
+
+    public function testGetDefaultMultipleExistingConnections()
+    {
+        $this->expectException(JAQBException::class);
+
+        $manager = new ConnectionManager();
+        $connection = new QueryBuilder();
+        $manager->add('test', $connection);
+        $manager->add('test2', $connection);
+
+        $manager->getDefault();
     }
 
     public function testAdd()

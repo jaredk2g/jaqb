@@ -31,6 +31,11 @@ class ConnectionManager
     private $connections = [];
 
     /**
+     * @var string|false
+     */
+    private $default;
+
+    /**
      * @var array
      */
     private static $connectionParams = [
@@ -81,8 +86,39 @@ class ConnectionManager
      */
     public function getDefault()
     {
-        if (count($this->connections) === 1) {
-            return reset($this->connections);
+        // get the memoized default
+        if ($this->default) {
+            return $this->get($this->default);
+        }
+
+        // no configurations available
+        // check for existing connections
+        if (count($this->config) === 0) {
+            if (count($this->connections) === 1) {
+                $this->default = array_keys($this->connections)[0];
+
+                return $this->get($this->default);
+            } elseif (count($this->connections) > 1) {
+                throw new JAQBException('Could not determine the default connection because multiple connections were available and the default has not been set.');
+            }
+
+            throw new JAQBException('The default connection is not available because no configurations have been supplied.');
+        }
+
+        // handle the case where there is a single configuration
+        if (count($this->config) === 1) {
+            $this->default = array_keys($this->config)[0];
+
+            return $this->get($this->default);
+        }
+
+        // handle multiple configurations
+        foreach ($this->config as $k => $v) {
+            if (array_value($v, 'default')) {
+                $this->default = $k;
+
+                return $this->get($this->default);
+            }
         }
 
         throw new JAQBException('There is no default connection.');
@@ -105,6 +141,7 @@ class ConnectionManager
         }
 
         $this->connections[$id] = $connection;
+        $this->default = false;
 
         return $this;
     }
