@@ -49,6 +49,25 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testBuildBatch()
+    {
+        $query = new InsertQuery();
+
+        $query->into('Users')
+            ->values([
+                ['field1' => 'what', 'field2' => 'test'],
+                ['field1' => 'what2', 'field2' => 'test2'],
+                ['field1' => 'what3', 'field2' => 'test3'], ]);
+
+        // test for idempotence
+        for ($i = 0; $i < 3; ++$i) {
+            $this->assertEquals('INSERT INTO `Users` (`field1`, `field2`) VALUES (?, ?), (?, ?), (?, ?)', $query->build());
+
+            // test values
+            $this->assertEquals(['what', 'test', 'what2', 'test2', 'what3', 'test3'], $query->getValues());
+        }
+    }
+
     public function testClone()
     {
         $query = new InsertQuery();

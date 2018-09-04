@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added `whereInfix()` and `orWhereInfix()` for infix style where conditions.
 - Added support for transactions.
 - Added `lastInsertId()` to get the ID of the last insert.
+- Added support for batch inserts.
+
+### Changed
+- Deprecated `getInsertValues()` from ValuesStatement
 
 ## 1.3 - 2016-04-30
 ### Added
