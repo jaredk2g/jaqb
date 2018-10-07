@@ -34,6 +34,11 @@ class InsertQuery extends AbstractQuery
      */
     protected $values = [];
 
+    /**
+     * @var string
+     */
+    protected $onDuplicateKeyUpdate;
+
     public function __construct()
     {
         $this->table = new FromStatement(FromStatement::INSERT);
@@ -89,6 +94,30 @@ class InsertQuery extends AbstractQuery
     }
 
     /**
+     * Adds an ON DUPLICATE KEY UPDATE clause.
+     *
+     * @param string $sql
+     *
+     * @return self
+     */
+    public function onDuplicateKeyUpdate($sql)
+    {
+        $this->onDuplicateKeyUpdate = $sql;
+
+        return $this;
+    }
+
+    /**
+     * Gets the ON DUPLICATE KEY UPDATE clause.
+     *
+     * @return string|null
+     */
+    public function getOnDuplicateKeyUpdate()
+    {
+        return $this->onDuplicateKeyUpdate;
+    }
+
+    /**
      * Generates the raw SQL string for the query.
      *
      * @return string
@@ -99,6 +128,10 @@ class InsertQuery extends AbstractQuery
             $this->table->build(),
             $this->insertValues->build(),
         ];
+
+        if ($this->onDuplicateKeyUpdate) {
+            $sql[] = 'ON DUPLICATE KEY UPDATE '.$this->onDuplicateKeyUpdate;
+        }
 
         $this->values = array_values($this->insertValues->getValues());
 

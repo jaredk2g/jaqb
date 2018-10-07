@@ -33,6 +33,14 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['test1' => 1, 'test2' => 2, 'test3' => 3], $query->getInsertValues()->getInsertValues());
     }
 
+    public function testOnDuplicateKeyUpdate()
+    {
+        $query = new InsertQuery();
+
+        $this->assertEquals($query, $query->onDuplicateKeyUpdate('b = b + c'));
+        $this->assertEquals('b = b + c', $query->getOnDuplicateKeyUpdate());
+    }
+
     public function testBuild()
     {
         $query = new InsertQuery();
@@ -65,6 +73,23 @@ class InsertQueryTest extends PHPUnit_Framework_TestCase
 
             // test values
             $this->assertEquals(['what', 'test', 'what2', 'test2', 'what3', 'test3'], $query->getValues());
+        }
+    }
+
+    public function testBuildOnDuplicateKeyUpdate()
+    {
+        $query = new InsertQuery();
+
+        $query->into('Users')
+            ->values(['field1' => 'what', 'field2' => 'test'])
+            ->onDuplicateKeyUpdate('field2 = VALUES(field2)');
+
+        // test for idempotence
+        for ($i = 0; $i < 3; ++$i) {
+            $this->assertEquals('INSERT INTO `Users` (`field1`, `field2`) VALUES (?, ?) ON DUPLICATE KEY UPDATE field2 = VALUES(field2)', $query->build());
+
+            // test values
+            $this->assertEquals(['what', 'test'], $query->getValues());
         }
     }
 

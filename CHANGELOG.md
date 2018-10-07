@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added support for transactions.
 - Added `lastInsertId()` to get the ID of the last insert.
 - Added support for batch inserts.
+- Added support for `INSERT ... ON DUPLICATE KEY UPDATE` statements.
 
 ### Changed
 - Deprecated `getInsertValues()` from ValuesStatement
