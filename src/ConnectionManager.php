@@ -93,8 +93,8 @@ class ConnectionManager
 
         // no configurations available
         // check for existing connections
-        if (count($this->config) === 0) {
-            if (count($this->connections) === 1) {
+        if (0 === count($this->config)) {
+            if (1 === count($this->connections)) {
                 $this->default = array_keys($this->connections)[0];
 
                 return $this->get($this->default);
@@ -106,7 +106,7 @@ class ConnectionManager
         }
 
         // handle the case where there is a single configuration
-        if (count($this->config) === 1) {
+        if (1 === count($this->config)) {
             $this->default = array_keys($this->config)[0];
 
             return $this->get($this->default);
@@ -152,6 +152,8 @@ class ConnectionManager
      *
      * @param array  $config
      * @param string $id
+     *
+     * @throws JAQBException
      *
      * @return QueryBuilder
      */

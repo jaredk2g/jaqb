@@ -3,25 +3,26 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB\Query;
 
 use JAQB\Operations\Executable;
 use JAQB\Operations\Fetchable;
-use JAQB\Statement\SelectStatement;
-use JAQB\Statement\FromStatement;
-use JAQB\Statement\WhereStatement;
-use JAQB\Statement\OrderStatement;
-use JAQB\Statement\LimitStatement;
-use JAQB\Statement\UnionStatement;
 use JAQB\Query\Traits\From;
 use JAQB\Query\Traits\Limit;
 use JAQB\Query\Traits\OrderBy;
 use JAQB\Query\Traits\Where;
+use JAQB\Statement\FromStatement;
+use JAQB\Statement\LimitStatement;
+use JAQB\Statement\OrderStatement;
+use JAQB\Statement\SelectStatement;
+use JAQB\Statement\UnionStatement;
+use JAQB\Statement\WhereStatement;
 
 class SelectQuery extends AbstractQuery
 {
@@ -81,7 +82,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    function aggregate($function, $field = '*')
+    public function aggregate($function, $field = '*')
     {
         $this->select->clearFields()->addFields($function.'('.$field.')');
 
@@ -95,7 +96,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    function count($field = '*')
+    public function count($field = '*')
     {
         return $this->aggregate('COUNT', $field);
     }
@@ -107,7 +108,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    function sum($field)
+    public function sum($field)
     {
         return $this->aggregate('SUM', $field);
     }
@@ -119,7 +120,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    function average($field)
+    public function average($field)
     {
         return $this->aggregate('AVG', $field);
     }
@@ -131,7 +132,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    function min($field)
+    public function min($field)
     {
         return $this->aggregate('MIN', $field);
     }
@@ -143,7 +144,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    function max($field)
+    public function max($field)
     {
         return $this->aggregate('MAX', $field);
     }
@@ -208,7 +209,7 @@ class SelectQuery extends AbstractQuery
      *
      * @return self
      */
-    public function union(SelectQuery $query, $type = '')
+    public function union(self $query, $type = '')
     {
         $this->union->addQuery($query, $type);
 
@@ -228,7 +229,7 @@ class SelectQuery extends AbstractQuery
     /**
      * Gets the group by statement for the query.
      *
-     * @return GroupByStatement
+     * @return OrderStatement
      */
     public function getGroupBy()
     {
@@ -283,7 +284,7 @@ class SelectQuery extends AbstractQuery
         // when there is no select statement then the query
         // is probably just a where subquery, thus does
         // not need to be prefixed with WHERE
-        if (substr($sql, 0, 6) === 'WHERE ') {
+        if ('WHERE ' === substr($sql, 0, 6)) {
             return substr($sql, 6);
         }
 
