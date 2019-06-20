@@ -7,13 +7,12 @@ JAQB
 [![Coverage Status](https://coveralls.io/repos/jaredtking/jaqb/badge.svg?style=flat)](https://coveralls.io/r/jaredtking/jaqb)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jaredtking/jaqb/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jaredtking/jaqb/?branch=master)
 [![Total Downloads](https://poser.pugx.org/jaqb/jaqb/downloads.svg?style=flat)](https://packagist.org/packages/jaqb/jaqb)
-[![HHVM Status](http://hhvm.h4cc.de/badge/jaqb/jaqb.svg?style=flat)](http://hhvm.h4cc.de/package/jaqb/jaqb)
 
 JAQB: Just Another Query Builder for PHP (pronounced "jacob")
 
 ## Requirements
 
-- PHP 5.6+, PHP 7, or HHVM 3.3+
+- PHP 5.6+, PHP 7+
 - [PDO](http://php.net/pdo)
 
 ## Installation
