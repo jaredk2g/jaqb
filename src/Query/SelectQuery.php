@@ -26,7 +26,12 @@ use JAQB\Statement\WhereStatement;
 
 class SelectQuery extends AbstractQuery
 {
-    use Executable, Fetchable, From, Limit, OrderBy, Where;
+    use Executable;
+    use Fetchable;
+    use From;
+    use Limit;
+    use OrderBy;
+    use Where;
 
     /**
      * @var SelectStatement
@@ -277,7 +282,8 @@ class SelectQuery extends AbstractQuery
         $this->values = array_merge(
             $this->where->getValues(),
             $this->having->getValues(),
-            $this->union->getValues());
+            $this->union->getValues()
+        );
 
         $sql = implode(' ', array_filter($sql));
 

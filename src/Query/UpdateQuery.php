@@ -23,7 +23,10 @@ use JAQB\Statement\WhereStatement;
 
 class UpdateQuery extends AbstractQuery
 {
-    use Executable, Limit, OrderBy, Where;
+    use Executable;
+    use Limit;
+    use OrderBy;
+    use Where;
 
     /**
      * @var FromStatement
@@ -60,8 +63,6 @@ class UpdateQuery extends AbstractQuery
 
     /**
      * Sets the values for the query.
-     *
-     * @param array $values
      *
      * @return self
      */
@@ -109,7 +110,8 @@ class UpdateQuery extends AbstractQuery
 
         $this->values = array_merge(
             array_values($this->set->getValues()),
-            $this->where->getValues());
+            $this->where->getValues()
+        );
 
         return implode(' ', array_filter($sql));
     }

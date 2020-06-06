@@ -3,11 +3,12 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB\Statement;
 
 use JAQB\Query\SelectQuery;
@@ -22,8 +23,7 @@ class UnionStatement extends Statement
     /**
      * Adds a query to the statement.
      *
-     * @param SelectQuery $query
-     * @param string      $type
+     * @param string $type
      *
      * @return self
      */
@@ -62,7 +62,8 @@ class UnionStatement extends Statement
 
             $this->values = array_merge(
                 $this->values,
-                $query->getValues());
+                $query->getValues()
+            );
         }
 
         return implode(' ', $queries);

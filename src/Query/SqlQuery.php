@@ -3,11 +3,12 @@
 /**
  * @author Jared King <j@jaredtking.com>
  *
- * @link http://jaredtking.com
+ * @see http://jaredtking.com
  *
  * @copyright 2015 Jared King
  * @license MIT
  */
+
 namespace JAQB\Query;
 
 use JAQB\Operations\Executable;
@@ -15,7 +16,8 @@ use JAQB\Operations\Fetchable;
 
 class SqlQuery extends AbstractQuery
 {
-    use Executable, Fetchable;
+    use Executable;
+    use Fetchable;
 
     /**
      * @var string
@@ -37,7 +39,7 @@ class SqlQuery extends AbstractQuery
     }
 
     /**
-     * Sets the parameters for this query to be injected 
+     * Sets the parameters for this query to be injected
      * into the prepared statement.
      *
      * @return self
