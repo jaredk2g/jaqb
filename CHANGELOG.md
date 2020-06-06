@@ -2,15 +2,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
-### 1.4 - 2017-06-24
+## 1.6 - 2020-06-06
+### Changed
+- The library now works without the `infuse/infuse` dependency.
+
+## 1.5 - 2019-06-12
+### Added
+- Added support for batch inserts.
+- Added support for `INSERT ... ON DUPLICATE KEY UPDATE` statements.
+
+## 1.4 - 2017-06-24
+### Added
 - Added `aggregate()`, `count()`, `sum()`, `average()`, `min()`, and `max()` methods to select queries.
 - Added a connection manager for managing connections to one or more databases.
 - Added `whereInfix()` and `orWhereInfix()` for infix style where conditions.
 - Added support for transactions.
 - Added `lastInsertId()` to get the ID of the last insert.
-- Added support for batch inserts.
-- Added support for `INSERT ... ON DUPLICATE KEY UPDATE` statements.
 
 ### Changed
 - Deprecated `getInsertValues()` from ValuesStatement
