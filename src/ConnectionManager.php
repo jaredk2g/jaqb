@@ -114,7 +114,7 @@ class ConnectionManager
 
         // handle multiple configurations
         foreach ($this->config as $k => $v) {
-            if (array_value($v, 'default')) {
+            if (isset($v['default'])) {
                 $this->default = $k;
 
                 return $this->get($this->default);

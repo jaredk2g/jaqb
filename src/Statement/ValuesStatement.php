@@ -91,7 +91,7 @@ class ValuesStatement extends Statement
 
         foreach ($this->insertRows as $row) {
             foreach ($keys as $key) {
-                $this->values[] = array_value($row, $key);
+                $this->values[] = isset($row[$key]) ? $row[$key] : null;
             }
         }
 
