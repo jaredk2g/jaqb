@@ -8,9 +8,13 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
-use JAQB\Statement\ValuesStatement;
 
-class ValuesStatementTest extends PHPUnit_Framework_TestCase
+namespace JAQB\Tests\Statement;
+
+use JAQB\Statement\ValuesStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class ValuesStatementTest extends MockeryTestCase
 {
     public function testValues()
     {

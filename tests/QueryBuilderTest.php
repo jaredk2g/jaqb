@@ -8,14 +8,20 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests;
+
 use JAQB\Query\DeleteQuery;
 use JAQB\Query\InsertQuery;
 use JAQB\Query\SelectQuery;
 use JAQB\Query\SqlQuery;
 use JAQB\Query\UpdateQuery;
 use JAQB\QueryBuilder;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
+use PDO;
 
-class QueryBuilderTest extends PHPUnit_Framework_TestCase
+class QueryBuilderTest extends MockeryTestCase
 {
     public function testPDO()
     {

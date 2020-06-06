@@ -8,11 +8,17 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests\Query;
+
 use JAQB\Query\InsertQuery;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\ValuesStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
+use PDO;
 
-class InsertQueryTest extends PHPUnit_Framework_TestCase
+class InsertQueryTest extends MockeryTestCase
 {
     public function testTable()
     {

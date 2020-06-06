@@ -8,9 +8,13 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
-use JAQB\Statement\OrderStatement;
 
-class OrderStatementTest extends PHPUnit_Framework_TestCase
+namespace JAQB\Tests\Statement;
+
+use JAQB\Statement\OrderStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class OrderStatementTest extends MockeryTestCase
 {
     public function testGroupBy()
     {

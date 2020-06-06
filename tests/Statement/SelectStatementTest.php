@@ -8,9 +8,13 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
-use JAQB\Statement\SelectStatement;
 
-class SelectStatementTest extends PHPUnit_Framework_TestCase
+namespace JAQB\Tests\Statement;
+
+use JAQB\Statement\SelectStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class SelectStatementTest extends MockeryTestCase
 {
     public function testNoFields()
     {

@@ -8,10 +8,14 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests\Statement;
+
 use JAQB\Query\SelectQuery;
 use JAQB\Statement\UnionStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class UnionStatementTest extends PHPUnit_Framework_TestCase
+class UnionStatementTest extends MockeryTestCase
 {
     public function testAddQuery()
     {

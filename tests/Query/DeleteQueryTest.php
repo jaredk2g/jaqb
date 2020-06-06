@@ -8,14 +8,20 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests\Query;
+
 use JAQB\Query\DeleteQuery;
 use JAQB\Query\SelectQuery;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\WhereStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
+use PDO;
 
-class DeleteQueryTest extends PHPUnit_Framework_TestCase
+class DeleteQueryTest extends MockeryTestCase
 {
     public function testFrom()
     {

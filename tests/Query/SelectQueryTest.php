@@ -8,6 +8,9 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests\Query;
+
 use JAQB\Query\SelectQuery;
 use JAQB\Statement\FromStatement;
 use JAQB\Statement\LimitStatement;
@@ -15,8 +18,11 @@ use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SelectStatement;
 use JAQB\Statement\UnionStatement;
 use JAQB\Statement\WhereStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
+use PDO;
 
-class SelectQueryTest extends PHPUnit_Framework_TestCase
+class SelectQueryTest extends MockeryTestCase
 {
     public function testSelect()
     {

@@ -8,9 +8,13 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
-use JAQB\Statement\SetStatement;
 
-class SetStatementTest extends PHPUnit_Framework_TestCase
+namespace JAQB\Tests\Statement;
+
+use JAQB\Statement\SetStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class SetStatementTest extends MockeryTestCase
 {
     public function testAddValues()
     {

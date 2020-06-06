@@ -8,11 +8,18 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests;
+
+use InvalidArgumentException;
 use JAQB\ConnectionManager;
 use JAQB\Exception\JAQBException;
 use JAQB\QueryBuilder;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PDO;
+use PDOException;
 
-class ConnectionManagerTest extends PHPUnit_Framework_TestCase
+class ConnectionManagerTest extends MockeryTestCase
 {
     public function testGet()
     {
@@ -191,6 +198,8 @@ class ConnectionManagerTest extends PHPUnit_Framework_TestCase
             'type' => 'mysql',
             'host' => 'localhost',
             'name' => 'test',
+            'username' => 'this should fail',
+            'password' => 'this should fail',
         ];
 
         $manager = new ConnectionManager();

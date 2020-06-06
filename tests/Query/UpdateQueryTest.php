@@ -8,6 +8,9 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests\Query;
+
 use JAQB\Query\SelectQuery;
 use JAQB\Query\UpdateQuery;
 use JAQB\Statement\FromStatement;
@@ -15,8 +18,11 @@ use JAQB\Statement\LimitStatement;
 use JAQB\Statement\OrderStatement;
 use JAQB\Statement\SetStatement;
 use JAQB\Statement\WhereStatement;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
+use PDO;
 
-class UpdateQueryTest extends PHPUnit_Framework_TestCase
+class UpdateQueryTest extends MockeryTestCase
 {
     public function testTable()
     {

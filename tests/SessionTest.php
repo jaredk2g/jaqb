@@ -9,17 +9,13 @@
  * @license MIT
  */
 
-namespace JAQB;
+namespace JAQB\Tests;
 
 use Mockery;
 use Pimple\Container;
+use JAQB\Session;
 
-function session_set_save_handler($arg1, $arg2 = true)
-{
-    return SessionTest::$mock ? SessionTest::$mock->session_set_save_handler($arg1, $arg2) : \session_set_save_handler($arg1, $arg2);
-}
-
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends Mockery\Adapter\Phpunit\MockeryTestCase
 {
     public static $mock;
 
@@ -141,3 +137,5 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($session->close());
     }
 }
+
+include_once __DIR__.'/session_save_handler.php';

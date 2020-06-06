@@ -8,11 +8,17 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests\Services;
+
 use Infuse\Application;
 use JAQB\QueryBuilder;
 use JAQB\Services\Database;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
+use PDO;
 
-class DatabaseServiceTest extends PHPUnit_Framework_TestCase
+class DatabaseServiceTest extends MockeryTestCase
 {
     public function testInvoke()
     {

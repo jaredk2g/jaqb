@@ -8,10 +8,15 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
+
+namespace JAQB\Tests\Services;
+
 use Infuse\Application;
 use JAQB\Services\ConnectionManager;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
 
-class ConnectionManagerServiceTest extends PHPUnit_Framework_TestCase
+class ConnectionManagerServiceTest extends MockeryTestCase
 {
     public function testInvoke()
     {

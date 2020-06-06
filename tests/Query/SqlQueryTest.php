@@ -8,9 +8,15 @@
  * @copyright 2015 Jared King
  * @license MIT
  */
-use JAQB\Query\SqlQuery;
 
-class SqlQueryTest extends PHPUnit_Framework_TestCase
+namespace JAQB\Tests\Query;
+
+use JAQB\Query\SqlQuery;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery;
+use PDO;
+
+class SqlQueryTest extends MockeryTestCase
 {
     public function testRaw()
     {
